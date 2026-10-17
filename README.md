@@ -1,53 +1,67 @@
 # Candy Smoke Shop website
 
-Static site (`index.html`, `assets/`) plus two small server functions (`functions/api/`) that connect the online shop to Lightspeed Retail (X-Series).
+Static site (`index.html`, `assets/`) plus small server functions (`functions/api/`) that connect the online shop to **Lightspeed Retail (R-Series)**.
 
 ## How ordering works
 
-1. `/api/products` reads products and stock for the shop's outlet from Lightspeed, so the website always shows what's on the shelf. Results are cached for 2 minutes.
-2. A customer fills their cart and places a curbside order. `/api/orders` re-checks prices and stock on the server, then creates a **parked sale** in Lightspeed tagged *pickup*. The note on the sale holds the customer's name, phone, vehicle and ETA.
-3. Staff open the parked sale on the register, check ID, take payment and complete it. Inventory, sales KPIs and compliance records all stay in Lightspeed, the same as a walk-in sale.
+1. `/api/products` reads items and in-store stock from Lightspeed, so the website shows what's on the shelf. Results are cached for 3 minutes.
+2. A customer fills their cart and places a curbside order. `/api/orders` re-checks stock, then creates an **open (unpaid) sale** in Lightspeed. Its reference number holds the order number, the customer's name and their phone number.
+3. Staff are pinged in Slack or Discord with the items, vehicle and ETA (if `ORDER_NOTIFY_WEBHOOK` is set).
+4. Staff open the sale in Lightspeed, check ID, take payment and complete it. Inventory, KPIs and compliance records update just like a walk-in sale.
 
-Payment happens at pickup. No card data touches the website.
+No card data touches the website. Until Lightspeed is connected, the site runs in **preview mode** with sample products.
 
-Until Lightspeed is connected, the site runs in **preview mode** with sample products, and orders are not sent anywhere.
+## Setup
 
-## Hosting (Cloudflare Pages)
+R-Series doesn't have personal access tokens. Instead, you register the website as an "API client" and approve it once. After that, the site renews its own access automatically.
 
-GitHub Pages can't run the server functions, so this site is set up for Cloudflare Pages (free tier is fine):
+### 1. Put the site on Cloudflare Pages
+GitHub Pages can't run the server functions.
+1. Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git → pick this repo. Build command: *(none)*. Output directory: `/`.
+2. Workers & Pages → **KV** → Create a namespace (e.g. `candy-lightspeed`).
+3. In the Pages project → Settings → **Bindings** → Add → KV namespace. Variable name `LS_KV`, pick the namespace.
+4. Note the site address, e.g. `https://candysmokeshop.pages.dev`, or your own domain once it's attached.
 
-1. Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git → pick this repo.
-2. Build command: *(none)*. Output directory: `/`.
-3. Add the environment variables below under Settings → Environment variables, then redeploy.
-4. Point your domain at the Pages project (Custom domains tab).
+### 2. Register the Lightspeed API client
+1. Go to https://cloud.lightspeedapp.com/oauth/register.php and sign in with your Lightspeed login.
+2. Fill in:
+   - **Name:** Candy Smoke Shop Website
+   - **Redirect URI:** `https://YOUR-SITE/api/lightspeed/callback` (must be https and exactly match your site address)
+   - **Website:** your site address
+   - **Public/distributed app:** No
+3. You'll get a **Client ID** and **Client Secret**. Most clients are approved automatically; some take 24–48 hours.
 
-## Connecting Lightspeed
+### 3. Add settings in Cloudflare
+Pages project → Settings → Variables and Secrets:
 
-1. In Lightspeed, go to **Setup → Personal tokens** and create a token. This needs an admin login, and Lightspeed only offers personal tokens on certain plans.
-2. Note your **domain prefix**: the part before `.retail.lightspeed.app` in the address bar when you're logged in.
-3. Look up your store's IDs:
-   ```sh
-   LS_DOMAIN_PREFIX=yourprefix LS_TOKEN=yourtoken node scripts/lightspeed-ids.mjs
-   ```
-4. Set these in Cloudflare (mark `LS_TOKEN` as a **Secret**):
-
-| Variable | What it is |
+| Variable | Value |
 |---|---|
-| `LS_DOMAIN_PREFIX` | Your Lightspeed domain prefix |
-| `LS_TOKEN` | Personal access token |
-| `LS_OUTLET_ID` | The 39th St outlet; stock is read from here |
-| `LS_REGISTER_ID` | Register that web orders are parked on |
-| `LS_USER_ID` | Staff user web orders are filed under (create a "Website" user if you like) |
-| `LS_TAX_ID` | Sales tax applied to web orders |
-| `SHOP_HIDDEN_CATEGORIES` | Optional. Comma-separated categories to keep off the website |
-| `SHOP_MIN_STOCK` | Optional. Hide items with less stock than this (default 1) |
-| `ORDER_NOTIFY_WEBHOOK` | Optional. Slack/Discord webhook to ping staff on new orders |
+| `LS_CLIENT_ID` | From step 2 |
+| `LS_CLIENT_SECRET` | From step 2 (type: **Secret**) |
+| `SETUP_KEY` | A long random phrase you make up (type: **Secret**) |
+| `ORDER_NOTIFY_WEBHOOK` | Recommended. Slack/Discord webhook URL |
+| `SHOP_HIDDEN_CATEGORIES` | Optional. Comma-separated categories to keep off the site |
+| `SHOP_ECOM_ONLY` | Optional. `true` lists only items with "Publish to eCom" ticked |
+| `SHOP_MIN_STOCK` | Optional. Default 1 |
 
-Product photos come from the images on each product in Lightspeed.
+Redeploy (Deployments → ⋯ → Retry deployment) so the settings take effect.
+
+### 4. Connect
+1. Visit `https://YOUR-SITE/api/lightspeed/connect?key=YOUR_SETUP_KEY`.
+2. Log in to Lightspeed as an admin and click **Authorize**. Use the account you want orders recorded under.
+3. The page that comes back lists your shop, register and employee IDs. Add `LS_SHOP_ID`, `LS_REGISTER_ID` and `LS_EMPLOYEE_ID` in Cloudflare and redeploy.
+4. Check everything at `https://YOUR-SITE/api/lightspeed/status?key=YOUR_SETUP_KEY`.
+
+The connection stays alive as long as the site is used at least once every 30 days. If it ever drops, the status page has a **Reconnect** button.
+
+### 5. Test one order
+Place a small test order on the site. Make sure staff can find it in Lightspeed under **Sales** (it's an unpaid, open sale), complete it at the register, and that stock goes down. Then void the test sale.
 
 ## Local testing
 
 ```sh
-cp .dev.vars.example .dev.vars   # fill in, or leave LS_TOKEN blank for preview mode
-npx wrangler pages dev .
+cp .dev.vars.example .dev.vars
+npx wrangler pages dev . --kv LS_KV
 ```
+
+Locally the site runs in preview mode. Connecting Lightspeed needs the real https site.

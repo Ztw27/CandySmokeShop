@@ -1,22 +1,28 @@
 # Copy to .dev.vars for local testing. In production, set these in
-# Cloudflare Pages → Settings → Environment variables (mark LS_TOKEN as a Secret).
-# Leave LS_TOKEN empty to run the site in preview mode with sample products.
+# Cloudflare Pages → Settings → Variables and Secrets (mark the secret ones as "Secret").
+# Without a connected Lightspeed account the site runs in preview mode with sample products.
 
-# Lightspeed Retail (X-Series)
-# The part before .retail.lightspeed.app in your Lightspeed URL
-LS_DOMAIN_PREFIX=
-# Personal access token (Lightspeed → Setup → Personal tokens)
-LS_TOKEN=
-# Run scripts/lightspeed-ids.mjs to find these four
-LS_OUTLET_ID=
+# Lightspeed Retail (R-Series) API client — from https://cloud.lightspeedapp.com/oauth/register.php
+LS_CLIENT_ID=
+# Secret
+LS_CLIENT_SECRET=
+
+# Shown on the setup page after you connect
+LS_SHOP_ID=
 LS_REGISTER_ID=
-LS_USER_ID=
-LS_TAX_ID=
+LS_EMPLOYEE_ID=
+
+# Secret. Any long random phrase; protects the /api/lightspeed/connect and /status pages
+SETUP_KEY=
 
 # Comma-separated Lightspeed categories to keep off the website
 SHOP_HIDDEN_CATEGORIES=
 # Hide items with less stock than this
 SHOP_MIN_STOCK=1
+# true = only list items with "Publish to eCom" ticked in Lightspeed
+SHOP_ECOM_ONLY=false
 
-# Optional: Slack or Discord webhook URL to ping staff on each new order
+# Recommended: Slack or Discord webhook URL so staff are pinged on each new order
 ORDER_NOTIFY_WEBHOOK=
+
+# Also required: a KV namespace bound as LS_KV (stores the Lightspeed login tokens).

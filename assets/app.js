@@ -149,7 +149,7 @@
       </div>`).join('') : '<p class="shop-status">Your cart is empty.</p>';
     $('coSummary').innerHTML = lines.length
       ? lines.map(({ p, qty }) => `<div class="row"><span>${qty} × ${esc(p.name)}</span><span>${money(qty * p.price)}</span></div>`).join('') +
-        `<div class="row total"><span>Pay at pickup</span><span>${money(total)}</span></div>`
+        `<div class="row total"><span>Subtotal (plus tax, pay at pickup)</span><span>${money(total)}</span></div>`
       : `<div class="empty">Your cart is empty — <a href="#shop">browse the shop</a>, or just tell us what you need below.</div>`;
   }
 

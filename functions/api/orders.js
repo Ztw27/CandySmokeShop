@@ -1,5 +1,6 @@
-// POST /api/orders — places a curbside pickup order as a parked sale in Lightspeed.
-import { createPickupSale, isConfigured, UserError } from '../_lib/lightspeed.js';
+// POST /api/orders — places a curbside pickup order as an open (unpaid) sale in Lightspeed.
+import { createPickupSale, getCatalog, isConnected, UserError } from '../_lib/lightspeed.js';
+import { demoCatalog } from '../_lib/demo.js';
 
 const MAX_LINES = 30;
 const MAX_QTY = 20;
@@ -37,19 +38,19 @@ export async function onRequestPost({ request, env }) {
     return json({ error: 'Add something to your cart or tell us what you need.' }, 400);
   }
 
+  const connected = await isConnected(env);
+  const ref = (connected ? 'WEB-' : 'DEMO-') + Date.now().toString(36).toUpperCase().slice(-6);
   try {
-    let ref;
-    if (!isConfigured(env)) {
-      ref = 'DEMO-' + Date.now().toString(36).toUpperCase();
-    } else if (lines.length) {
-      const sale = await createPickupSale(env, { lines, customer });
-      ref = sale.number || sale.id.slice(0, 8).toUpperCase();
-    } else {
-      ref = 'REQ-' + Date.now().toString(36).toUpperCase(); // special request only, nothing to ring up yet
+    let saleId = null;
+    if (connected && lines.length) {
+      saleId = (await createPickupSale(env, { lines, customer, ref })).id;
     }
+    const catalog = connected ? await getCatalog(env) : demoCatalog;
+    const names = new Map(catalog.map(p => [p.id, p.name]));
+    const items = lines.map(l => `${l.qty} × ${names.get(l.id) || 'item ' + l.id}`);
 
-    await notifyStaff(env, ref, customer, lines).catch(err => console.error('notify failed', err));
-    return json({ ok: true, ref, demo: !isConfigured(env) });
+    await notifyStaff(env, { ref, saleId, customer, items }).catch(err => console.error('notify failed', err));
+    return json({ ok: true, ref, demo: !connected });
   } catch (err) {
     if (err instanceof UserError) return json({ error: err.message }, 409);
     console.error(err);
@@ -57,14 +58,16 @@ export async function onRequestPost({ request, env }) {
   }
 }
 
-// Optional ping to a Slack/Discord channel so staff notice new orders immediately.
-async function notifyStaff(env, ref, c, lines) {
+// Ping a Slack/Discord channel so staff see new orders right away, with the
+// vehicle and ETA details that don't fit on the Lightspeed sale.
+async function notifyStaff(env, { ref, saleId, customer: c, items }) {
   if (!env.ORDER_NOTIFY_WEBHOOK) return;
   const text = [
-    `🍬 New curbside order ${ref}`,
+    `🍬 New curbside order ${ref}${saleId ? ` (Lightspeed sale #${saleId})` : ''}`,
     `${c.name} · ${c.phone}${c.vehicle ? ' · ' + c.vehicle : ''}${c.eta ? ' · ETA ' + c.eta : ''}`,
-    lines.length ? `${lines.reduce((n, l) => n + l.qty, 0)} item(s) — parked sale in Lightspeed` : 'Special request (no cart items)',
+    ...(items.length ? items : ['Special request (no cart items)']),
     c.notes && `Notes: ${c.notes}`,
+    'Check ID (21+) before handing over.',
   ].filter(Boolean).join('\n');
   await fetch(env.ORDER_NOTIFY_WEBHOOK, {
     method: 'POST',
