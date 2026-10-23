@@ -11,6 +11,12 @@
   "kv_namespaces": [
     { "binding": "LS_KV", "id": "f76b330c99254324a81d97272f891564" }
   ],
+  // Lightspeed IDs: shop "Candy Smoke Shop", "Register 1", web orders filed under employee "Candy".
+  "vars": {
+    "LS_SHOP_ID": "1",
+    "LS_REGISTER_ID": "1",
+    "LS_EMPLOYEE_ID": "1"
+  },
   // Keep the variables set in the dashboard (LS_SHOP_ID etc.) on each deploy.
   "keep_vars": true,
   "observability": { "enabled": true }
