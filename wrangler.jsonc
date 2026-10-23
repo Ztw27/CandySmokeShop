@@ -1,6 +1,6 @@
 {
   // "name" must match the Worker's name in the Cloudflare dashboard.
-  "name": "candysmokeshopwebsite",
+  "name": "candysmokeshop",
   "main": "worker.js",
   "compatibility_date": "2026-10-01",
   "assets": {
