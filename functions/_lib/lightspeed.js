@@ -8,7 +8,9 @@
 
 const AUTH = 'https://cloud.lightspeedapp.com/auth/oauth';
 const API = 'https://api.lightspeedapp.com/API/V3';
-export const SCOPES = 'employee:inventory_read employee:register';
+// The narrower pair (employee:inventory_read + employee:register) was rejected with
+// invalid_scope for this account; employee:all is limited to the approving user's own rights.
+export const SCOPES = 'employee:all';
 
 const TOKENS_KEY = 'ls:tokens';
 const ACCOUNT_KEY = 'ls:account';
