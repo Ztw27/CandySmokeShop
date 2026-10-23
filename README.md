@@ -15,12 +15,12 @@ No card data touches the website. Until Lightspeed is connected, the site runs i
 
 R-Series doesn't have personal access tokens. Instead, you register the website as an "API client" and approve it once. After that, the site renews its own access automatically.
 
-### 1. Put the site on Cloudflare Pages
-GitHub Pages can't run the server functions.
-1. Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git → pick this repo. Build command: *(none)*. Output directory: `/`.
-2. Workers & Pages → **KV** → Create a namespace (e.g. `candy-lightspeed`).
-3. In the Pages project → Settings → **Bindings** → Add → KV namespace. Variable name `LS_KV`, pick the namespace.
-4. Note the site address, e.g. `https://candysmokeshop.pages.dev`, or your own domain once it's attached.
+### 1. Hosting (Cloudflare Worker)
+GitHub Pages can't run the server functions, so the site is deployed as a Cloudflare Worker connected to this repo. Every push to `main` redeploys it.
+- `wrangler.jsonc` holds the config, including the `LS_KV` storage binding. Its `name` must match the Worker's name in the dashboard.
+- `worker.js` routes `/api/*` to the handlers in `functions/api/` and serves the website files for everything else.
+- `.assetsignore` keeps code and config files from being served publicly.
+- Text variables set in the dashboard are kept on each deploy (`keep_vars`). Secrets are always kept.
 
 ### 2. Register the Lightspeed API client
 1. Go to https://cloud.lightspeedapp.com/oauth/register.php and sign in with your Lightspeed login.
@@ -61,7 +61,7 @@ Place a small test order on the site. Make sure staff can find it in Lightspeed 
 
 ```sh
 cp .dev.vars.example .dev.vars
-npx wrangler pages dev . --kv LS_KV
+npx wrangler dev
 ```
 
 Locally the site runs in preview mode. Connecting Lightspeed needs the real https site.

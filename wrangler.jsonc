@@ -1,0 +1,17 @@
+{
+  // "name" must match the Worker's name in the Cloudflare dashboard.
+  "name": "candysmokeshopwebsite",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS"
+  },
+  // Stores the Lightspeed login tokens and a short-lived product cache.
+  "kv_namespaces": [
+    { "binding": "LS_KV", "id": "f76b330c99254324a81d97272f891564" }
+  ],
+  // Keep the variables set in the dashboard (LS_SHOP_ID etc.) on each deploy.
+  "keep_vars": true,
+  "observability": { "enabled": true }
+}

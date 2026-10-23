@@ -1,0 +1,13 @@
+# Files that are not part of the public website
+.git
+.wrangler
+.dev.vars*
+.assetsignore
+.gitignore
+.gitattributes
+functions
+scripts
+worker.js
+wrangler.jsonc
+README.md
+node_modules
