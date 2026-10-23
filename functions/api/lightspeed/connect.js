@@ -13,7 +13,7 @@ export async function onRequestGet({ request, env }) {
     status: 302,
     headers: {
       Location: authorizeUrl(env, state),
-      'Set-Cookie': `ls_state=${state}; Path=/api/lightspeed; HttpOnly; Secure; SameSite=Lax; Max-Age=600`,
+      'Set-Cookie': `ls_state=${state}; Path=/api/lightspeed; HttpOnly; Secure; SameSite=Lax; Max-Age=1800`,
     },
   });
 }
