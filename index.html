@@ -37,7 +37,7 @@
     html { scroll-behavior: smooth; }
     body {
       color: var(--text);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       overflow-x: hidden;
       background-color: var(--mortar);
       /* Brick wall, like the neon sign backdrop */
@@ -49,12 +49,13 @@
       background-attachment: fixed;
     }
     img { max-width: 100%; display: block; }
+    button, input, select, textarea { font-family: inherit; }
     a { color: inherit; }
     :focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
 
     /* ─── TYPE STYLES ─── */
     .neon {
-      font-family: 'Quicksand', sans-serif; font-weight: 600;
+      font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 600;
       color: var(--neon-white);
       text-shadow: 0 0 4px #fff, 0 0 12px var(--neon-purple), 0 0 28px var(--neon-purple), 0 0 48px rgba(185,140,255,0.6);
     }
@@ -73,7 +74,7 @@
     }
     /* Chunky outlined lettering, like the CANDY SMOKE SHOP wordmark */
     .sticker {
-      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900;
       text-transform: uppercase; letter-spacing: -0.01em;
       -webkit-text-stroke: 0.09em var(--ink); paint-order: stroke fill;
       filter: drop-shadow(0 4px 0 var(--ink));
@@ -81,7 +82,7 @@
     .c-red { color: var(--red); } .c-yellow { color: var(--yellow); } .c-green { color: var(--green); }
 
     .kicker {
-      font-family: 'Quicksand', sans-serif; font-weight: 700;
+      font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700;
       font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase;
       margin-bottom: 14px; display: block;
     }
@@ -97,7 +98,7 @@
     /* ─── BUTTONS ─── */
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      font-family: 'Montserrat', sans-serif; font-weight: 900;
+      font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900;
       font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
       padding: 14px 28px; border-radius: 999px; cursor: pointer;
       text-decoration: none; border: 3px solid var(--ink);
@@ -144,7 +145,7 @@
     .nav-logo span { font-size: 1.05rem; white-space: nowrap; }
     .nav-links { display: flex; gap: 28px; list-style: none; }
     .nav-links a {
-      font-family: 'Quicksand', sans-serif; font-weight: 700;
+      font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700;
       font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--muted); text-decoration: none; transition: color 0.2s, text-shadow 0.2s;
     }
@@ -190,7 +191,7 @@
       position: absolute; top: 2%; right: 4%;
       background: var(--yellow); color: var(--ink); border: 3px solid var(--ink);
       border-radius: 18px; padding: 10px 16px; text-align: center; transform: rotate(6deg);
-      box-shadow: 0 5px 0 var(--ink); font-family: 'Montserrat', sans-serif; font-weight: 900;
+      box-shadow: 0 5px 0 var(--ink); font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900;
     }
     .rating-badge b { display: block; font-size: 1.8rem; line-height: 1; }
     .rating-badge small { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; }
@@ -203,7 +204,7 @@
     }
     .ticker-track { display: inline-flex; white-space: nowrap; animation: tickMove 32s linear infinite; }
     .ticker-item {
-      padding: 0 26px; font-family: 'Montserrat', sans-serif; font-weight: 900;
+      padding: 0 26px; font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900;
       font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
     }
     .ticker-item:nth-child(3n+1) { color: var(--red); }
@@ -237,7 +238,7 @@
     }
     .dept:hover { transform: translateY(-2px); }
     .dept-icon { font-size: 1.5rem; line-height: 1; }
-    .dept-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 0.9rem; line-height: 1.2; }
+    .dept-name { font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; font-size: 0.9rem; line-height: 1.2; }
     .dept-count { font-size: 0.72rem; color: var(--muted); }
     .dept.active { background: var(--yellow); color: var(--ink); }
     .dept.active .dept-count { color: rgba(20,16,18,0.7); }
@@ -251,7 +252,7 @@
     .chips { display: flex; gap: 8px; flex-wrap: wrap; }
     .chip small { opacity: 0.6; margin-left: 4px; font-weight: 600; }
     .chip {
-      font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 0.82rem;
+      font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 0.82rem;
       padding: 9px 16px; border-radius: 999px; cursor: pointer;
       background: rgba(0,0,0,0.4); color: var(--muted); border: 2px solid var(--border);
       transition: all 0.15s;
@@ -280,10 +281,10 @@
     .low { position: absolute; top: 10px; left: 10px; background: var(--red); color: #fff; border: 2px solid var(--ink);
       font-size: 0.66rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; }
     .product-body { padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-    .product-cat { font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--neon-purple); }
+    .product-cat { font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--neon-purple); }
     .product-name { font-weight: 600; line-height: 1.35; flex: 1; }
     .product-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
-    .price { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.2rem; color: var(--yellow); }
+    .price { font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900; font-size: 1.2rem; color: var(--yellow); }
     .add-btn { padding: 9px 16px; font-size: 0.72rem; box-shadow: 0 3px 0 var(--ink); border-width: 2px; }
     .shop-status { text-align: center; padding: 40px 20px; color: var(--muted); grid-column: 1 / -1; }
     .more-wrap { text-align: center; margin-top: 30px; }
@@ -295,10 +296,10 @@
     .why-num {
       width: 46px; height: 46px; flex-shrink: 0; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Montserrat', sans-serif; font-weight: 900; color: var(--ink);
+      font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900; color: var(--ink);
       border: 3px solid var(--ink);
     }
-    .why-title { font-family: 'Montserrat', sans-serif; font-weight: 800; margin-bottom: 4px; }
+    .why-title { font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; margin-bottom: 4px; }
     .why-desc { color: var(--muted); font-size: 0.92rem; line-height: 1.65; }
     .rating-panel { padding: 40px 34px; }
     .rating-giant { font-size: 5rem; line-height: 1; }
@@ -314,7 +315,7 @@
     .step { display: flex; gap: 16px; align-items: flex-start; }
     .step-num { width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center;
       border: 2px solid var(--neon-purple); color: var(--neon-white); font-weight: 700; box-shadow: 0 0 10px rgba(185,140,255,0.5); }
-    .step-title { font-family: 'Montserrat', sans-serif; font-weight: 800; margin-bottom: 3px; }
+    .step-title { font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; margin-bottom: 3px; }
     .step-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
     .checkout { padding: 34px 30px; }
     .co-title { font-size: 1.6rem; margin-bottom: 6px; }
@@ -324,7 +325,7 @@
     .co-summary .total { color: var(--text); font-weight: 700; border-top: 1px solid var(--border); margin-top: 6px; padding-top: 8px; }
     .co-summary .empty { color: var(--muted); }
     .field { margin-bottom: 16px; }
-    .field label { display: block; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+    .field label { display: block; font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
     .input {
       width: 100%; background: rgba(0,0,0,0.45); color: var(--text);
       border: 2px solid var(--border); border-radius: 12px;
@@ -351,7 +352,7 @@
     .hours-list { padding: 10px 24px; }
     .hours-row { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
     .hours-row:last-child { border-bottom: none; }
-    .hours-day { width: 120px; flex-shrink: 0; font-family: 'Quicksand', sans-serif; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.82rem; color: var(--muted); }
+    .hours-day { width: 120px; flex-shrink: 0; font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.82rem; color: var(--muted); }
     .hours-time { flex: 1; font-weight: 500; }
     .pill { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 2px solid var(--ink); }
     .pill-late { background: var(--neon-purple); color: var(--ink); }
@@ -364,7 +365,7 @@
     .loc { display: grid; gap: 16px; margin-top: 10px; }
     .loc-item { display: flex; gap: 14px; align-items: center; }
     .loc-icon { width: 46px; height: 46px; flex-shrink: 0; border-radius: 14px; background: rgba(0,0,0,0.4); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-    .loc-label { font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--neon-purple); }
+    .loc-label { font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--neon-purple); }
     .loc-val a { text-decoration: none; }
     .loc-val a:hover { color: var(--yellow); }
     .map-box { margin-top: 24px; height: 260px; border-radius: 20px; overflow: hidden; border: 3px solid var(--ink); box-shadow: 0 6px 0 var(--ink); }
@@ -692,6 +693,6 @@
   </div>
 </aside>
 
-<script src="assets/app.js?v=2026-10-23"></script>
+<script src="assets/app.js?v=2026-10-23b"></script>
 </body>
 </html>
