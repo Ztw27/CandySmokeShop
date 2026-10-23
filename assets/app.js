@@ -43,8 +43,11 @@
   const PAGE = 24;
   let products = [];
   let byId = new Map();
-  let category = 'All';
+  let departments = [];
+  let dept = 'all';
+  let sub = 'all';
   let query = '';
+  let sort = 'featured';
   let shown = PAGE;
 
   async function loadProducts() {
@@ -52,45 +55,79 @@
       const res = await fetch('/api/products');
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      products = data.products || [];
+      products = (data.products || []).map(p => ({ ...p, sub: p.sub || p.category, dept: p.dept || 'more' }));
       byId = new Map(products.map(p => [p.id, p]));
+      const deptNames = new Map((data.departments || []).map(d => [d.id, d.name]));
+      for (const p of products) p.haystack = `${p.name} ${p.sku} ${p.sub} ${deptNames.get(p.dept) || ''}`.toLowerCase();
+      departments = (data.departments || []).filter(d => products.some(p => p.dept === d.id));
       $('demoNote').classList.toggle('show', !!data.demo);
       pruneCart();
-      renderChips();
-      renderGrid();
+      render();
     } catch (err) {
       $('grid').innerHTML = `<div class="shop-status">${esc(err.message || "Our online menu isn't available right now.")} You can still place a request below or call (816) 326-8122.</div>`;
     }
   }
 
+  const countBy = (list, key) => list.reduce((m, p) => m.set(p[key], (m.get(p[key]) || 0) + 1), new Map());
+
+  function renderDepts() {
+    const counts = countBy(products, 'dept');
+    const tiles = [{ id: 'all', name: 'Everything', icon: '🍬', count: products.length },
+      ...departments.map(d => ({ ...d, count: counts.get(d.id) || 0 }))];
+    $('depts').innerHTML = tiles.map(d => `
+      <button class="dept${d.id === dept ? ' active' : ''}" role="tab" aria-selected="${d.id === dept}" data-dept="${esc(d.id)}">
+        <span class="dept-icon" aria-hidden="true">${d.icon}</span>
+        <span class="dept-name">${esc(d.name)}</span>
+        <span class="dept-count">${d.count.toLocaleString()} items</span>
+      </button>`).join('');
+  }
+
   function renderChips() {
-    const cats = ['All', ...[...new Set(products.map(p => p.category))].sort()];
-    $('chips').innerHTML = cats.map(c => `<button class="chip${c === category ? ' active' : ''}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
+    const chips = $('chips');
+    if (dept === 'all') { chips.innerHTML = ''; return; }
+    const inDept = products.filter(p => p.dept === dept);
+    const subs = [...countBy(inDept, 'sub')].sort((a, b) => b[1] - a[1]);
+    if (subs.length < 2) { chips.innerHTML = ''; return; }
+    chips.innerHTML = [['all', inDept.length], ...subs].map(([s, n]) =>
+      `<button class="chip${s === sub ? ' active' : ''}" data-sub="${esc(s)}">${s === 'all' ? 'All' : esc(s)}<small>${n}</small></button>`).join('');
   }
 
   function filtered() {
-    const q = query.toLowerCase();
-    return products.filter(p =>
-      (category === 'All' || p.category === category) &&
-      (!q || p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q)));
+    const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+    const list = products.filter(p =>
+      (dept === 'all' || p.dept === dept) &&
+      (sub === 'all' || p.sub === sub) &&
+      words.every(w => p.haystack.includes(w)));
+    const byName = (a, b) => a.name.localeCompare(b.name);
+    const sorters = {
+      featured: (a, b) => (!!b.image - !!a.image) || byName(a, b),
+      'price-asc': (a, b) => a.price - b.price || byName(a, b),
+      'price-desc': (a, b) => b.price - a.price || byName(a, b),
+      name: byName,
+    };
+    return list.sort(sorters[sort] || sorters.featured);
   }
 
   function renderGrid() {
     const list = filtered();
     const grid = $('grid');
+    const more = $('moreBtn');
+    $('resultCount').innerHTML = list.length
+      ? `Showing <b>${Math.min(shown, list.length).toLocaleString()}</b> of <b>${list.length.toLocaleString()}</b>`
+      : '';
     if (!list.length) {
       grid.innerHTML = `<div class="shop-status">Nothing matches that. Tell us what you need in the curbside form — we'll get it.</div>`;
-      $('moreBtn').hidden = true;
+      more.hidden = true;
       return;
     }
     grid.innerHTML = list.slice(0, shown).map(p => `
       <article class="product">
         <div class="product-img">
           ${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy" />` : `<img class="ph" src="assets/candy-mark.png" alt="" loading="lazy" />`}
-          ${p.lowStock ? '<span class="low">Only a few left</span>' : ''}
+          ${p.lowStock ? '<span class="low">Last one!</span>' : ''}
         </div>
         <div class="product-body">
-          <span class="product-cat">${esc(p.category)}</span>
+          <span class="product-cat">${esc(p.sub)}</span>
           <div class="product-name">${esc(p.name)}</div>
           <div class="product-foot">
             <span class="price">${money(p.price)}</span>
@@ -98,15 +135,25 @@
           </div>
         </div>
       </article>`).join('');
-    $('moreBtn').hidden = list.length <= shown;
+    more.hidden = list.length <= shown;
+    more.textContent = `Show More (${(list.length - shown).toLocaleString()} left)`;
   }
 
-  $('chips').addEventListener('click', e => {
-    const b = e.target.closest('[data-cat]');
+  function render() { renderDepts(); renderChips(); renderGrid(); }
+
+  $('depts').addEventListener('click', e => {
+    const b = e.target.closest('[data-dept]');
     if (!b) return;
-    category = b.dataset.cat; shown = PAGE;
+    dept = b.dataset.dept; sub = 'all'; shown = PAGE;
+    render();
+  });
+  $('chips').addEventListener('click', e => {
+    const b = e.target.closest('[data-sub]');
+    if (!b) return;
+    sub = b.dataset.sub; shown = PAGE;
     renderChips(); renderGrid();
   });
+  $('sort').addEventListener('change', e => { sort = e.target.value; shown = PAGE; renderGrid(); });
   let t;
   $('search').addEventListener('input', e => {
     clearTimeout(t);

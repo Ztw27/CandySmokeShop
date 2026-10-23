@@ -164,7 +164,7 @@ async function fetchCatalog(env) {
     })
     .filter(p => p.stock >= minStock && p.price > 0)
     .filter(p => !hidden.has(p.category.toLowerCase()))
-    .map(({ stock, ...p }) => ({ ...p, lowStock: stock <= 3 }));
+    .map(({ stock, ...p }) => ({ ...p, lowStock: stock === 1 }));
 }
 
 // Items in stock at the shop, cached in KV so we stay well under Lightspeed's rate limit.

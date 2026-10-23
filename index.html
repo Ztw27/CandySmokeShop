@@ -228,7 +228,28 @@
       color: var(--text); font: inherit; padding: 12px 20px; outline: none;
     }
     .search:focus { border-color: var(--neon-purple); box-shadow: 0 0 12px rgba(185,140,255,0.45); }
+    .depts { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 22px; }
+    .dept {
+      display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left;
+      padding: 14px 16px; border-radius: 16px; cursor: pointer; color: var(--text);
+      background: var(--panel2); border: 3px solid var(--ink); box-shadow: 0 4px 0 var(--ink);
+      transition: transform 0.12s, background 0.15s;
+    }
+    .dept:hover { transform: translateY(-2px); }
+    .dept-icon { font-size: 1.5rem; line-height: 1; }
+    .dept-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 0.9rem; line-height: 1.2; }
+    .dept-count { font-size: 0.72rem; color: var(--muted); }
+    .dept.active { background: var(--yellow); color: var(--ink); }
+    .dept.active .dept-count { color: rgba(20,16,18,0.7); }
+    .shop-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+    select.input.sort { flex: 0 0 auto; width: auto; border-radius: 999px; padding: 12px 40px 12px 18px; cursor: pointer;
+      background: rgba(0,0,0,0.45) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23fbf4ee' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 16px center; }
+    .sort option { background: #1d1214; }
+    .result-count { margin-left: auto; color: var(--muted); font-size: 0.88rem; }
+    .result-count b { color: var(--text); }
+    .sub-chips { margin-bottom: 24px; }
     .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip small { opacity: 0.6; margin-left: 4px; font-weight: 600; }
     .chip {
       font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 0.82rem;
       padding: 9px 16px; border-radius: 999px; cursor: pointer;
@@ -407,6 +428,12 @@
       .wrap { padding: 70px 16px; }
       .why-grid, .curb-grid, .hours-grid { grid-template-columns: 1fr; gap: 40px; }
       .row2 { grid-template-columns: 1fr; }
+      .depts, .sub-chips { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-left: -16px; margin-right: -16px; padding: 0 16px 6px; }
+      .depts::-webkit-scrollbar, .sub-chips::-webkit-scrollbar { display: none; }
+      .dept { flex: 0 0 132px; }
+      .chip { flex: 0 0 auto; white-space: nowrap; }
+      .search { max-width: none; flex-basis: 100%; }
+      .result-count { margin-left: 0; }
       .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
       .product-body { padding: 12px; }
       .product-foot { flex-direction: column; align-items: stretch; }
@@ -490,10 +517,18 @@
       <p class="body-text">This is our real in-store inventory, updated live. Add items to your cart, place a curbside order, and pay at pickup with a valid 21+ ID. Don't see it? Ask — we'll stock it for you.</p>
     </div>
     <div class="demo-note" id="demoNote">Preview mode: showing sample products until the Lightspeed connection is set up.</div>
-    <div class="shop-tools">
-      <input class="search" id="search" type="search" placeholder="Search products…" aria-label="Search products" />
-      <div class="chips" id="chips"></div>
+    <div class="depts" id="depts" role="tablist" aria-label="Departments"></div>
+    <div class="shop-bar">
+      <input class="search" id="search" type="search" placeholder="Search all products, brands, flavors…" aria-label="Search products" />
+      <select class="input sort" id="sort" aria-label="Sort products">
+        <option value="featured">Sort: Featured</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="name">Name: A–Z</option>
+      </select>
+      <span class="result-count" id="resultCount" aria-live="polite"></span>
     </div>
+    <div class="chips sub-chips" id="chips"></div>
     <div class="product-grid" id="grid"><div class="shop-status">Loading the shelves…</div></div>
     <div class="more-wrap"><button class="btn btn-neon" id="moreBtn" hidden>Show More</button></div>
   </div>
