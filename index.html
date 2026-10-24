@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Candy Smoke Shop — 904 W 39th St, Kansas City</title>
-  <meta name="description" content="Candy Smoke Shop — glass, vapes, papers, hookah and more at 904 W 39th St, Kansas City. Order online for curbside pickup." />
+  <meta name="description" content="Candy Smoke Shop — glass, vapes, papers, hookah, and more at 904 W 39th St, Kansas City. Order online for curbside pickup." />
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -456,6 +456,16 @@
     .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; }
     .footer-links a:hover { color: var(--yellow); }
     .footer-copy { color: var(--dim); font-size: 0.75rem; line-height: 1.6; }
+    .footer-legal { max-width: 1400px; margin: 22px auto 0; padding-top: 18px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+    .footer-legal .legal-links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+    .footer-legal .legal-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; }
+    .footer-legal .legal-links a:hover { color: var(--yellow); text-decoration: underline; }
+    /* FDA-style nicotine warning: bold black on white with a border */
+    .nicotine-warning { background: #fff; color: #000; border: 2px solid #000; padding: 8px 14px;
+      font-family: Arial, Helvetica, sans-serif; font-weight: 700; font-size: 0.85rem; line-height: 1.35; }
+    .shop-warning { margin-bottom: 20px; text-align: center; font-size: 0.95rem; }
+    .co-legal { margin-top: 12px; font-size: 0.78rem; color: var(--muted); text-align: center; line-height: 1.5; }
 
     /* ─── MOBILE ─── */
     @media (max-width: 960px) {
@@ -523,7 +533,7 @@
 <div class="age-gate" id="ageGate" role="dialog" aria-modal="true" aria-labelledby="agTitle">
   <img class="ag-logo" src="assets/logo.png" alt="Candy Smoke Shop" />
   <h2 class="ag-title neon" id="agTitle">Candy Land for Adults</h2>
-  <p class="ag-sub">You must be 21 or older to enter.<br/>This site contains tobacco and smoke shop products.</p>
+  <p class="ag-sub">You must be 21 or older to enter.<br/>This site sells tobacco, nicotine, and smoke shop products.</p>
   <div class="ag-btns">
     <button class="btn btn-green" id="agYes">I'm 21+ — Let's Go</button>
     <a class="btn btn-neon" href="https://google.com">Exit</a>
@@ -560,7 +570,7 @@
       <span class="ns-vape" aria-hidden="true"><span></span><span></span><span></span></span>
     </h1>
     <p class="hero-desc">
-      <strong>Kansas City's top shop on 39th Street.</strong> Glass, vapes, papers, hookah, concentrates and way more. Shop our live in-store inventory online and we'll bring it out to your car.
+      <strong>Kansas City's top shop on 39th Street.</strong> Glass, vapes, papers, hookah, concentrates, and way more. Shop our live in-store inventory online and we'll bring it out to your car.
     </p>
     <div class="hero-buttons">
       <a href="#shop" class="btn btn-red">Shop Now</a>
@@ -591,8 +601,9 @@
         <h2 class="big-title">Shop the <span class="accent">Shelf</span></h2>
         <div class="stripe"></div>
       </div>
-      <p class="body-text">This is our real in-store inventory, updated live. Add items to your cart, place a curbside order, and pay at pickup with a valid 21+ ID. Don't see it? Ask — we'll stock it for you.</p>
+      <p class="body-text">This is our real in-store inventory, updated live. Add items to your cart, place a curbside order, and pay at pickup. Bring a valid ID showing you're 21 or older. Don't see what you need? Ask, and we'll stock it for you.</p>
     </div>
+    <p class="nicotine-warning shop-warning">WARNING: This product contains nicotine. Nicotine is an addictive chemical.</p>
     <div class="demo-note" id="demoNote">Preview mode: showing sample products until the Lightspeed connection is set up.</div>
     <div class="dept-scroll">
       <button class="scroll-arrow prev" id="deptPrev" aria-label="Scroll departments left" hidden>‹</button>
@@ -626,7 +637,7 @@
         <div class="why-item panel"><div class="why-num" style="background:var(--red)">1</div><div><div class="why-title">Unmatched Selection</div><p class="why-desc">One of the largest inventories on 39th Street. If we don't have it today, we'll get it in for you.</p></div></div>
         <div class="why-item panel"><div class="why-num" style="background:var(--yellow)">2</div><div><div class="why-title">Staff That Knows Their Stuff</div><p class="why-desc">Zach, Ash, and the whole crew are knowledgeable, chill, and invested in getting you exactly what you need.</p></div></div>
         <div class="why-item panel"><div class="why-num" style="background:var(--green)">3</div><div><div class="why-title">Walk In Upset, Walk Out Happy</div><p class="why-desc">That's our promise, and 800+ five-star reviews say we keep it.</p></div></div>
-        <div class="why-item panel"><div class="why-num" style="background:var(--neon-purple)">4</div><div><div class="why-title">Right on 39th Street</div><p class="why-desc">904 W 39th St, in the thick of it. Easy to get to, easy to park, open 7 days.</p></div></div>
+        <div class="why-item panel"><div class="why-num" style="background:var(--neon-purple)">4</div><div><div class="why-title">Right on 39th Street</div><p class="why-desc">904 W 39th St, right in the thick of it. Easy to get to, easy to park, and open 7 days a week.</p></div></div>
       </div>
     </div>
     <div class="rating-panel panel reveal">
@@ -651,8 +662,8 @@
       <div class="steps">
         <div class="step"><div class="step-num">1</div><div><div class="step-title">Fill Your Cart</div><p class="step-desc">Pick from our live in-store inventory, or just tell us what you're looking for.</p></div></div>
         <div class="step"><div class="step-num">2</div><div><div class="step-title">Place Your Order</div><p class="step-desc">It goes straight to our register, so it's pulled and ready when you arrive.</p></div></div>
-        <div class="step"><div class="step-num">3</div><div><div class="step-title">Pull Up Out Front</div><p class="step-desc">904 W 39th St. Park out front and we'll find you by your vehicle.</p></div></div>
-        <div class="step"><div class="step-num">4</div><div><div class="step-title">Show ID &amp; Pay</div><p class="step-desc">Cash or card at the car. We check a valid ID for every order — 21+ only.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div><div class="step-title">Pull Up Out Front</div><p class="step-desc">Park out front at 904 W 39th St, and we'll find you by your vehicle.</p></div></div>
+        <div class="step"><div class="step-num">4</div><div><div class="step-title">Show ID &amp; Pay</div><p class="step-desc">Pay with cash or card at your car. We check ID on every order (21+ only).</p></div></div>
       </div>
     </div>
 
@@ -681,9 +692,10 @@
             </div>
             <div class="field"><label for="fNotes">Anything Else?</label><textarea class="input" id="fNotes" placeholder="Special requests, or items you didn't see online…"></textarea></div>
             <input class="hp" id="fWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <label class="age-check"><input type="checkbox" id="fAge" /><span><strong>I'm 21 or older</strong> and will show a valid government ID at pickup. Orders without valid ID can't be released.</span></label>
+            <label class="age-check"><input type="checkbox" id="fAge" /><span><strong>I'm 21 or older</strong> and will show a valid government ID at pickup. Orders can't be released without a valid ID.</span></label>
             <div class="co-error" id="coError" role="alert"></div>
             <button class="btn btn-red" id="coSubmit" type="submit">Place Curbside Order →</button>
+            <p class="co-legal">By placing an order, you agree to our <a href="/terms">Terms of Use</a> and <a href="/privacy">Privacy Policy</a>.</p>
           </form>
         </div>
         <div class="confirm" id="coConfirm" aria-live="polite">
@@ -706,9 +718,9 @@
       <div class="stripe"></div>
       <div class="hours-list panel" id="hoursList"></div>
       <div class="notes">
-        <div class="note"><i>◆</i><span><b>Open 7 days a week</b> — Mon through Sat from 10AM, Sunday from 11AM.</span></div>
-        <div class="note"><i>◆</i><span><b>Open late Fri &amp; Sat</b> until 11PM.</span></div>
-        <div class="note"><i>◆</i><span><b>Special orders welcome</b> — we stock items on request. Just ask!</span></div>
+        <div class="note"><i>◆</i><span><b>Open 7 days a week</b> — Monday through Saturday from 10 AM, Sunday from 11 AM.</span></div>
+        <div class="note"><i>◆</i><span><b>Open late Friday &amp; Saturday</b> until 11 PM.</span></div>
+        <div class="note"><i>◆</i><span><b>Special orders welcome</b> — we'll stock items on request. Just ask!</span></div>
       </div>
     </div>
     <div class="reveal">
@@ -756,6 +768,14 @@
     </div>
     <div class="footer-copy">© 2026 Candy Smoke Shop · 904 W 39th St · Kansas City, MO<br/>21+ only. Valid ID required for all purchases.</div>
   </div>
+  <div class="footer-legal">
+    <p class="nicotine-warning">WARNING: This product contains nicotine. Nicotine is an addictive chemical.</p>
+    <div class="legal-links" role="navigation" aria-label="Legal">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Use</a>
+      <a href="/returns">Returns &amp; Refunds</a>
+    </div>
+  </div>
 </footer>
 
 <!-- CART DRAWER -->
@@ -768,7 +788,7 @@
   <div class="drawer-body" id="cartLines"></div>
   <div class="drawer-foot">
     <div class="drawer-total"><span>Subtotal</span><span id="cartTotal">$0.00</span></div>
-    <p>Sales tax is added at pickup. Pay cash or card at your car.</p>
+    <p>Sales tax is added at pickup. Pay with cash or card at your car.</p>
     <button class="btn btn-red" id="toCheckout">Checkout — Curbside Pickup</button>
   </div>
 </aside>

@@ -11,7 +11,7 @@ export async function onRequestGet({ env }) {
     return json({ demo, departments: DEPARTMENTS, products }, demo ? {} : { 'Cache-Control': 'public, max-age=60' });
   } catch (err) {
     console.error(err);
-    return json({ error: 'Our menu is temporarily unavailable. Call us at (816) 326-8122.' }, {}, 502);
+    return json({ error: 'Our online menu is temporarily unavailable. Call us at (816) 326-8122.' }, {}, 502);
   }
 }
 

@@ -157,7 +157,7 @@
       ? `Showing <b>${Math.min(shown, list.length).toLocaleString()}</b> of <b>${list.length.toLocaleString()}</b>`
       : '';
     if (!list.length) {
-      grid.innerHTML = `<div class="shop-status">Nothing matches that. Tell us what you need in the curbside form — we'll get it.</div>`;
+      grid.innerHTML = `<div class="shop-status">Nothing matches your search. Tell us what you need in the curbside order form, and we'll try to get it.</div>`;
       more.hidden = true;
       return;
     }
@@ -238,7 +238,7 @@
       </div>`).join('') : '<p class="shop-status">Your cart is empty.</p>';
     $('coSummary').innerHTML = lines.length
       ? lines.map(({ p, qty }) => `<div class="row"><span>${qty} × ${esc(p.name)}</span><span>${money(qty * p.price)}</span></div>`).join('') +
-        `<div class="row total"><span>Subtotal (plus tax, pay at pickup)</span><span>${money(total)}</span></div>`
+        `<div class="row total"><span>Subtotal (plus tax; pay at pickup)</span><span>${money(total)}</span></div>`
       : `<div class="empty">Your cart is empty — <a href="#shop">browse the shop</a>, or just tell us what you need below.</div>`;
   }
 
@@ -279,7 +279,7 @@
     if (f.phone.replace(/\D/g, '').length < 10) bad.push('fPhone');
     if (!f.eta) bad.push('fEta');
     ['fName', 'fPhone', 'fEta'].forEach(id => $(id).classList.toggle('bad', bad.includes(id)));
-    if (bad.length) { err.textContent = 'Please fill in your name, a 10-digit phone number, and arrival time.'; return; }
+    if (bad.length) { err.textContent = 'Please enter your name, a 10-digit phone number, and your arrival time.'; return; }
     if (!lines.length && !f.notes) { err.textContent = 'Add something to your cart or tell us what you need.'; return; }
     if (!f.ageConfirmed) { err.textContent = 'Please confirm you are 21 or older.'; return; }
 
@@ -296,7 +296,7 @@
       cart = {}; saveCart();
       $('coForm').hidden = true;
       $('coConfirm').classList.add('show');
-      $('coRef').textContent = `Order ${data.ref}${data.demo ? ' (preview — not sent to store)' : ''} · ETA ${f.eta}`;
+      $('coRef').textContent = `Order ${data.ref}${data.demo ? ' (preview, not sent to the store)' : ''} · ETA ${f.eta}`;
     } catch (ex) {
       err.textContent = ex.message + ' You can also call (816) 326-8122.';
       btn.disabled = false; btn.textContent = 'Place Curbside Order →';
