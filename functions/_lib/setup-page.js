@@ -8,12 +8,12 @@ export function page(title, bodyHtml, status = 200) {
 <style>
   body{font-family:system-ui,sans-serif;background:#1a0f10;color:#fbf4ee;margin:0;padding:32px 16px;line-height:1.6}
   main{max-width:720px;margin:0 auto}
-  h1{color:#ffe600;font-size:1.6rem}
-  h2{font-size:1.05rem;margin-top:28px;color:#b98cff}
+  h1{color:#ffdd00;font-size:1.6rem}
+  h2{font-size:1.05rem;margin-top:28px;color:#a463ff}
   code,li{font-family:ui-monospace,Consolas,monospace;font-size:.92rem}
-  .ok{color:#3cae49;font-weight:700}.bad{color:#ff6b70;font-weight:700}
-  a{color:#ffe600}
-  .btn{display:inline-block;margin-top:12px;padding:12px 22px;border-radius:999px;background:#e3242b;color:#fff;text-decoration:none;font-weight:700}
+  .ok{color:#14b83a;font-weight:700}.bad{color:#ff6b70;font-weight:700}
+  a{color:#ffdd00}
+  .btn{display:inline-block;margin-top:12px;padding:12px 22px;border-radius:999px;background:#f5101c;color:#fff;text-decoration:none;font-weight:700}
 </style></head><body><main>${bodyHtml}</main></body></html>`, {
     status,
     headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' },
