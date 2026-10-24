@@ -185,6 +185,14 @@
       display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: 40px;
       padding: 130px 40px 80px; max-width: 1400px; margin: 0 auto;
     }
+    /* WebGL neon smoke (assets/smoke.js), full-width behind the hero, fading out at the bottom */
+    #smoke {
+      position: absolute; top: 0; left: 50%; width: 100vw; height: 100%; transform: translateX(-50%);
+      z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.2s ease;
+      -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+      mask-image: linear-gradient(to bottom, #000 60%, transparent);
+    }
+    #smoke.on { opacity: 1; }
     .neon-sign {
       position: relative; padding: 44px 40px 36px;
       border: 3px solid rgba(255,247,240,0.9); border-radius: 80px 120px 90px 110px;
@@ -560,6 +568,7 @@
 
 <!-- HERO -->
 <section id="hero">
+  <canvas id="smoke" aria-hidden="true"></canvas>
   <div>
     <a href="#hours" class="status-pill" id="openStatus"><span class="status-dot"></span><span>904 W 39th St · Kansas City</span></a>
     <h1 class="neon-sign" aria-label="Candy Smoke Shop">
@@ -792,5 +801,6 @@
 </aside>
 
 <script src="assets/app.js?v=2026-10-24d"></script>
+<script src="assets/smoke.js?v=2026-10-24b" defer></script>
 </body>
 </html>
