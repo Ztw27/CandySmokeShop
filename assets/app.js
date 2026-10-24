@@ -35,7 +35,9 @@
 
   // ─── Hours ───
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const today = days[new Date().getDay()];
+  // The shop's local time, whatever time zone the visitor is in.
+  const kc = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+  const today = days[kc.getDay()];
   const hours = [
     ['Monday', '10:00 AM', '10:00 PM'], ['Tuesday', '10:00 AM', '10:00 PM'], ['Wednesday', '10:00 AM', '10:00 PM'],
     ['Thursday', '10:00 AM', '10:00 PM'], ['Friday', '10:00 AM', '11:00 PM', true], ['Saturday', '10:00 AM', '11:00 PM', true],
@@ -46,6 +48,23 @@
       <span class="hours-day">${d}</span><span class="hours-time">${o} — ${c}</span>
       ${late ? '<span class="pill pill-late">Late</span>' : ''}${d === today ? '<span class="pill pill-today">Today</span>' : ''}
     </div>`).join('');
+
+  // "Open now" pill in the hero
+  const mins = t => { const [, h, m, ap] = t.match(/(\d+):(\d+) (AM|PM)/); return (h % 12 + (ap === 'PM' ? 12 : 0)) * 60 + +m; };
+  const short = t => t.replace(':00', '');
+  const hoursFor = d => hours.find(h => h[0] === d);
+  const [, openT, closeT] = hoursFor(today);
+  const nowMins = kc.getHours() * 60 + kc.getMinutes();
+  const pill = $('openStatus');
+  if (nowMins >= mins(openT) && nowMins < mins(closeT)) {
+    pill.classList.add('open');
+    pill.innerHTML = `<span class="status-dot"></span><span><b>Open now</b> · until ${short(closeT)}</span>`;
+  } else {
+    const opensToday = nowMins < mins(openT);
+    const next = opensToday ? openT : hoursFor(days[(kc.getDay() + 1) % 7])[1];
+    pill.classList.add('closed');
+    pill.innerHTML = `<span class="status-dot"></span><span><b>Closed</b> · opens ${short(next)}${opensToday ? '' : ' tomorrow'}</span>`;
+  }
 
   // ─── Catalog ───
   const PAGE = 24;
@@ -69,6 +88,7 @@
       for (const p of products) p.haystack = `${p.name} ${p.sku} ${p.sub} ${deptNames.get(p.dept) || ''}`.toLowerCase();
       departments = (data.departments || []).filter(d => products.some(p => p.dept === d.id));
       $('demoNote').classList.toggle('show', !!data.demo);
+      if (products.length >= 100) $('statItems').textContent = `${(Math.floor(products.length / 100) * 100).toLocaleString()}+`;
       pruneCart();
       render();
     } catch (err) {

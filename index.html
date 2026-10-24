@@ -192,19 +192,32 @@
     .ns-vape span:nth-child(1) { width: 14px; }
     .ns-vape span:nth-child(2) { width: 30%; }
     .ns-vape span:nth-child(3) { flex: 1; }
-    .hero-desc { margin-top: 36px; font-size: 1.08rem; line-height: 1.75; color: var(--muted); max-width: 520px; }
-    .hero-desc strong { color: var(--text); }
-    .hero-buttons { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; }
-    .hero-logo-wrap { position: relative; display: flex; justify-content: center; }
-    .hero-logo { width: min(460px, 90%); filter: drop-shadow(0 0 40px rgba(255,221,0,0.22)) drop-shadow(0 12px 0 rgba(0,0,0,0.35)); animation: bob 3s ease-in-out infinite alternate; }
-    .rating-badge {
-      position: absolute; top: 2%; right: 4%;
-      background: var(--yellow); color: var(--ink); border: 3px solid var(--ink);
-      border-radius: 18px; padding: 10px 16px; text-align: center; transform: rotate(6deg);
-      box-shadow: 0 5px 0 var(--ink); font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900;
+    .neon-sign .ns-mark { display: none; } /* the big candy beside the sign covers this on desktop */
+    .ns-line1, .ns-line2 { display: block; }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 10px; margin-bottom: 30px;
+      padding: 8px 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 500; color: var(--muted);
+      background: rgba(0,0,0,0.45); border: 1px solid var(--border); text-decoration: none;
     }
-    .rating-badge b { display: block; font-size: 1.8rem; line-height: 1; }
-    .rating-badge small { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; }
+    .status-pill b { color: var(--text); font-weight: 600; }
+    .status-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--dim); flex-shrink: 0; }
+    .status-pill.open .status-dot { background: #2bff6a; box-shadow: 0 0 0 4px rgba(43,255,106,0.18), 0 0 10px #2bff6a; }
+    .status-pill.closed .status-dot { background: var(--red); box-shadow: 0 0 0 4px rgba(245,16,28,0.2); }
+    .hero-desc { margin-top: 32px; font-size: 1.08rem; line-height: 1.75; color: var(--muted); max-width: 540px; }
+    .hero-desc strong { color: var(--text); }
+    .hero-buttons { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+    .hero-stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 12px; margin-top: 36px; }
+    .stat { padding: 12px 18px; border-radius: 16px; background: rgba(0,0,0,0.42); border: 1px solid var(--border); }
+    .stat b { display: block; font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900; font-size: 1.3rem; color: var(--yellow); line-height: 1.15; }
+    .stat span { font-size: 0.78rem; color: var(--muted); }
+    /* Candy mark inside a neon ring, so the shop name appears once (in the sign) */
+    .hero-art { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 1; width: min(480px, 100%); justify-self: center; }
+    .hero-art::before {
+      content: ''; position: absolute; top: 6%; left: 6%; right: 6%; bottom: 6%; border-radius: 50%;
+      border: 3px solid rgba(255,247,240,0.85);
+      box-shadow: 0 0 6px #fff, 0 0 18px var(--neon-pink), 0 0 50px rgba(255,38,168,0.6), inset 0 0 18px var(--neon-pink), inset 0 0 70px rgba(255,38,168,0.3);
+    }
+    .hero-candy { position: relative; width: 66%; filter: drop-shadow(0 0 30px rgba(255,221,0,0.25)) drop-shadow(0 14px 0 rgba(0,0,0,0.4)); animation: bob 3s ease-in-out infinite alternate; }
 
     /* ─── TICKER ─── */
     .ticker {
@@ -454,14 +467,17 @@
       .input, .search { font-size: 16px; } /* under 16px makes iPhones zoom in on tap */
       .panel { backdrop-filter: none; }
       .qty button { width: 40px; height: 40px; font-size: 1.2rem; }
-      #hero { grid-template-columns: 1fr; padding: 110px 16px 60px; text-align: center; }
-      .hero-logo-wrap { order: -1; }
-      .hero-logo { width: min(280px, 70vw); }
-      .rating-badge { right: 2%; top: 0; transform: rotate(6deg) scale(0.8); }
+      #hero { grid-template-columns: 1fr; min-height: 0; padding: 104px 16px 56px; text-align: center; }
+      .hero-art { display: none; }
       .neon-sign { padding: 34px 20px 26px; border-radius: 50px 70px 60px 70px; }
-      .neon-sign .ns-mark { width: 64px; top: -26px; left: -8px; }
+      .neon-sign .ns-mark { display: block; width: 64px; top: -26px; left: -8px; }
+      .status-pill { margin-bottom: 34px; }
       .hero-desc { margin-left: auto; margin-right: auto; }
       .hero-buttons { justify-content: center; }
+      .hero-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .stat { padding: 10px 6px; }
+      .stat b { font-size: 1.1rem; }
+      .stat span { font-size: 0.7rem; }
       .wrap { padding: 70px 16px; }
       .why-grid, .curb-grid, .hours-grid { grid-template-columns: 1fr; gap: 40px; }
       .row2 { grid-template-columns: 1fr; }
@@ -522,12 +538,13 @@
 <!-- HERO -->
 <section id="hero">
   <div>
-    <div class="neon-sign">
+    <a href="#hours" class="status-pill" id="openStatus"><span class="status-dot"></span><span>904 W 39th St · Kansas City</span></a>
+    <h1 class="neon-sign" aria-label="Candy Smoke Shop">
       <img class="ns-mark" src="assets/candy-mark.png" alt="" />
-      <div class="ns-line1 neon">CANDY SMOKE</div>
-      <div class="ns-line2 neon neon-orange flicker">SHOP</div>
-      <div class="ns-vape" aria-hidden="true"><span></span><span></span><span></span></div>
-    </div>
+      <span class="ns-line1 neon" aria-hidden="true">CANDY SMOKE</span>
+      <span class="ns-line2 neon neon-orange flicker" aria-hidden="true">SHOP</span>
+      <span class="ns-vape" aria-hidden="true"><span></span><span></span><span></span></span>
+    </h1>
     <p class="hero-desc">
       <strong>Kansas City's top shop on 39th Street.</strong> Glass, vapes, papers, hookah, concentrates and way more. Shop our live in-store inventory online and we'll bring it out to your car.
     </p>
@@ -535,10 +552,14 @@
       <a href="#shop" class="btn btn-red">Shop Now</a>
       <a href="#curbside" class="btn btn-neon">🚗 Curbside Pickup</a>
     </div>
+    <div class="hero-stats">
+      <div class="stat"><b>4.9★</b><span>800+ reviews</span></div>
+      <div class="stat"><b id="statItems">2,500+</b><span>Items in stock</span></div>
+      <div class="stat"><b>7 days</b><span>Open all week</span></div>
+    </div>
   </div>
-  <div class="hero-logo-wrap">
-    <img class="hero-logo" src="assets/logo.png" alt="Candy Smoke Shop logo" />
-    <div class="rating-badge"><b>4.9★</b><small>800+ Google Reviews</small></div>
+  <div class="hero-art" aria-hidden="true">
+    <img class="hero-candy" src="assets/candy-big.png" alt="" />
   </div>
 </section>
 
@@ -738,6 +759,6 @@
   </div>
 </aside>
 
-<script src="assets/app.js?v=2026-10-24b"></script>
+<script src="assets/app.js?v=2026-10-24c"></script>
 </body>
 </html>
