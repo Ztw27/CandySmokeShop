@@ -239,8 +239,21 @@
       color: var(--text); font: inherit; padding: 12px 20px; outline: none;
     }
     .search:focus { border-color: var(--neon-purple); box-shadow: 0 0 12px rgba(164,99,255,0.45); }
-    .depts { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-bottom: 22px; }
+    .dept-scroll { position: relative; margin-bottom: 22px; }
+    .depts { display: flex; gap: 12px; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x proximity; scrollbar-width: none; padding: 4px 0 8px; }
+    .depts::-webkit-scrollbar { display: none; }
+    .scroll-arrow {
+      position: absolute; top: 50%; z-index: 2; transform: translateY(-50%);
+      width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--yellow); color: var(--ink); border: 3px solid var(--ink); box-shadow: 0 3px 0 var(--ink);
+      font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900; font-size: 1.5rem; line-height: 1;
+    }
+    .scroll-arrow[hidden] { display: none; }
+    .scroll-arrow.prev { left: -12px; }
+    .scroll-arrow.next { right: -12px; }
     .dept {
+      flex: 0 0 170px; scroll-snap-align: start;
       display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left;
       padding: 14px 16px; border-radius: 16px; cursor: pointer; color: var(--text);
       background: var(--panel2); border: 3px solid var(--ink); box-shadow: 0 4px 0 var(--ink);
@@ -276,13 +289,13 @@
     .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
     .product {
       display: flex; flex-direction: column; overflow: hidden;
-      background: var(--panel2); border: 3px solid var(--ink); border-radius: 20px;
-      box-shadow: 0 6px 0 var(--ink); transition: transform 0.15s;
+      background: var(--panel2); border: 1px solid var(--border); border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35); transition: transform 0.15s;
     }
     .product-img {
       aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
       background: radial-gradient(circle at 50% 40%, rgba(255,255,255,0.08), transparent 70%), #1d1214;
-      border-bottom: 3px solid var(--ink); position: relative;
+      border-bottom: 1px solid var(--border); position: relative;
     }
     @supports not (aspect-ratio: 1) { .product-img::before { content: ''; padding-top: 100%; } }
     .product-img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; } /* a tall photo must not stretch the card */
@@ -452,9 +465,13 @@
       .wrap { padding: 70px 16px; }
       .why-grid, .curb-grid, .hours-grid { grid-template-columns: 1fr; gap: 40px; }
       .row2 { grid-template-columns: 1fr; }
-      .depts, .sub-chips { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-left: -16px; margin-right: -16px; padding: 0 16px 6px; }
-      .depts::-webkit-scrollbar, .sub-chips::-webkit-scrollbar { display: none; }
+      .sub-chips { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-left: -16px; margin-right: -16px; padding: 0 16px 6px; }
+      .sub-chips::-webkit-scrollbar { display: none; }
+      .depts { margin-left: -16px; margin-right: -16px; padding: 4px 16px 8px; scroll-padding: 0 16px; }
       .dept { flex: 0 0 132px; }
+      .scroll-arrow { width: 40px; height: 40px; font-size: 1.3rem; }
+      .scroll-arrow.prev { left: -6px; }
+      .scroll-arrow.next { right: -6px; }
       .chip { flex: 0 0 auto; white-space: nowrap; }
       .search { max-width: none; flex-basis: 100%; }
       .result-count { margin-left: 0; }
@@ -542,7 +559,11 @@
       <p class="body-text">This is our real in-store inventory, updated live. Add items to your cart, place a curbside order, and pay at pickup with a valid 21+ ID. Don't see it? Ask — we'll stock it for you.</p>
     </div>
     <div class="demo-note" id="demoNote">Preview mode: showing sample products until the Lightspeed connection is set up.</div>
-    <div class="depts" id="depts" role="tablist" aria-label="Departments"></div>
+    <div class="dept-scroll">
+      <button class="scroll-arrow prev" id="deptPrev" aria-label="Scroll departments left" hidden>‹</button>
+      <div class="depts" id="depts" role="tablist" aria-label="Departments"></div>
+      <button class="scroll-arrow next" id="deptNext" aria-label="Scroll departments right" hidden>›</button>
+    </div>
     <div class="shop-bar">
       <input class="search" id="search" type="search" enterkeyhint="search" autocomplete="off" placeholder="Search all products, brands, flavors…" aria-label="Search products" />
       <select class="input sort" id="sort" aria-label="Sort products">
@@ -717,6 +738,6 @@
   </div>
 </aside>
 
-<script src="assets/app.js?v=2026-10-24a"></script>
+<script src="assets/app.js?v=2026-10-24b"></script>
 </body>
 </html>

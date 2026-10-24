@@ -88,7 +88,20 @@
         <span class="dept-name">${esc(d.name)}</span>
         <span class="dept-count">${d.count.toLocaleString()} items</span>
       </button>`).join('');
+    updateDeptArrows();
   }
+
+  // Arrow buttons show only when there's more of the department row to scroll to.
+  const deptRow = $('depts');
+  function updateDeptArrows() {
+    $('deptPrev').hidden = deptRow.scrollLeft < 4;
+    $('deptNext').hidden = deptRow.scrollLeft + deptRow.clientWidth >= deptRow.scrollWidth - 4;
+  }
+  const scrollDepts = dir => deptRow.scrollBy({ left: dir * deptRow.clientWidth * 0.8, behavior: 'smooth' });
+  $('deptPrev').addEventListener('click', () => scrollDepts(-1));
+  $('deptNext').addEventListener('click', () => scrollDepts(1));
+  deptRow.addEventListener('scroll', updateDeptArrows, { passive: true });
+  addEventListener('resize', updateDeptArrows);
 
   function renderChips() {
     const chips = $('chips');
