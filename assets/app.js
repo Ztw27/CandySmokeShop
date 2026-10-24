@@ -43,15 +43,15 @@
     ['Thursday', '10:00 AM', '10:00 PM'], ['Friday', '10:00 AM', '11:00 PM', true], ['Saturday', '10:00 AM', '11:00 PM', true],
     ['Sunday', '11:00 AM', '9:00 PM'],
   ];
+  const short = t => t.replace(':00', '');
   $('hoursList').innerHTML = hours.map(([d, o, c, late]) => `
     <div class="hours-row${d === today ? ' today' : ''}">
-      <span class="hours-day">${d}</span><span class="hours-time">${o} — ${c}</span>
+      <span class="hours-day">${d}</span><span class="hours-time">${short(o)} – ${short(c)}</span>
       ${late ? '<span class="pill pill-late">Late</span>' : ''}${d === today ? '<span class="pill pill-today">Today</span>' : ''}
     </div>`).join('');
 
   // "Open now" pill in the hero
   const mins = t => { const [, h, m, ap] = t.match(/(\d+):(\d+) (AM|PM)/); return (h % 12 + (ap === 'PM' ? 12 : 0)) * 60 + +m; };
-  const short = t => t.replace(':00', '');
   const hoursFor = d => hours.find(h => h[0] === d);
   const [, openT, closeT] = hoursFor(today);
   const nowMins = kc.getHours() * 60 + kc.getMinutes();

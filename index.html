@@ -28,8 +28,8 @@
       --panel:   rgba(18,10,12,0.86);
       --panel2:  rgba(28,16,18,0.92);
       --text:    #fbf4ee;
-      --muted:   rgba(251,244,238,0.76);
-      --dim:     rgba(251,244,238,0.22);
+      --muted:   rgba(251,244,238,0.88);
+      --dim:     rgba(251,244,238,0.55);
       --border:  rgba(251,244,238,0.12);
     }
 
@@ -47,10 +47,11 @@
     body::before, .age-gate {
       background-color: var(--mortar);
       background-image:
+        linear-gradient(rgba(12,5,4,0.5), rgba(12,5,4,0.5)), /* tones the brick down so text stands out */
         radial-gradient(ellipse 70% 50% at 50% 0%, rgba(164,99,255,0.22), transparent 70%),
         radial-gradient(ellipse 120% 90% at 50% 50%, transparent 40%, rgba(0,0,0,0.75) 100%),
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='48'%3E%3Cg fill='%23421d16'%3E%3Crect x='1' y='1' width='70' height='22' rx='2'/%3E%3Crect x='-35' y='25' width='70' height='22' rx='2'/%3E%3Crect x='37' y='25' width='70' height='22' rx='2'/%3E%3C/g%3E%3Cg fill='%232c120d'%3E%3Crect x='1' y='16' width='70' height='7' rx='2'/%3E%3Crect x='-35' y='40' width='70' height='7' rx='2'/%3E%3Crect x='37' y='40' width='70' height='7' rx='2'/%3E%3C/g%3E%3C/svg%3E");
-      background-size: 100% 100%, 100% 100%, 72px 48px;
+      background-size: 100% 100%, 100% 100%, 100% 100%, 72px 48px;
     }
     body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; }
     img { max-width: 100%; display: block; }
@@ -88,12 +89,20 @@
     .c-red { color: var(--red); } .c-yellow { color: var(--yellow); } .c-green { color: var(--green); }
 
     .kicker {
-      font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700;
-      font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600;
+      font-size: 0.8rem; letter-spacing: 0.22em; text-transform: uppercase;
       margin-bottom: 14px; display: block;
     }
-    .big-title { font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.02; margin-bottom: 22px; }
-    .body-text { font-size: 1rem; line-height: 1.8; color: var(--muted); }
+    .kicker.neon { color: #d6bfff; text-shadow: 0 0 12px rgba(164,99,255,0.6); }
+    .big-title, .co-title.clean {
+      font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 800;
+      color: var(--text); letter-spacing: -0.02em; line-height: 1.08;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.7);
+    }
+    .big-title { font-size: clamp(2.1rem, 4.4vw, 3.5rem); margin-bottom: 20px; }
+    .accent { color: var(--yellow); }
+    .body-text { font-size: 1.02rem; line-height: 1.75; color: var(--muted); }
+    .body-text, .hero-desc, .note, .step-desc, .loc-val { text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
 
     .stripe { /* the red/yellow/green candy swirl as a divider */
       height: 8px; width: 96px; border-radius: 8px; margin-bottom: 26px;
@@ -154,7 +163,7 @@
     .nav-logo span { font-size: 1.05rem; white-space: nowrap; }
     .nav-links { display: flex; gap: 28px; list-style: none; }
     .nav-links a {
-      font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600;
       font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--muted); text-decoration: none; transition: color 0.2s, text-shadow 0.2s;
     }
@@ -287,7 +296,7 @@
     .chips { display: flex; gap: 8px; flex-wrap: wrap; }
     .chip small { opacity: 0.6; margin-left: 4px; font-weight: 600; }
     .chip {
-      font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 0.82rem;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600; font-size: 0.82rem;
       padding: 9px 16px; border-radius: 999px; cursor: pointer;
       background: rgba(0,0,0,0.4); color: var(--muted); border: 2px solid var(--border);
       transition: all 0.15s;
@@ -316,7 +325,7 @@
     .low { position: absolute; top: 10px; left: 10px; background: var(--red); color: #fff; border: 2px solid var(--ink);
       font-size: 0.66rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; }
     .product-body { padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-    .product-cat { font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--neon-purple); }
+    .product-cat { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--neon-purple); }
     .product-name { font-weight: 600; line-height: 1.35; flex: 1; overflow-wrap: anywhere; }
     .product-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
     .price { font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900; font-size: 1.2rem; color: var(--yellow); }
@@ -341,8 +350,8 @@
     .stars { color: var(--yellow); font-size: 1.4rem; letter-spacing: 4px; margin: 10px 0 4px; }
     .rating-count { color: var(--muted); font-size: 0.85rem; margin-bottom: 26px; }
     .review { border-left: 4px solid var(--neon-pink); padding: 12px 18px; margin-bottom: 14px; background: rgba(0,0,0,0.3); border-radius: 0 14px 14px 0; }
-    .review p { font-style: italic; color: var(--muted); line-height: 1.6; font-size: 0.92rem; }
-    .review span { display: block; margin-top: 8px; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+    .review p { font-style: italic; color: var(--text); line-height: 1.6; font-size: 0.92rem; }
+    .review span { display: block; margin-top: 8px; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
 
     /* ─── CURBSIDE / CHECKOUT ─── */
     .curb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
@@ -360,7 +369,7 @@
     .co-summary .total { color: var(--text); font-weight: 700; border-top: 1px solid var(--border); margin-top: 6px; padding-top: 8px; }
     .co-summary .empty { color: var(--muted); }
     .field { margin-bottom: 16px; }
-    .field label { display: block; font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+    .field label { display: block; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
     .input {
       width: 100%; background: rgba(0,0,0,0.45); color: var(--text);
       border: 2px solid var(--border); border-radius: 12px;
@@ -387,7 +396,7 @@
     .hours-list { padding: 10px 24px; }
     .hours-row { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
     .hours-row:last-child { border-bottom: none; }
-    .hours-day { width: 120px; flex-shrink: 0; font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.82rem; color: var(--muted); }
+    .hours-day { width: 120px; flex-shrink: 0; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.82rem; color: var(--muted); }
     .hours-time { flex: 1; font-weight: 500; }
     .pill { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 2px solid var(--ink); }
     .pill-late { background: var(--neon-purple); color: var(--ink); }
@@ -400,7 +409,7 @@
     .loc { display: grid; gap: 16px; margin-top: 10px; }
     .loc-item { display: flex; gap: 14px; align-items: center; }
     .loc-icon { width: 46px; height: 46px; flex-shrink: 0; border-radius: 14px; background: rgba(0,0,0,0.4); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-    .loc-label { font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--neon-purple); }
+    .loc-label { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--neon-purple); }
     .loc-val a { text-decoration: none; }
     .loc-val a:hover { color: var(--yellow); }
     .map-box { margin-top: 24px; height: 260px; border-radius: 20px; overflow: hidden; border: 3px solid var(--ink); box-shadow: 0 6px 0 var(--ink); }
@@ -481,6 +490,11 @@
       .wrap { padding: 70px 16px; }
       .why-grid, .curb-grid, .hours-grid { grid-template-columns: 1fr; gap: 40px; }
       .row2 { grid-template-columns: 1fr; }
+      .hours-list { padding: 6px 18px; }
+      .hours-row { gap: 8px; }
+      .hours-day { width: 104px; letter-spacing: 0.06em; }
+      .hours-time { white-space: nowrap; }
+      .pill { padding: 3px 8px; letter-spacing: 0.08em; }
       .sub-chips { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-left: -16px; margin-right: -16px; padding: 0 16px 6px; }
       .sub-chips::-webkit-scrollbar { display: none; }
       .depts { margin-left: -16px; margin-right: -16px; padding: 4px 16px 8px; scroll-padding: 0 16px; }
@@ -574,7 +588,7 @@
     <div class="shop-head reveal">
       <div>
         <span class="kicker neon">In Stock Now</span>
-        <h2 class="big-title sticker"><span class="c-yellow">Shop</span> <span class="c-green">The</span> <span class="c-red">Shelf</span></h2>
+        <h2 class="big-title">Shop the <span class="accent">Shelf</span></h2>
         <div class="stripe"></div>
       </div>
       <p class="body-text">This is our real in-store inventory, updated live. Add items to your cart, place a curbside order, and pay at pickup with a valid 21+ ID. Don't see it? Ask — we'll stock it for you.</p>
@@ -606,7 +620,7 @@
   <div class="wrap why-grid">
     <div class="reveal">
       <span class="kicker neon">Why Candy</span>
-      <h2 class="big-title sticker"><span class="c-red">KC's</span> <span class="c-yellow">Top</span> <span class="c-green">Shop</span></h2>
+      <h2 class="big-title">KC's Top <span class="accent">Shop</span></h2>
       <div class="stripe"></div>
       <div class="why-list">
         <div class="why-item panel"><div class="why-num" style="background:var(--red)">1</div><div><div class="why-title">Unmatched Selection</div><p class="why-desc">One of the largest inventories on 39th Street. If we don't have it today, we'll get it in for you.</p></div></div>
@@ -631,7 +645,7 @@
   <div class="wrap curb-grid">
     <div class="reveal">
       <span class="kicker neon">Order Ahead</span>
-      <h2 class="big-title sticker"><span class="c-yellow">Curbside</span> <span class="c-green">Pickup</span></h2>
+      <h2 class="big-title">Curbside <span class="accent">Pickup</span></h2>
       <div class="stripe"></div>
       <p class="body-text">Don't want to leave the car? Build your cart, tell us when you'll be here, and we'll run it out to your window.</p>
       <div class="steps">
@@ -645,7 +659,7 @@
     <div class="reveal">
       <div class="checkout panel">
         <div id="coForm">
-          <h3 class="co-title sticker"><span class="c-red">Place</span> <span class="c-yellow">Your</span> <span class="c-green">Order</span></h3>
+          <h3 class="co-title clean">Place Your <span class="accent">Order</span></h3>
           <p class="co-sub">Questions? Call <a href="tel:8163268122"><b>(816) 326-8122</b></a>.</p>
           <div class="co-summary" id="coSummary"></div>
           <form id="orderForm" novalidate>
@@ -688,7 +702,7 @@
   <div class="wrap hours-grid">
     <div class="reveal">
       <span class="kicker neon">Hours</span>
-      <h2 class="big-title sticker"><span class="c-green">When</span> <span class="c-yellow">We're</span> <span class="c-red">Open</span></h2>
+      <h2 class="big-title">When We're <span class="accent">Open</span></h2>
       <div class="stripe"></div>
       <div class="hours-list panel" id="hoursList"></div>
       <div class="notes">
@@ -699,7 +713,7 @@
     </div>
     <div class="reveal">
       <span class="kicker neon">Find Us</span>
-      <h2 class="big-title sticker"><span class="c-yellow">904 W</span> <span class="c-green">39th St</span></h2>
+      <h2 class="big-title">904 W <span class="accent">39th St</span></h2>
       <div class="stripe"></div>
       <div class="loc">
         <div class="loc-item"><div class="loc-icon">📍</div><div><div class="loc-label">Address</div><div class="loc-val">904 W 39th Street, Kansas City, MO 64111</div></div></div>
@@ -748,7 +762,7 @@
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" aria-label="Cart" aria-hidden="true">
   <div class="drawer-head">
-    <h3 class="sticker c-yellow">Your Cart</h3>
+    <h3 class="co-title clean">Your <span class="accent">Cart</span></h3>
     <button class="x" id="cartClose" aria-label="Close cart">×</button>
   </div>
   <div class="drawer-body" id="cartLines"></div>
@@ -759,6 +773,6 @@
   </div>
 </aside>
 
-<script src="assets/app.js?v=2026-10-24c"></script>
+<script src="assets/app.js?v=2026-10-24d"></script>
 </body>
 </html>
