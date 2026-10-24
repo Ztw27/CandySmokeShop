@@ -39,13 +39,18 @@ export async function onRequestPost({ request, env }) {
   }
 
   const connected = await isConnected(env);
+  // A request with no cart items only reaches staff through the order-alert webhook.
+  if (connected && !lines.length && !env.ORDER_NOTIFY_WEBHOOK) {
+    return json({ error: "Special requests can't be sent online yet. Please call or text (816) 326-8122." }, 400);
+  }
   const ref = (connected ? 'WEB-' : 'DEMO-') + Date.now().toString(36).toUpperCase().slice(-6);
   try {
     let saleId = null;
     if (connected && lines.length) {
       saleId = (await createPickupSale(env, { lines, customer, ref })).id;
     }
-    const catalog = connected ? await getCatalog(env) : demoCatalog;
+    // The sale already exists at this point, so a failed name lookup must not report the order as failed.
+    const catalog = connected ? await getCatalog(env).catch(() => []) : demoCatalog;
     const names = new Map(catalog.map(p => [p.id, p.name]));
     const items = lines.map(l => `${l.qty} × ${names.get(l.id) || 'item ' + l.id}`);
 

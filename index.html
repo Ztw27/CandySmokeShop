@@ -34,22 +34,28 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
       color: var(--text);
       font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       overflow-x: hidden;
       background-color: var(--mortar);
-      /* Brick wall, like the neon sign backdrop */
+      -webkit-text-size-adjust: 100%;
+    }
+    /* Brick wall, like the neon sign backdrop. Painted on a fixed layer because
+       iOS ignores background-attachment: fixed and it is slow on phones. */
+    body::before, .age-gate {
+      background-color: var(--mortar);
       background-image:
         radial-gradient(ellipse 70% 50% at 50% 0%, rgba(185,140,255,0.16), transparent 70%),
         radial-gradient(ellipse 120% 90% at 50% 50%, transparent 40%, rgba(0,0,0,0.75) 100%),
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='48'%3E%3Cg fill='%232e1a16'%3E%3Crect x='1' y='1' width='70' height='22' rx='2'/%3E%3Crect x='-35' y='25' width='70' height='22' rx='2'/%3E%3Crect x='37' y='25' width='70' height='22' rx='2'/%3E%3C/g%3E%3Cg fill='%23241310'%3E%3Crect x='1' y='16' width='70' height='7' rx='2'/%3E%3Crect x='-35' y='40' width='70' height='7' rx='2'/%3E%3Crect x='37' y='40' width='70' height='7' rx='2'/%3E%3C/g%3E%3C/svg%3E");
       background-size: 100% 100%, 100% 100%, 72px 48px;
-      background-attachment: fixed;
     }
+    body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; }
     img { max-width: 100%; display: block; }
     button, input, select, textarea { font-family: inherit; }
+    button, a, select, label { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
     a { color: inherit; }
     :focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
 
@@ -105,7 +111,6 @@
       box-shadow: 0 5px 0 var(--ink);
       transition: transform 0.12s, box-shadow 0.12s, filter 0.2s;
     }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--ink); filter: brightness(1.06); }
     .btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--ink); }
     .btn-red { background: var(--red); color: #fff; }
     .btn-yellow { background: var(--yellow); color: var(--ink); }
@@ -114,13 +119,17 @@
       background: rgba(0,0,0,0.35); color: var(--neon-white);
       border: 2px solid var(--neon-purple); box-shadow: 0 0 12px rgba(185,140,255,0.55), inset 0 0 10px rgba(185,140,255,0.35);
     }
-    .btn-neon:hover { box-shadow: 0 0 22px rgba(185,140,255,0.8), inset 0 0 14px rgba(185,140,255,0.5); }
+    @media (hover: hover) {
+      .btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--ink); filter: brightness(1.06); }
+      .btn-neon:hover { box-shadow: 0 0 22px rgba(185,140,255,0.8), inset 0 0 14px rgba(185,140,255,0.5); }
+      .dept:hover { transform: translateY(-2px); }
+      .product:hover { transform: translateY(-3px); }
+    }
     .btn[disabled] { opacity: 0.5; cursor: not-allowed; transform: none; }
 
     /* ─── AGE GATE ─── */
     .age-gate {
-      position: fixed; inset: 0; z-index: 9000;
-      background: inherit; background-color: var(--mortar);
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9000;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       text-align: center; padding: 24px;
       transition: opacity 0.5s, visibility 0.5s;
@@ -159,10 +168,11 @@
       font-size: 0.72rem; display: none; align-items: center; justify-content: center;
     }
     .cart-count.show { display: inline-flex; }
+    .menu-btn { display: none; }
 
     /* ─── HERO ─── */
     #hero {
-      min-height: 100vh; position: relative;
+      min-height: 100vh; min-height: 100svh; position: relative;
       display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: 40px;
       padding: 130px 40px 80px; max-width: 1400px; margin: 0 auto;
     }
@@ -236,7 +246,6 @@
       background: var(--panel2); border: 3px solid var(--ink); box-shadow: 0 4px 0 var(--ink);
       transition: transform 0.12s, background 0.15s;
     }
-    .dept:hover { transform: translateY(-2px); }
     .dept-icon { font-size: 1.5rem; line-height: 1; }
     .dept-name { font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; font-size: 0.9rem; line-height: 1.2; }
     .dept-count { font-size: 0.72rem; color: var(--muted); }
@@ -270,19 +279,19 @@
       background: var(--panel2); border: 3px solid var(--ink); border-radius: 20px;
       box-shadow: 0 6px 0 var(--ink); transition: transform 0.15s;
     }
-    .product:hover { transform: translateY(-3px); }
     .product-img {
       aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
       background: radial-gradient(circle at 50% 40%, rgba(255,255,255,0.08), transparent 70%), #1d1214;
       border-bottom: 3px solid var(--ink); position: relative;
     }
+    @supports not (aspect-ratio: 1) { .product-img::before { content: ''; padding-top: 100%; } }
     .product-img img { width: 100%; height: 100%; object-fit: cover; }
     .product-img .ph { width: 46%; height: auto; object-fit: contain; opacity: 0.35; filter: grayscale(0.3); }
     .low { position: absolute; top: 10px; left: 10px; background: var(--red); color: #fff; border: 2px solid var(--ink);
       font-size: 0.66rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; }
     .product-body { padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
     .product-cat { font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--neon-purple); }
-    .product-name { font-weight: 600; line-height: 1.35; flex: 1; }
+    .product-name { font-weight: 600; line-height: 1.35; flex: 1; overflow-wrap: anywhere; }
     .product-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
     .price { font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900; font-size: 1.2rem; color: var(--yellow); }
     .add-btn { padding: 9px 16px; font-size: 0.72rem; box-shadow: 0 3px 0 var(--ink); border-width: 2px; }
@@ -317,7 +326,7 @@
       border: 2px solid var(--neon-purple); color: var(--neon-white); font-weight: 700; box-shadow: 0 0 10px rgba(185,140,255,0.5); }
     .step-title { font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; margin-bottom: 3px; }
     .step-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
-    .checkout { padding: 34px 30px; }
+    .checkout { padding: 34px 30px; scroll-margin-top: 80px; }
     .co-title { font-size: 1.6rem; margin-bottom: 6px; }
     .co-sub { color: var(--muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 22px; }
     .co-summary { background: rgba(0,0,0,0.35); border-radius: 14px; padding: 14px 16px; margin-bottom: 20px; font-size: 0.9rem; }
@@ -379,18 +388,19 @@
     .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
     /* ─── CART DRAWER ─── */
-    .scrim { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 400; opacity: 0; visibility: hidden; transition: 0.25s; }
+    .scrim { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 400; opacity: 0; visibility: hidden; transition: 0.25s; }
     .scrim.open { opacity: 1; visibility: visible; }
     .drawer {
       position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100%); z-index: 401;
       background: #160d0f; border-left: 3px solid var(--ink); box-shadow: -10px 0 40px rgba(0,0,0,0.5);
-      display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s ease;
+      display: flex; flex-direction: column; transform: translateX(100%); visibility: hidden; transition: transform 0.3s ease, visibility 0.3s;
     }
-    .drawer.open { transform: none; }
+    .drawer.open { transform: none; visibility: visible; }
+    body.locked { overflow: hidden; }
     .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 20px 22px; border-bottom: 1px solid var(--border); }
     .drawer-head h3 { font-size: 1.3rem; }
     .x { background: none; border: none; color: var(--text); font-size: 1.6rem; cursor: pointer; line-height: 1; padding: 4px 8px; }
-    .drawer-body { flex: 1; overflow-y: auto; padding: 10px 22px; }
+    .drawer-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 10px 22px; }
     .line { display: flex; gap: 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
     .line-name { flex: 1; font-size: 0.92rem; line-height: 1.4; }
     .line-name small { display: block; color: var(--muted); margin-top: 2px; }
@@ -416,8 +426,21 @@
     @media (max-width: 960px) {
       nav, nav.scrolled { padding: 10px 16px; }
       .nav-links { display: none; }
+      nav.menu-open { background: rgba(14,8,9,0.98); }
+      nav.menu-open .nav-links {
+        display: flex; flex-direction: column; gap: 0;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(14,8,9,0.98); border-bottom: 3px solid var(--ink); box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+      }
+      nav.menu-open .nav-links a { display: block; padding: 16px 20px; font-size: 1rem; color: var(--text); border-top: 1px solid var(--border); }
       .nav-logo span { display: none; }
-      .nav-call { display: none; }
+      .nav-right { gap: 8px; }
+      .menu-btn { display: inline-flex; min-width: 46px; font-size: 1.15rem; padding: 8px 12px; }
+      .cart-btn { padding: 10px 14px; }
+      .nav-call .call-text { display: none; }
+      .input, .search { font-size: 16px; } /* under 16px makes iPhones zoom in on tap */
+      .panel { backdrop-filter: none; }
+      .qty button { width: 40px; height: 40px; font-size: 1.2rem; }
       #hero { grid-template-columns: 1fr; padding: 110px 16px 60px; text-align: center; }
       .hero-logo-wrap { order: -1; }
       .hero-logo { width: min(280px, 70vw); }
@@ -466,15 +489,16 @@
     <img src="assets/candy-mark.png" alt="" />
     <span class="sticker"><span class="c-red">Candy</span> <span class="c-yellow">Smoke</span> <span class="c-green">Shop</span></span>
   </a>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="#shop">Shop</a></li>
     <li><a href="#why">Why Us</a></li>
     <li><a href="#curbside">Curbside</a></li>
     <li><a href="#hours">Hours</a></li>
   </ul>
   <div class="nav-right">
-    <a href="tel:8163268122" class="btn btn-neon cart-btn nav-call">Call</a>
+    <a href="tel:8163268122" class="btn btn-neon cart-btn nav-call" aria-label="Call the shop">📞<span class="call-text"> Call</span></a>
     <button class="btn btn-yellow cart-btn" id="cartOpen" aria-label="Open cart">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+    <button class="btn btn-neon cart-btn menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">☰</button>
   </div>
 </nav>
 
@@ -520,7 +544,7 @@
     <div class="demo-note" id="demoNote">Preview mode: showing sample products until the Lightspeed connection is set up.</div>
     <div class="depts" id="depts" role="tablist" aria-label="Departments"></div>
     <div class="shop-bar">
-      <input class="search" id="search" type="search" placeholder="Search all products, brands, flavors…" aria-label="Search products" />
+      <input class="search" id="search" type="search" enterkeyhint="search" autocomplete="off" placeholder="Search all products, brands, flavors…" aria-label="Search products" />
       <select class="input sort" id="sort" aria-label="Sort products">
         <option value="featured">Sort: Featured</option>
         <option value="price-asc">Price: Low to High</option>
@@ -584,11 +608,11 @@
           <div class="co-summary" id="coSummary"></div>
           <form id="orderForm" novalidate>
             <div class="row2">
-              <div class="field"><label for="fName">Your Name</label><input class="input" id="fName" autocomplete="given-name" placeholder="e.g. Jordan" required /></div>
+              <div class="field"><label for="fName">Your Name</label><input class="input" id="fName" autocomplete="given-name" autocapitalize="words" placeholder="e.g. Jordan" required /></div>
               <div class="field"><label for="fPhone">Phone / Text</label><input class="input" id="fPhone" type="tel" autocomplete="tel" placeholder="(816) 555-0100" required /></div>
             </div>
             <div class="row2">
-              <div class="field"><label for="fVehicle">Your Vehicle</label><input class="input" id="fVehicle" placeholder="e.g. Black Jeep" /></div>
+              <div class="field"><label for="fVehicle">Your Vehicle</label><input class="input" id="fVehicle" autocapitalize="words" placeholder="e.g. Black Jeep" /></div>
               <div class="field"><label for="fEta">Arrival</label>
                 <select class="input" id="fEta" required>
                   <option value="">Select a window…</option>
@@ -693,6 +717,6 @@
   </div>
 </aside>
 
-<script src="assets/app.js?v=2026-10-23b"></script>
+<script src="assets/app.js?v=2026-10-24a"></script>
 </body>
 </html>

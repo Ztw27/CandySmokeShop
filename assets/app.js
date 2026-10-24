@@ -3,8 +3,8 @@
   const money = n => '$' + Number(n).toFixed(2);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const store = {
-    get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
-    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+    get(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
   };
 
   // ─── Age gate (remembered for 30 days) ───
@@ -16,10 +16,18 @@
   // ─── Nav + reveal ───
   const nav = $('mainNav');
   addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), { passive: true });
-  const obs = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); }
-  }), { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  const menuBtn = $('menuBtn');
+  const openMenu = open => { nav.classList.toggle('menu-open', open); menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.textContent = open ? '×' : '☰'; };
+  menuBtn.addEventListener('click', () => openMenu(!nav.classList.contains('menu-open')));
+  $('navLinks').addEventListener('click', e => { if (e.target.closest('a')) openMenu(false); });
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); }
+    }), { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('show'));
+  }
 
   // ─── Ticker ───
   const tick = ['Glass Pipes', 'Vapes', 'Papers & Wraps', 'Hookahs', 'Concentrates', 'Kratom', '904 W 39th St KC', '4.9★ Rated', 'Curbside Pickup', 'Special Orders'];
@@ -155,6 +163,7 @@
   });
   $('sort').addEventListener('change', e => { sort = e.target.value; shown = PAGE; renderGrid(); });
   let t;
+  $('search').addEventListener('keydown', e => { if (e.key === 'Enter') e.target.blur(); }); // hides the phone keyboard
   $('search').addEventListener('input', e => {
     clearTimeout(t);
     t = setTimeout(() => { query = e.target.value.trim(); shown = PAGE; renderGrid(); }, 150);
@@ -211,12 +220,14 @@
   const openCart = open => {
     drawer.classList.toggle('open', open); scrim.classList.toggle('open', open);
     drawer.setAttribute('aria-hidden', String(!open));
+    document.body.classList.toggle('locked', open);
+    if (open) openMenu(false);
   };
   $('cartOpen').addEventListener('click', () => openCart(true));
   $('cartClose').addEventListener('click', () => openCart(false));
   scrim.addEventListener('click', () => openCart(false));
   addEventListener('keydown', e => { if (e.key === 'Escape') openCart(false); });
-  $('toCheckout').addEventListener('click', () => { openCart(false); $('curbside').scrollIntoView(); setTimeout(() => $('fName').focus(), 400); });
+  $('toCheckout').addEventListener('click', () => { openCart(false); document.querySelector('.checkout').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => $('fName').focus(), 400); });
 
   // ─── Checkout ───
   $('orderForm').addEventListener('submit', async e => {
