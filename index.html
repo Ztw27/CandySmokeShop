@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Candy Smoke Shop — 904 W 39th St, Kansas City</title>
-  <meta name="description" content="Candy Smoke Shop — glass, vapes, papers, hookah, and more at 904 W 39th St, Kansas City. Order online for curbside pickup." />
+  <title>Candy Smoke Shop | Kansas City Smoke Shop on 39th Street</title>
+  <meta name="description" content="Kansas City's top-rated smoke shop. Browse 2,700+ in-stock glass, vapes, papers, and hookah online, then pick up curbside at 904 W 39th St." />
   <meta name="theme-color" content="#120d14" />
   <meta name="color-scheme" content="dark" />
   <meta property="og:type" content="website" />
@@ -52,7 +52,7 @@
       --surface2:#221a26;
       --tile:    #f3eef3; /* product photo tile; white photo backgrounds blend into it */
       --text:    #f8f2f5;
-      --muted:   rgba(248,242,245,0.74);
+      --muted:   rgba(248,242,245,0.78);
       --dim:     rgba(248,242,245,0.5);
       --border:  rgba(248,242,245,0.1);
       --border2: rgba(248,242,245,0.24);
@@ -64,7 +64,7 @@
     html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
       color: var(--text); background: var(--bg);
-      font-family: var(--sans); font-size: 1rem; line-height: 1.6;
+      font-family: var(--sans); font-size: 1.0625rem; line-height: 1.6;
       overflow-x: hidden; -webkit-text-size-adjust: 100%;
       -webkit-font-smoothing: antialiased;
     }
@@ -94,6 +94,7 @@
       font-family: var(--serif); font-weight: 500; font-size: clamp(2.4rem, 4.6vw, 3.9rem);
       line-height: 1.04; letter-spacing: -0.01em; color: var(--text);
     }
+    .title, .title-sm, .hero-lede, .cta-title, .ag-title { text-wrap: balance; }
     .title-sm { font-family: var(--serif); font-weight: 500; font-size: 1.75rem; line-height: 1.15; }
     /* The candy swirl as one slim signature rule under each heading */
     .stripe { height: 3px; width: 56px; margin: 22px 0 26px; border-radius: 3px;
@@ -109,7 +110,8 @@
       transition: background-color 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s, transform 0.12s;
     }
     .btn:active { transform: scale(0.97); }
-    .btn-red { background: var(--red); color: #fff; }
+    .btn-red, .btn-yellow, .btn-green { font-weight: 600; }
+    .btn-red { background: var(--red); color: #fff; box-shadow: 0 8px 24px rgba(245,16,28,0.28); }
     .btn-yellow { background: var(--yellow); color: var(--ink); }
     .btn-green { background: var(--green); color: #fff; }
     .btn-line { background: transparent; color: var(--text); border-color: var(--border2); }
@@ -200,8 +202,8 @@
     .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dim); flex-shrink: 0; }
     .status-pill.open .status-dot { background: #2bff6a; box-shadow: 0 0 0 4px rgba(43,255,106,0.16); }
     .status-pill.closed .status-dot { background: var(--red); box-shadow: 0 0 0 4px rgba(245,16,28,0.18); }
-    .hero-desc { margin-top: 36px; font-size: 1.12rem; line-height: 1.75; color: var(--muted); max-width: 52ch; }
-    .hero-desc strong { color: var(--text); font-weight: 500; }
+    .hero-lede { margin-top: 38px; font-family: var(--serif); font-weight: 500; font-size: clamp(1.7rem, 2.8vw, 2.25rem); line-height: 1.15; color: var(--text); max-width: 20ch; }
+    .hero-desc { margin-top: 14px; font-size: 1.12rem; line-height: 1.7; color: var(--muted); max-width: 48ch; }
     /* Search is the main job for a 2,700-item shop, so it leads the hero */
     .hero-search {
       display: flex; align-items: center; gap: 8px; margin-top: 30px; max-width: 540px;
@@ -218,7 +220,7 @@
     .facts { display: flex; flex-wrap: wrap; list-style: none; margin-top: 40px; color: var(--muted); font-size: 0.95rem; }
     .facts li { padding: 0 22px; border-left: 1px solid var(--border2); line-height: 1.3; }
     .facts li:first-child { padding-left: 0; border-left: 0; }
-    .facts b { display: block; font-family: var(--serif); font-weight: 500; font-size: 1.7rem; color: var(--text); margin-bottom: 4px; }
+    .facts b { display: block; font-family: var(--serif); font-weight: 600; font-size: 1.8rem; color: var(--text); margin-bottom: 4px; }
     .facts .star { color: var(--yellow); font-size: 1.2rem; }
     /* Candy mark inside a neon ring */
     .hero-art { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 1; width: min(460px, 100%); justify-self: center; }
@@ -307,7 +309,7 @@
       font-size: 0.74rem; font-weight: 500; padding: 4px 10px; border-radius: 999px; }
     .product-body { padding: 16px 4px 0; display: flex; flex-direction: column; gap: 4px; flex: 1; }
     .product-cat { font-size: 0.82rem; color: #c7a8ff; }
-    .product-name { font-size: 1rem; font-weight: 500; line-height: 1.4; flex: 1; overflow-wrap: anywhere; }
+    .product-name { font-size: 1.02rem; font-weight: 500; line-height: 1.4; flex: 1; overflow-wrap: anywhere; }
     .product-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; }
     .price { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; color: var(--yellow); }
     .add-btn { padding: 8px 20px; min-height: 40px; font-size: 0.92rem; background: transparent; color: var(--text); border-color: var(--border2); }
@@ -327,11 +329,11 @@
     .why-item { display: flex; gap: 18px; padding: 22px 0; border-top: 1px solid var(--border); }
     .why-item:last-child { border-bottom: 1px solid var(--border); }
     .why-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 9px; }
-    .why-title { font-size: 1.12rem; font-weight: 500; margin-bottom: 4px; }
+    .why-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 4px; }
     .why-desc { color: var(--muted); line-height: 1.65; }
     .rating-panel { padding: 44px 40px; }
     .rating-top { display: flex; align-items: flex-end; gap: 18px; margin-bottom: 30px; }
-    .rating-giant { font-family: var(--serif); font-weight: 500; font-size: 5.5rem; line-height: 0.9; }
+    .rating-giant { font-family: var(--serif); font-weight: 600; color: var(--yellow); font-size: 5.5rem; line-height: 0.9; }
     .stars { color: var(--yellow); font-size: 1.25rem; letter-spacing: 3px; }
     .rating-count { color: var(--muted); font-size: 0.92rem; }
     .review { padding: 20px 0; border-top: 1px solid var(--border); }
@@ -342,7 +344,7 @@
     .steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0 28px; }
     .step { display: flex; flex-direction: column; gap: 14px; padding-top: 24px; border-top: 1px solid var(--border2); }
     .step-num { font-family: var(--serif); font-size: 2.2rem; line-height: 1; color: #c7a8ff; }
-    .step-title { font-size: 1.08rem; font-weight: 500; margin-bottom: 4px; }
+    .step-title { font-size: 1.14rem; font-weight: 600; margin-bottom: 4px; }
     .step-desc { color: var(--muted); line-height: 1.6; }
     .curb-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 44px; }
     .co-sub { color: var(--muted); line-height: 1.6; margin: 0 0 18px; }
@@ -495,7 +497,8 @@
       .hero-art { display: none; }
       .neon-sign { padding: 32px 22px 24px; border-radius: 28px; }
       .neon-sign .ns-mark { display: block; }
-      .hero-desc { margin-left: auto; margin-right: auto; }
+      .hero-lede, .hero-desc { margin-left: auto; margin-right: auto; }
+      .hero-lede { margin-top: 32px; }
       .hero-search { margin-left: auto; margin-right: auto; }
       .hero-search input { font-size: 16px; }
       .hero-search .btn { padding: 10px 18px; }
@@ -613,9 +616,8 @@
         <span class="ns-vape" aria-hidden="true"><span></span><span></span><span></span></span>
       </h1>
     </div>
-    <p class="hero-desc">
-      <strong>Kansas City's top-rated smoke shop.</strong> Glass, vapes, papers, hookah, and more, straight from our live in-store inventory. Order ahead, and we'll bring it out to your car.
-    </p>
+    <p class="hero-lede">Kansas City's top-rated smoke shop.</p>
+    <p class="hero-desc">Glass, vapes, papers, and hookah, live from our shelves on 39th Street. Order ahead, and we'll bring it out to your car.</p>
     <form class="hero-search" id="heroSearch" role="search">
       <svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
       <input type="search" id="heroQ" enterkeyhint="search" autocomplete="off" placeholder="Search 2,700+ items in stock" aria-label="Search products" />
@@ -631,7 +633,7 @@
     <ul class="facts">
       <li><b>4.9 <span class="star">★</span></b>800+ Google reviews</li>
       <li><b id="statItems">2,500+</b>Items in stock</li>
-      <li><b>7 days</b>Open all week</li>
+      <li><b>11 PM</b>Open late Fri &amp; Sat</li>
     </ul>
   </div>
   <div class="hero-art" aria-hidden="true">
@@ -647,7 +649,7 @@
         <h2 class="title">Shop the shelf</h2>
         <div class="stripe"></div>
       </div>
-      <p class="body-text">This is our real in-store inventory, updated live. Add items to your cart, place a curbside order, and pay at pickup. Bring a valid ID showing you're 21 or older. Don't see what you need? Ask, and we'll stock it for you.</p>
+      <p class="body-text">Everything here is on our shelves right now, synced live with the register. Order for curbside pickup and pay when you get here. Don't see it? Ask, and we'll stock it.</p>
     </div>
     <div class="demo-note" id="demoNote">Preview mode: showing sample products until the Lightspeed connection is set up.</div>
     <div class="dept-scroll">
@@ -675,13 +677,13 @@
 <section id="why">
   <div class="wrap why-grid">
     <div>
-      <h2 class="title">KC's top shop</h2>
+      <h2 class="title">Why KC shops Candy</h2>
       <div class="stripe"></div>
       <ul class="why-list">
-        <li class="why-item"><span class="why-dot" style="background:var(--red)"></span><div><div class="why-title">Unmatched selection</div><p class="why-desc">One of the largest inventories on 39th Street. If we don't have it today, we'll get it in for you.</p></div></li>
-        <li class="why-item"><span class="why-dot" style="background:var(--yellow)"></span><div><div class="why-title">Staff that knows their stuff</div><p class="why-desc">Max, Sam, and the crew are knowledgeable, chill, and invested in getting you exactly what you need.</p></div></li>
-        <li class="why-item"><span class="why-dot" style="background:var(--green)"></span><div><div class="why-title">Walk in upset, walk out happy</div><p class="why-desc">That's our promise, and 800+ five-star reviews say we keep it.</p></div></li>
-        <li class="why-item"><span class="why-dot" style="background:var(--neon-purple)"></span><div><div class="why-title">Right on 39th Street</div><p class="why-desc">904 W 39th St, right in the thick of it. Easy to get to, easy to park, and open 7 days a week.</p></div></li>
+        <li class="why-item"><span class="why-dot" style="background:var(--red)"></span><div><div class="why-title">A shelf that goes deep</div><p class="why-desc">One of the largest inventories on 39th Street. If we don't carry it, we'll order it in.</p></div></li>
+        <li class="why-item"><span class="why-dot" style="background:var(--yellow)"></span><div><div class="why-title">Staff that knows their stuff</div><p class="why-desc">Max, Sam, and the crew know the gear, keep it chill, and make sure you leave with the right thing.</p></div></li>
+        <li class="why-item"><span class="why-dot" style="background:var(--green)"></span><div><div class="why-title">Walk in upset, walk out happy</div><p class="why-desc">That's our promise, and a 4.9-star average across 800+ reviews says we keep it.</p></div></li>
+        <li class="why-item"><span class="why-dot" style="background:var(--neon-purple)"></span><div><div class="why-title">Right on 39th Street</div><p class="why-desc">In the thick of it at 904 W 39th St. Easy to find, easy to park, and open 7 days a week.</p></div></li>
       </ul>
     </div>
     <div class="rating-panel panel">
@@ -707,7 +709,7 @@
       <p class="body-text">Don't want to leave the car? Build your cart, tell us when you'll be here, and we'll run it out to your window. Nothing is charged online.</p>
     </div>
     <ol class="steps">
-      <li class="step"><span class="step-num">1</span><div><div class="step-title">Fill your cart</div><p class="step-desc">Pick from our live in-store inventory.</p></div></li>
+      <li class="step"><span class="step-num">1</span><div><div class="step-title">Fill your cart</div><p class="step-desc">Pick from what's on our shelves right now.</p></div></li>
       <li class="step"><span class="step-num">2</span><div><div class="step-title">Place your order</div><p class="step-desc">It goes straight to our register, so it's pulled and ready when you arrive.</p></div></li>
       <li class="step"><span class="step-num">3</span><div><div class="step-title">Pull up out front</div><p class="step-desc">Park at 904 W 39th St, and we'll find you by your vehicle.</p></div></li>
       <li class="step"><span class="step-num">4</span><div><div class="step-title">Show ID and pay</div><p class="step-desc">Pay with cash or card at your car. We check ID on every order (21+ only).</p></div></li>
@@ -729,7 +731,7 @@
       <ul class="notes">
         <li class="note"><b>Open 7 days a week.</b> Monday through Saturday from 10 AM, Sunday from 11 AM.</li>
         <li class="note"><b>Open late Friday and Saturday</b> until 11 PM.</li>
-        <li class="note"><b>Special orders welcome.</b> We'll stock items on request. Just ask.</li>
+        <li class="note"><b>Curbside pickup</b> any time we're open.</li>
       </ul>
     </div>
     <div>
@@ -755,7 +757,7 @@
   <div class="wrap cta">
     <img class="cta-sign" src="assets/logo-neon.png" alt="Candy Smoke Shop neon sign" loading="lazy" />
     <h2 class="cta-title neon">Your Candy Land awaits</h2>
-    <p class="cta-body">Stop by 904 W 39th Street in the heart of Kansas City. Whatever you need, we've got it. And if we don't, we'll get it for you.</p>
+    <p class="cta-body">Come see us at 904 W 39th Street. If we have it, it's yours today. If we don't, we'll get it in.</p>
     <div class="cta-buttons">
       <a href="tel:8163268122" class="btn btn-yellow"><svg class="i"><use href="#i-phone"/></svg>(816) 326-8122</a>
       <a href="#shop" class="btn btn-red">Shop online</a>
