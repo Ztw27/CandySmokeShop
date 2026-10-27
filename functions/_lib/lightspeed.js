@@ -15,7 +15,9 @@ export const SCOPES = 'employee:all';
 const TOKENS_KEY = 'ls:tokens';
 const ACCOUNT_KEY = 'ls:account';
 const CATALOG_KEY = 'ls:catalog';
-const CATALOG_TTL = 180; // seconds
+const CATALOG_TTL = 180; // seconds before a cached catalog is refreshed in the background
+const CATALOG_KEEP = 7 * 24 * 3600; // a stale copy is still served while the refresh runs
+const REFRESH_LOCK_KEY = 'ls:catalog:refreshing';
 
 export function hasClient(env) {
   return Boolean(env.LS_CLIENT_ID && env.LS_CLIENT_SECRET && env.LS_KV);
@@ -168,14 +170,37 @@ async function fetchCatalog(env) {
 }
 
 // Items in stock at the shop, cached in KV so we stay well under Lightspeed's rate limit.
-export async function getCatalog(env, { fresh = false } = {}) {
+// Reading every item takes ~30s, so visitors always get the cached copy right away; once it is
+// older than CATALOG_TTL, a refresh runs in the background (waitUntil) for the next visitor.
+export async function getCatalog(env, { fresh = false, waitUntil } = {}) {
   if (!fresh) {
     const cached = await env.LS_KV.get(CATALOG_KEY, 'json');
-    if (cached) return cached;
+    if (cached && Array.isArray(cached.products)) {
+      if (waitUntil && Date.now() - cached.at > CATALOG_TTL * 1000) waitUntil(refreshInBackground(env));
+      return cached.products;
+    }
   }
-  const catalog = await fetchCatalog(env);
-  await env.LS_KV.put(CATALOG_KEY, JSON.stringify(catalog), { expirationTtl: CATALOG_TTL });
-  return catalog;
+  return refreshCatalog(env);
+}
+
+let refreshingCatalog = null; // de-dupes refreshes within one worker instance
+
+function refreshCatalog(env) {
+  refreshingCatalog ||= fetchCatalog(env)
+    .then(async products => {
+      await env.LS_KV.put(CATALOG_KEY, JSON.stringify({ at: Date.now(), products }), { expirationTtl: CATALOG_KEEP });
+      return products;
+    })
+    .finally(() => { refreshingCatalog = null; });
+  return refreshingCatalog;
+}
+
+// A short KV lock keeps other worker instances from starting the same refresh.
+async function refreshInBackground(env) {
+  if (refreshingCatalog || await env.LS_KV.get(REFRESH_LOCK_KEY)) return;
+  await env.LS_KV.put(REFRESH_LOCK_KEY, '1', { expirationTtl: 60 });
+  try { await refreshCatalog(env); } catch (err) { console.error(err); }
+  finally { await env.LS_KV.delete(REFRESH_LOCK_KEY); }
 }
 
 // Creates an open (not completed) sale for the website order. Staff find it in Lightspeed,

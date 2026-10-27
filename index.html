@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Candy Smoke Shop — 904 W 39th St, Kansas City</title>
   <meta name="description" content="Candy Smoke Shop — glass, vapes, papers, hookah, and more at 904 W 39th St, Kansas City. Order online for curbside pickup." />
+  <meta name="theme-color" content="#120d14" />
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Quicksand:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Jost:wght@400;500;600&family=Quicksand:wght@500;600&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -22,45 +23,36 @@
       --neon-orange: #ff6512;
       --neon-pink:   #ff26a8;
       --neon-white:  #fff7f0;
-      /* Surfaces */
-      --brick:   #3a1a14;
-      --mortar:  #1b0b08;
-      --panel:   rgba(18,10,12,0.86);
-      --panel2:  rgba(28,16,18,0.92);
-      --text:    #fbf4ee;
-      --muted:   rgba(251,244,238,0.88);
-      --dim:     rgba(251,244,238,0.55);
-      --border:  rgba(251,244,238,0.12);
+      /* Surfaces: one plain plum-black, with slightly lifted panels */
+      --bg:      #120d14;
+      --surface: #1a141d;
+      --surface2:#221a26;
+      --tile:    #f3eef3; /* product photo tile; white photo backgrounds blend into it */
+      --text:    #f8f2f5;
+      --muted:   rgba(248,242,245,0.74);
+      --dim:     rgba(248,242,245,0.5);
+      --border:  rgba(248,242,245,0.1);
+      --border2: rgba(248,242,245,0.24);
+      --serif: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
+      --sans:  'Jost', 'Futura', 'Century Gothic', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; overflow-x: hidden; }
     body {
-      color: var(--text);
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      overflow-x: hidden;
-      background-color: var(--mortar);
-      -webkit-text-size-adjust: 100%;
+      color: var(--text); background: var(--bg);
+      font-family: var(--sans); font-size: 1rem; line-height: 1.6;
+      overflow-x: hidden; -webkit-text-size-adjust: 100%;
+      -webkit-font-smoothing: antialiased;
     }
-    /* Brick wall, like the neon sign backdrop. Painted on a fixed layer because
-       iOS ignores background-attachment: fixed and it is slow on phones. */
-    body::before, .age-gate {
-      background-color: var(--mortar);
-      background-image:
-        linear-gradient(rgba(12,5,4,0.5), rgba(12,5,4,0.5)), /* tones the brick down so text stands out */
-        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(164,99,255,0.22), transparent 70%),
-        radial-gradient(ellipse 120% 90% at 50% 50%, transparent 40%, rgba(0,0,0,0.75) 100%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='48'%3E%3Cg fill='%23421d16'%3E%3Crect x='1' y='1' width='70' height='22' rx='2'/%3E%3Crect x='-35' y='25' width='70' height='22' rx='2'/%3E%3Crect x='37' y='25' width='70' height='22' rx='2'/%3E%3C/g%3E%3Cg fill='%232c120d'%3E%3Crect x='1' y='16' width='70' height='7' rx='2'/%3E%3Crect x='-35' y='40' width='70' height='7' rx='2'/%3E%3Crect x='37' y='40' width='70' height='7' rx='2'/%3E%3C/g%3E%3C/svg%3E");
-      background-size: 100% 100%, 100% 100%, 100% 100%, 72px 48px;
-    }
-    body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; }
     img { max-width: 100%; display: block; }
     button, input, select, textarea { font-family: inherit; }
     button, a, select, label { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
     a { color: inherit; }
-    :focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+    :focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+    .i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 
-    /* ─── TYPE STYLES ─── */
+    /* ─── TYPE ─── */
     .neon {
       font-family: 'Quicksand', 'Trebuchet MS', system-ui, -apple-system, sans-serif; font-weight: 600;
       color: var(--neon-white);
@@ -70,111 +62,79 @@
       color: #ffa860;
       text-shadow: 0 0 4px #ff8a3d, 0 0 12px var(--neon-orange), 0 0 30px var(--neon-orange), 0 0 60px rgba(255,101,18,0.9);
     }
-    .neon-pink {
-      color: #ff9fd6;
-      text-shadow: 0 0 4px #ff6cc0, 0 0 12px var(--neon-pink), 0 0 30px var(--neon-pink);
-    }
     .flicker { animation: flicker 6s infinite; }
     @keyframes flicker {
       0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
       20%, 24%, 55% { opacity: 0.55; }
     }
-    /* Chunky outlined lettering, like the CANDY SMOKE SHOP wordmark */
-    .sticker {
-      font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900;
-      text-transform: uppercase; letter-spacing: -0.01em;
-      -webkit-text-stroke: 0.09em var(--ink); paint-order: stroke fill;
-      filter: drop-shadow(0 4px 0 var(--ink));
+    .title {
+      font-family: var(--serif); font-weight: 500; font-size: clamp(2.4rem, 4.6vw, 3.9rem);
+      line-height: 1.04; letter-spacing: -0.01em; color: var(--text);
     }
-    .c-red { color: var(--red); } .c-yellow { color: var(--yellow); } .c-green { color: var(--green); }
-
-    .kicker {
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600;
-      font-size: 0.8rem; letter-spacing: 0.22em; text-transform: uppercase;
-      margin-bottom: 14px; display: block;
-    }
-    .kicker.neon { color: #d6bfff; text-shadow: 0 0 12px rgba(164,99,255,0.6); }
-    .big-title, .co-title.clean {
-      font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 800;
-      color: var(--text); letter-spacing: -0.02em; line-height: 1.08;
-      text-shadow: 0 2px 16px rgba(0,0,0,0.7);
-    }
-    .big-title { font-size: clamp(2.1rem, 4.4vw, 3.5rem); margin-bottom: 20px; }
-    .accent { color: var(--yellow); }
-    .body-text { font-size: 1.02rem; line-height: 1.75; color: var(--muted); }
-    .body-text, .hero-desc, .note, .step-desc, .loc-val { text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
-
-    .stripe { /* the red/yellow/green candy swirl as a divider */
-      height: 8px; width: 96px; border-radius: 8px; margin-bottom: 26px;
-      background: linear-gradient(90deg, var(--red) 0 33%, var(--yellow) 33% 66%, var(--green) 66%);
-      box-shadow: 0 0 0 3px var(--ink);
-    }
+    .title-sm { font-family: var(--serif); font-weight: 500; font-size: 1.75rem; line-height: 1.15; }
+    /* The candy swirl as one slim signature rule under each heading */
+    .stripe { height: 3px; width: 56px; margin: 22px 0 26px; border-radius: 3px;
+      background: linear-gradient(90deg, var(--red) 0 33.3%, var(--yellow) 33.3% 66.6%, var(--green) 66.6%); }
+    .body-text { font-size: 1.06rem; line-height: 1.75; color: var(--muted); max-width: 60ch; }
 
     /* ─── BUTTONS ─── */
     .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900;
-      font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
-      padding: 14px 28px; border-radius: 999px; cursor: pointer;
-      text-decoration: none; border: 3px solid var(--ink);
-      box-shadow: 0 5px 0 var(--ink);
-      transition: transform 0.12s, box-shadow 0.12s, filter 0.2s;
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: var(--sans); font-weight: 500; font-size: 0.98rem; letter-spacing: 0.01em;
+      padding: 14px 28px; min-height: 48px; border-radius: 999px; cursor: pointer;
+      text-decoration: none; border: 1px solid transparent;
+      transition: background-color 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s;
     }
-    .btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--ink); }
     .btn-red { background: var(--red); color: #fff; }
     .btn-yellow { background: var(--yellow); color: var(--ink); }
     .btn-green { background: var(--green); color: #fff; }
-    .btn-neon {
-      background: rgba(0,0,0,0.35); color: var(--neon-white);
-      border: 2px solid var(--neon-purple); box-shadow: 0 0 12px rgba(164,99,255,0.55), inset 0 0 10px rgba(164,99,255,0.35);
-    }
+    .btn-line { background: transparent; color: var(--text); border-color: var(--border2); }
     @media (hover: hover) {
-      .btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--ink); filter: brightness(1.06); }
-      .btn-neon:hover { box-shadow: 0 0 22px rgba(164,99,255,0.8), inset 0 0 14px rgba(164,99,255,0.5); }
-      .dept:hover { transform: translateY(-2px); }
-      .product:hover { transform: translateY(-3px); }
+      .btn-red:hover { background: #ff3640; }
+      .btn-yellow:hover { background: #ffe94d; }
+      .btn-green:hover { background: #1dcc47; }
+      .btn-line:hover { border-color: var(--text); }
+      .product:hover .product-img img { transform: scale(1.04); }
+      .nav-links a:hover { color: var(--text); }
+      .dept:hover { border-color: var(--border2); color: var(--text); }
+      .chip:hover { color: var(--text); border-color: var(--border2); }
+      .add-btn:hover { background: var(--green); border-color: var(--green); color: #fff; }
     }
-    .btn[disabled] { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn[disabled] { opacity: 0.5; cursor: not-allowed; }
 
     /* ─── AGE GATE ─── */
     .age-gate {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9000;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9000; background: var(--bg);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 24px;
-      transition: opacity 0.5s, visibility 0.5s;
+      text-align: center; padding: 24px; transition: opacity 0.5s, visibility 0.5s;
     }
     .age-gate.gone { opacity: 0; visibility: hidden; pointer-events: none; }
-    .ag-logo { width: min(260px, 60vw); margin-bottom: 26px; filter: drop-shadow(0 0 30px rgba(255,221,0,0.25)); animation: bob 2.4s ease-in-out infinite alternate; }
-    @keyframes bob { from { transform: translateY(0) rotate(-2deg); } to { transform: translateY(-8px) rotate(2deg); } }
-    .ag-title { font-size: clamp(1.8rem, 5vw, 2.8rem); margin-bottom: 10px; }
+    .ag-logo { width: min(220px, 56vw); margin-bottom: 30px; }
+    .ag-title { font-family: var(--serif); font-weight: 500; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin-bottom: 12px; }
     .ag-sub { color: var(--muted); margin-bottom: 34px; line-height: 1.6; }
-    .ag-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+    .ag-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 
     /* ─── NAV ─── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between; gap: 16px;
-      padding: 14px 40px;
-      transition: background 0.3s, box-shadow 0.3s;
+      padding: 16px 40px; transition: background-color 0.3s, border-color 0.3s;
+      border-bottom: 1px solid transparent;
     }
-    nav.scrolled { background: rgba(14,8,9,0.98); box-shadow: 0 1px 0 var(--border), 0 8px 30px rgba(0,0,0,0.4); }
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo img { width: 46px; height: auto; }
-    .nav-logo span { font-size: 1.05rem; white-space: nowrap; }
-    .nav-links { display: flex; gap: 28px; list-style: none; }
-    .nav-links a {
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600;
-      font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--muted); text-decoration: none; transition: color 0.2s, text-shadow 0.2s;
-    }
-    .nav-links a:hover { color: var(--neon-white); text-shadow: 0 0 10px var(--neon-purple); }
+    nav.scrolled { background: var(--bg); border-bottom-color: var(--border); }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { width: 40px; height: auto; }
+    .nav-logo span { font-family: var(--serif); font-weight: 500; font-size: 1.2rem; white-space: nowrap; }
+    .nav-links { display: flex; gap: 34px; list-style: none; }
+    .nav-links a { font-size: 0.98rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .nav-right { display: flex; gap: 10px; align-items: center; }
-    .cart-btn { position: relative; padding: 10px 18px; font-size: 0.78rem; }
+    .icon-btn { width: 46px; min-height: 46px; height: 46px; padding: 0; }
+    .cart-btn { position: relative; padding: 10px 20px; min-height: 46px; }
     .cart-count {
-      position: absolute; top: -8px; right: -8px;
-      min-width: 24px; height: 24px; padding: 0 6px; border-radius: 12px;
-      background: var(--red); color: #fff; border: 2px solid var(--ink);
-      font-size: 0.72rem; display: none; align-items: center; justify-content: center;
+      position: absolute; top: -6px; right: -6px;
+      min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px;
+      background: var(--red); color: #fff; border: 2px solid var(--bg);
+      font-size: 0.72rem; font-weight: 600; display: none; align-items: center; justify-content: center;
     }
     .cart-count.show { display: inline-flex; }
     .menu-btn { display: none; }
@@ -182,368 +142,357 @@
     /* ─── HERO ─── */
     #hero {
       min-height: 100vh; min-height: 100svh; position: relative;
-      display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: 40px;
-      padding: 130px 40px 80px; max-width: 1400px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: 48px;
+      padding: 140px 40px 90px; max-width: 1320px; margin: 0 auto;
     }
     /* WebGL neon smoke (assets/smoke.js), full-width behind the hero, fading out at the bottom */
     #smoke {
       position: absolute; top: 0; left: 50%; width: 100vw; height: 100%; transform: translateX(-50%);
       z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.2s ease;
-      -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
-      mask-image: linear-gradient(to bottom, #000 60%, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+      mask-image: linear-gradient(to bottom, #000 55%, transparent);
     }
-    #smoke.on { opacity: 1; }
+    #smoke.on { opacity: 0.85; }
     .neon-sign {
-      position: relative; padding: 44px 40px 36px;
-      border: 3px solid rgba(255,247,240,0.9); border-radius: 80px 120px 90px 110px;
-      box-shadow: 0 0 6px #fff, 0 0 18px var(--neon-purple), 0 0 44px rgba(164,99,255,0.8), inset 0 0 18px rgba(164,99,255,0.35);
-      background: radial-gradient(ellipse at center, rgba(164,99,255,0.12), transparent 70%);
+      position: relative; display: inline-block; padding: 40px 48px 32px;
+      border: 2px solid rgba(255,247,240,0.85); border-radius: 36px;
+      box-shadow: 0 0 4px #fff, 0 0 16px var(--neon-purple), 0 0 40px rgba(164,99,255,0.55), inset 0 0 14px rgba(164,99,255,0.3);
     }
-    .neon-sign .ns-mark { position: absolute; top: -34px; left: -20px; width: 92px; transform: rotate(-12deg); filter: drop-shadow(0 0 14px rgba(255,38,168,0.7)); }
-    .ns-line1 { font-size: clamp(1.6rem, 4vw, 3rem); letter-spacing: 0.08em; }
-    .ns-line2 { font-size: clamp(3.6rem, 10vw, 7.5rem); line-height: 0.95; letter-spacing: 0.06em; font-weight: 500; }
-    .ns-vape { /* the neon vape pen under the sign */
-      margin-top: 18px; height: 34px; display: flex; gap: 10px; align-items: center;
-    }
-    .ns-vape span { height: 100%; border: 3px solid var(--neon-purple); border-radius: 4px; box-shadow: 0 0 10px var(--neon-purple), inset 0 0 8px rgba(164,99,255,0.5); }
-    .ns-vape span:nth-child(1) { width: 14px; }
+    .neon-sign .ns-mark { display: none; position: absolute; top: -26px; left: -10px; width: 60px; transform: rotate(-12deg); }
+    .ns-line1, .ns-line2 { display: block; }
+    .ns-line1 { font-size: clamp(1.5rem, 3.6vw, 2.7rem); letter-spacing: 0.1em; }
+    .ns-line2 { font-size: clamp(3.4rem, 9vw, 6.8rem); line-height: 0.95; letter-spacing: 0.08em; font-weight: 500; }
+    .ns-vape { margin-top: 16px; height: 26px; display: flex; gap: 8px; align-items: center; }
+    .ns-vape span { height: 100%; border: 2px solid var(--neon-purple); border-radius: 4px; box-shadow: 0 0 8px var(--neon-purple), inset 0 0 6px rgba(164,99,255,0.5); }
+    .ns-vape span:nth-child(1) { width: 12px; }
     .ns-vape span:nth-child(2) { width: 30%; }
     .ns-vape span:nth-child(3) { flex: 1; }
-    .neon-sign .ns-mark { display: none; } /* the big candy beside the sign covers this on desktop */
-    .ns-line1, .ns-line2 { display: block; }
     .status-pill {
-      display: inline-flex; align-items: center; gap: 10px; margin-bottom: 30px;
-      padding: 8px 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 500; color: var(--muted);
-      background: rgba(0,0,0,0.45); border: 1px solid var(--border); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px; margin-bottom: 36px;
+      padding: 8px 16px; border-radius: 999px; font-size: 0.92rem; color: var(--muted);
+      background: rgba(18,13,20,0.6); border: 1px solid var(--border); text-decoration: none;
     }
-    .status-pill b { color: var(--text); font-weight: 600; }
-    .status-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--dim); flex-shrink: 0; }
-    .status-pill.open .status-dot { background: #2bff6a; box-shadow: 0 0 0 4px rgba(43,255,106,0.18), 0 0 10px #2bff6a; }
-    .status-pill.closed .status-dot { background: var(--red); box-shadow: 0 0 0 4px rgba(245,16,28,0.2); }
-    .hero-desc { margin-top: 32px; font-size: 1.08rem; line-height: 1.75; color: var(--muted); max-width: 540px; }
-    .hero-desc strong { color: var(--text); }
-    .hero-buttons { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
-    .hero-stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 12px; margin-top: 36px; }
-    .stat { padding: 12px 18px; border-radius: 16px; background: rgba(0,0,0,0.42); border: 1px solid var(--border); }
-    .stat b { display: block; font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900; font-size: 1.3rem; color: var(--yellow); line-height: 1.15; }
-    .stat span { font-size: 0.78rem; color: var(--muted); }
-    /* Candy mark inside a neon ring, so the shop name appears once (in the sign) */
-    .hero-art { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 1; width: min(480px, 100%); justify-self: center; }
+    .status-pill b { color: var(--text); font-weight: 500; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dim); flex-shrink: 0; }
+    .status-pill.open .status-dot { background: #2bff6a; box-shadow: 0 0 0 4px rgba(43,255,106,0.16); }
+    .status-pill.closed .status-dot { background: var(--red); box-shadow: 0 0 0 4px rgba(245,16,28,0.18); }
+    .hero-desc { margin-top: 36px; font-size: 1.12rem; line-height: 1.75; color: var(--muted); max-width: 52ch; }
+    .hero-desc strong { color: var(--text); font-weight: 500; }
+    .hero-buttons { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+    .facts { display: flex; flex-wrap: wrap; list-style: none; margin-top: 40px; color: var(--muted); font-size: 0.95rem; }
+    .facts li { padding: 0 22px; border-left: 1px solid var(--border2); line-height: 1.3; }
+    .facts li:first-child { padding-left: 0; border-left: 0; }
+    .facts b { display: block; font-family: var(--serif); font-weight: 500; font-size: 1.7rem; color: var(--text); margin-bottom: 4px; }
+    .facts .star { color: var(--yellow); font-size: 1.2rem; }
+    /* Candy mark inside a neon ring */
+    .hero-art { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 1; width: min(460px, 100%); justify-self: center; }
     .hero-art::before {
       content: ''; position: absolute; top: 6%; left: 6%; right: 6%; bottom: 6%; border-radius: 50%;
-      border: 3px solid rgba(255,247,240,0.85);
-      box-shadow: 0 0 6px #fff, 0 0 18px var(--neon-pink), 0 0 50px rgba(255,38,168,0.6), inset 0 0 18px var(--neon-pink), inset 0 0 70px rgba(255,38,168,0.3);
+      border: 2px solid rgba(255,247,240,0.8);
+      box-shadow: 0 0 4px #fff, 0 0 16px var(--neon-pink), 0 0 44px rgba(255,38,168,0.5), inset 0 0 16px var(--neon-pink), inset 0 0 60px rgba(255,38,168,0.22);
     }
-    .hero-candy { position: relative; width: 66%; filter: drop-shadow(0 0 30px rgba(255,221,0,0.25)) drop-shadow(0 14px 0 rgba(0,0,0,0.4)); animation: bob 3s ease-in-out infinite alternate; }
-
-    /* ─── TICKER ─── */
-    .ticker {
-      overflow: hidden; padding: 14px 0; position: relative;
-      background: var(--ink); border-top: 4px solid var(--red); border-bottom: 4px solid var(--green);
-      box-shadow: 0 -4px 0 var(--yellow) inset;
-    }
-    .ticker-track { display: inline-flex; white-space: nowrap; animation: tickMove 32s linear infinite; }
-    .ticker-item {
-      padding: 0 26px; font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900;
-      font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
-    }
-    .ticker-item:nth-child(3n+1) { color: var(--red); }
-    .ticker-item:nth-child(3n+2) { color: var(--yellow); }
-    .ticker-item:nth-child(3n) { color: var(--green); }
-    @keyframes tickMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .hero-candy { position: relative; width: 64%; filter: drop-shadow(0 24px 40px rgba(0,0,0,0.55)); }
 
     /* ─── SECTIONS ─── */
     section { scroll-margin-top: 80px; }
-    .wrap { max-width: 1400px; margin: 0 auto; padding: 100px 40px; }
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.show { opacity: 1; transform: none; }
-    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 22px; backdrop-filter: blur(4px); }
+    .wrap { max-width: 1320px; margin: 0 auto; padding: 110px 40px; }
+    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; }
+    #shop { border-top: 1px solid var(--border); }
 
     /* ─── SHOP ─── */
-    .shop-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; flex-wrap: wrap; margin-bottom: 30px; }
-    .shop-head .body-text { max-width: 520px; }
-    .shop-tools { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 26px; }
-    .search {
-      flex: 1 1 260px; max-width: 380px;
-      background: rgba(0,0,0,0.45); border: 2px solid var(--border); border-radius: 999px;
-      color: var(--text); font: inherit; padding: 12px 20px; outline: none;
-    }
-    .search:focus { border-color: var(--neon-purple); box-shadow: 0 0 12px rgba(164,99,255,0.45); }
+    .shop-head { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 40px; margin-bottom: 40px; }
+    .shop-head .stripe { margin-bottom: 0; }
     .dept-scroll { position: relative; margin-bottom: 22px; }
-    .depts { display: flex; gap: 12px; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x proximity; scrollbar-width: none; padding: 4px 0 8px; }
+    .depts { display: flex; gap: 10px; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x proximity; scrollbar-width: none; padding: 2px 0; }
     .depts::-webkit-scrollbar { display: none; }
     .scroll-arrow {
       position: absolute; top: 50%; z-index: 2; transform: translateY(-50%);
-      width: 46px; height: 46px; border-radius: 50%; cursor: pointer;
+      width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      background: var(--yellow); color: var(--ink); border: 3px solid var(--ink); box-shadow: 0 3px 0 var(--ink);
-      font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900; font-size: 1.5rem; line-height: 1;
+      background: var(--surface2); color: var(--text); border: 1px solid var(--border2);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
     }
     .scroll-arrow[hidden] { display: none; }
-    .scroll-arrow.prev { left: -12px; }
-    .scroll-arrow.next { right: -12px; }
+    .scroll-arrow.prev { left: -8px; }
+    .scroll-arrow.next { right: -8px; }
     .dept {
-      flex: 0 0 170px; scroll-snap-align: start;
-      display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left;
-      padding: 14px 16px; border-radius: 16px; cursor: pointer; color: var(--text);
-      background: var(--panel2); border: 3px solid var(--ink); box-shadow: 0 4px 0 var(--ink);
-      transition: transform 0.12s, background 0.15s;
+      flex: 0 0 auto; scroll-snap-align: start; white-space: nowrap;
+      display: inline-flex; align-items: baseline; gap: 8px;
+      padding: 12px 20px; min-height: 46px; border-radius: 999px; cursor: pointer;
+      font-size: 0.98rem; font-weight: 500; color: var(--muted);
+      background: transparent; border: 1px solid var(--border);
+      transition: border-color 0.2s, color 0.2s, background-color 0.2s;
     }
-    .dept-icon { font-size: 1.5rem; line-height: 1; }
-    .dept-name { font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; font-size: 0.9rem; line-height: 1.2; }
-    .dept-count { font-size: 0.72rem; color: var(--muted); }
-    .dept.active { background: var(--yellow); color: var(--ink); }
-    .dept.active .dept-count { color: rgba(20,16,18,0.7); }
-    .shop-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
-    select.input.sort { flex: 0 0 auto; width: auto; border-radius: 999px; padding: 12px 40px 12px 18px; cursor: pointer;
-      background: rgba(0,0,0,0.45) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23fbf4ee' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 16px center; }
-    .sort option { background: #1d1214; }
-    .result-count { margin-left: auto; color: var(--muted); font-size: 0.88rem; }
-    .result-count b { color: var(--text); }
-    .sub-chips { margin-bottom: 24px; }
+    .dept-count { font-size: 0.8rem; color: var(--dim); font-weight: 400; }
+    .dept.active { background: var(--yellow); border-color: var(--yellow); color: var(--ink); }
+    .dept.active .dept-count { color: rgba(20,16,18,0.65); }
+    .shop-bar { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
+    .search {
+      flex: 1 1 260px; max-width: 420px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
+      color: var(--text); font: inherit; padding: 12px 22px; min-height: 48px; outline: none;
+    }
+    .search::placeholder, .input::placeholder { color: var(--dim); }
+    .search:focus { border-color: var(--neon-purple); }
+    select.input.sort { flex: 0 0 auto; width: auto; border-radius: 999px; padding: 12px 42px 12px 20px; min-height: 48px; cursor: pointer;
+      background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23f8f2f5' stroke-width='1.6' fill='none'/%3E%3C/svg%3E") no-repeat right 18px center; }
+    .sort option { background: var(--surface2); }
+    .result-count { margin-left: auto; color: var(--muted); font-size: 0.92rem; }
+    .result-count b { color: var(--text); font-weight: 500; }
+    .sub-chips { margin-bottom: 28px; }
     .chips { display: flex; gap: 8px; flex-wrap: wrap; }
-    .chip small { opacity: 0.6; margin-left: 4px; font-weight: 600; }
     .chip {
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600; font-size: 0.82rem;
-      padding: 9px 16px; border-radius: 999px; cursor: pointer;
-      background: rgba(0,0,0,0.4); color: var(--muted); border: 2px solid var(--border);
-      transition: all 0.15s;
+      font-size: 0.88rem; font-weight: 500; padding: 8px 16px; min-height: 40px; border-radius: 999px; cursor: pointer;
+      background: transparent; color: var(--muted); border: 1px solid var(--border);
+      transition: border-color 0.15s, color 0.15s, background-color 0.15s;
     }
-    .chip:hover { color: var(--text); border-color: var(--dim); }
-    .chip.active { background: var(--yellow); color: var(--ink); border-color: var(--ink); box-shadow: 0 3px 0 var(--ink); }
+    .chip small { opacity: 0.6; margin-left: 6px; font-weight: 400; }
+    .chip.active { background: var(--text); color: var(--ink); border-color: var(--text); }
     .demo-note {
-      display: none; margin-bottom: 20px; padding: 12px 18px; border-radius: 14px;
-      border: 2px dashed var(--yellow); color: var(--yellow); font-size: 0.88rem;
+      display: none; margin-bottom: 22px; padding: 12px 18px; border-radius: 14px;
+      border: 1px solid rgba(255,221,0,0.5); color: var(--yellow); font-size: 0.92rem;
     }
     .demo-note.show { display: block; }
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
-    .product {
-      display: flex; flex-direction: column; overflow: hidden;
-      background: var(--panel2); border: 1px solid var(--border); border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.35); transition: transform 0.15s;
-    }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 28px 20px; }
+    .product { display: flex; flex-direction: column; }
+    /* Each photo sits on a plain pale tile; multiply makes white photo backgrounds vanish so items read as cut-outs */
     .product-img {
-      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-      background: radial-gradient(circle at 50% 40%, rgba(255,255,255,0.08), transparent 70%), #1d1214;
-      border-bottom: 1px solid var(--border); position: relative;
+      aspect-ratio: 1; position: relative; overflow: hidden; isolation: isolate;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--tile); border-radius: 20px;
     }
     @supports not (aspect-ratio: 1) { .product-img::before { content: ''; padding-top: 100%; } }
-    .product-img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; } /* a tall photo must not stretch the card */
-    .product-img .ph { position: static; width: 46%; height: auto; object-fit: contain; opacity: 0.35; filter: grayscale(0.3); }
-    .low { position: absolute; top: 10px; left: 10px; background: var(--red); color: #fff; border: 2px solid var(--ink);
-      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; }
-    .product-body { padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-    .product-cat { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--neon-purple); }
-    .product-name { font-weight: 600; line-height: 1.35; flex: 1; overflow-wrap: anywhere; }
-    .product-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
-    .price { font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900; font-size: 1.2rem; color: var(--yellow); }
-    .add-btn { padding: 9px 16px; font-size: 0.72rem; box-shadow: 0 3px 0 var(--ink); border-width: 2px; }
-    .shop-status { text-align: center; padding: 40px 20px; color: var(--muted); grid-column: 1 / -1; }
-    .more-wrap { text-align: center; margin-top: 30px; }
+    .product-img img {
+      position: absolute; top: 9%; left: 9%; width: 82%; height: 82%;
+      object-fit: contain; mix-blend-mode: multiply; transition: transform 0.4s ease;
+    }
+    .product-img .ph { position: static; width: 40%; height: auto; opacity: 0.4; filter: grayscale(0.4); }
+    .low { position: absolute; top: 12px; left: 12px; z-index: 1; background: var(--red); color: #fff;
+      font-size: 0.74rem; font-weight: 500; padding: 4px 10px; border-radius: 999px; }
+    .product-body { padding: 16px 4px 0; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .product-cat { font-size: 0.82rem; color: #c7a8ff; }
+    .product-name { font-size: 1rem; font-weight: 500; line-height: 1.4; flex: 1; overflow-wrap: anywhere; }
+    .product-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; }
+    .price { font-family: var(--serif); font-weight: 600; font-size: 1.35rem; color: var(--yellow); }
+    .add-btn { padding: 8px 20px; min-height: 40px; font-size: 0.92rem; background: transparent; color: var(--text); border-color: var(--border2); }
+    .add-btn.added { background: var(--green); border-color: var(--green); color: #fff; }
+    .shop-status { text-align: center; padding: 48px 20px; color: var(--muted); grid-column: 1 / -1; }
+    .more-wrap { text-align: center; margin-top: 44px; }
 
     /* ─── WHY ─── */
-    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
-    .why-list { display: grid; gap: 14px; margin-top: 10px; }
-    .why-item { display: flex; gap: 18px; padding: 20px; }
-    .why-num {
-      width: 46px; height: 46px; flex-shrink: 0; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 900; color: var(--ink);
-      border: 3px solid var(--ink);
-    }
-    .why-title { font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; margin-bottom: 4px; }
-    .why-desc { color: var(--muted); font-size: 0.92rem; line-height: 1.65; }
-    .rating-panel { padding: 40px 34px; }
-    .rating-giant { font-size: 5rem; line-height: 1; }
-    .stars { color: var(--yellow); font-size: 1.4rem; letter-spacing: 4px; margin: 10px 0 4px; }
-    .rating-count { color: var(--muted); font-size: 0.85rem; margin-bottom: 26px; }
-    .review { border-left: 4px solid var(--neon-pink); padding: 12px 18px; margin-bottom: 14px; background: rgba(0,0,0,0.3); border-radius: 0 14px 14px 0; }
-    .review p { font-style: italic; color: var(--text); line-height: 1.6; font-size: 0.92rem; }
-    .review span { display: block; margin-top: 8px; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
+    #why, #curbside, #hours { border-top: 1px solid var(--border); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+    .why-list { list-style: none; }
+    .why-item { display: flex; gap: 18px; padding: 22px 0; border-top: 1px solid var(--border); }
+    .why-item:last-child { border-bottom: 1px solid var(--border); }
+    .why-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 9px; }
+    .why-title { font-size: 1.12rem; font-weight: 500; margin-bottom: 4px; }
+    .why-desc { color: var(--muted); line-height: 1.65; }
+    .rating-panel { padding: 44px 40px; }
+    .rating-top { display: flex; align-items: flex-end; gap: 18px; margin-bottom: 30px; }
+    .rating-giant { font-family: var(--serif); font-weight: 500; font-size: 5.5rem; line-height: 0.9; }
+    .stars { color: var(--yellow); font-size: 1.25rem; letter-spacing: 3px; }
+    .rating-count { color: var(--muted); font-size: 0.92rem; }
+    .review { padding: 20px 0; border-top: 1px solid var(--border); }
+    .review p { font-family: var(--serif); font-style: italic; font-size: 1.12rem; line-height: 1.55; color: var(--text); }
+    .review span { display: block; margin-top: 10px; font-size: 0.86rem; color: var(--dim); }
 
     /* ─── CURBSIDE / CHECKOUT ─── */
-    .curb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
-    .steps { display: grid; gap: 14px; margin-top: 26px; }
-    .step { display: flex; gap: 16px; align-items: flex-start; }
-    .step-num { width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      border: 2px solid var(--neon-purple); color: var(--neon-white); font-weight: 700; box-shadow: 0 0 10px rgba(164,99,255,0.5); }
-    .step-title { font-family: 'Montserrat', 'Arial Black', 'Helvetica Neue', Arial, sans-serif; font-weight: 800; margin-bottom: 3px; }
-    .step-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
-    .checkout { padding: 34px 30px; scroll-margin-top: 80px; }
-    .co-title { font-size: 1.6rem; margin-bottom: 6px; }
-    .co-sub { color: var(--muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 22px; }
-    .co-summary { background: rgba(0,0,0,0.35); border-radius: 14px; padding: 14px 16px; margin-bottom: 20px; font-size: 0.9rem; }
+    .curb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+    .steps { list-style: none; margin-top: 34px; }
+    .step { display: flex; gap: 22px; align-items: flex-start; padding: 20px 0; border-top: 1px solid var(--border); }
+    .step-num { font-family: var(--serif); font-size: 1.9rem; line-height: 1; color: #c7a8ff; width: 28px; flex-shrink: 0; }
+    .step-title { font-size: 1.08rem; font-weight: 500; margin-bottom: 3px; }
+    .step-desc { color: var(--muted); line-height: 1.6; }
+    .checkout { padding: 38px 34px; scroll-margin-top: 90px; }
+    .co-sub { color: var(--muted); line-height: 1.6; margin: 6px 0 22px; }
+    .co-sub a { color: var(--text); }
+    .co-summary { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 14px 18px; margin-bottom: 24px; font-size: 0.95rem; }
     .co-summary .row { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; color: var(--muted); }
-    .co-summary .total { color: var(--text); font-weight: 700; border-top: 1px solid var(--border); margin-top: 6px; padding-top: 8px; }
+    .co-summary .total { color: var(--text); font-weight: 500; border-top: 1px solid var(--border); margin-top: 6px; padding-top: 10px; }
     .co-summary .empty { color: var(--muted); }
-    .field { margin-bottom: 16px; }
-    .field label { display: block; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+    .field { margin-bottom: 18px; }
+    .field label { display: block; font-size: 0.92rem; font-weight: 500; color: var(--text); margin-bottom: 8px; }
     .input {
-      width: 100%; background: rgba(0,0,0,0.45); color: var(--text);
-      border: 2px solid var(--border); border-radius: 12px;
-      font: inherit; font-size: 0.95rem; padding: 12px 14px; outline: none;
+      width: 100%; background: var(--bg); color: var(--text);
+      border: 1px solid var(--border2); border-radius: 12px;
+      font: inherit; font-size: 1rem; padding: 12px 14px; min-height: 48px; outline: none;
+      transition: border-color 0.2s;
     }
-    .input:focus { border-color: var(--neon-purple); box-shadow: 0 0 10px rgba(164,99,255,0.35); }
+    .input:focus { border-color: var(--neon-purple); }
     .input.bad { border-color: var(--red); }
-    textarea.input { resize: vertical; min-height: 80px; }
-    select.input { appearance: none; }
-    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .age-check { display: flex; gap: 12px; align-items: flex-start; padding: 14px; border-radius: 12px; border: 2px solid rgba(245,16,28,0.5); background: rgba(245,16,28,0.08); margin-bottom: 18px; font-size: 0.88rem; line-height: 1.55; color: var(--muted); cursor: pointer; }
+    textarea.input { resize: vertical; min-height: 88px; }
+    select.input { appearance: none; -webkit-appearance: none; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .age-check { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: 14px; border: 1px solid rgba(245,16,28,0.45); background: rgba(245,16,28,0.07); margin-bottom: 18px; font-size: 0.94rem; line-height: 1.55; color: var(--muted); cursor: pointer; }
     .age-check input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--red); flex-shrink: 0; }
-    .age-check strong { color: var(--text); }
+    .age-check strong { color: var(--text); font-weight: 500; }
     .hp { position: absolute; left: -9999px; }
-    .co-error { color: #ff8a8f; font-size: 0.88rem; margin-bottom: 12px; min-height: 1em; }
+    .co-error { color: #ff8a8f; font-size: 0.94rem; margin-bottom: 12px; min-height: 1em; }
     .checkout .btn { width: 100%; }
     .confirm { display: none; text-align: center; padding: 20px 6px; }
     .confirm.show { display: block; }
-    .confirm img { width: 110px; margin: 0 auto 16px; }
-    .confirm .ref { display: inline-block; margin-top: 16px; padding: 8px 18px; border-radius: 999px; border: 2px solid var(--neon-purple); box-shadow: 0 0 12px rgba(164,99,255,0.5); font-weight: 700; letter-spacing: 0.1em; }
+    .confirm img { width: 96px; margin: 0 auto 18px; }
+    .confirm .ref { display: inline-block; margin-top: 16px; padding: 8px 18px; border-radius: 999px; border: 1px solid var(--border2); font-weight: 500; }
 
     /* ─── HOURS ─── */
-    .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
-    .hours-list { padding: 10px 24px; }
-    .hours-row { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; }
+    .hours-list { padding: 6px 28px; }
+    .hours-row { display: flex; align-items: center; gap: 12px; padding: 15px 0; border-bottom: 1px solid var(--border); }
     .hours-row:last-child { border-bottom: none; }
-    .hours-day { width: 120px; flex-shrink: 0; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.82rem; color: var(--muted); }
+    .hours-day { width: 120px; flex-shrink: 0; color: var(--muted); }
     .hours-time { flex: 1; font-weight: 500; }
-    .pill { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 2px solid var(--ink); }
-    .pill-late { background: var(--neon-purple); color: var(--ink); }
+    .pill { font-size: 0.76rem; font-weight: 500; padding: 3px 10px; border-radius: 999px; }
+    .pill-late { background: rgba(164,99,255,0.18); color: #d6bfff; }
     .pill-today { background: var(--green); color: #fff; }
-    .hours-row.today .hours-day { color: var(--yellow); }
-    .notes { margin-top: 22px; display: grid; gap: 10px; }
-    .note { display: flex; gap: 10px; color: var(--muted); font-size: 0.92rem; line-height: 1.6; }
-    .note b { color: var(--text); font-weight: 600; }
-    .note i { font-style: normal; color: var(--yellow); }
-    .loc { display: grid; gap: 16px; margin-top: 10px; }
-    .loc-item { display: flex; gap: 14px; align-items: center; }
-    .loc-icon { width: 46px; height: 46px; flex-shrink: 0; border-radius: 14px; background: rgba(0,0,0,0.4); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-    .loc-label { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; font-weight: 600; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--neon-purple); }
+    .hours-row.today .hours-day, .hours-row.today .hours-time { color: var(--yellow); }
+    .notes { list-style: none; margin-top: 24px; display: grid; gap: 10px; }
+    .note { color: var(--muted); line-height: 1.6; padding-left: 18px; position: relative; }
+    .note::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); }
+    .note b { color: var(--text); font-weight: 500; }
+    .loc { list-style: none; display: grid; gap: 18px; }
+    .loc-item { display: flex; gap: 16px; align-items: center; }
+    .loc-icon { width: 48px; height: 48px; flex-shrink: 0; border-radius: 50%; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; color: #c7a8ff; }
+    .loc-label { font-size: 0.86rem; color: var(--dim); }
+    .loc-val { font-size: 1.04rem; }
     .loc-val a { text-decoration: none; }
     .loc-val a:hover { color: var(--yellow); }
-    .map-box { margin-top: 24px; height: 260px; border-radius: 20px; overflow: hidden; border: 3px solid var(--ink); box-shadow: 0 6px 0 var(--ink); }
-    .map-box iframe { width: 100%; height: 100%; border: 0; filter: grayscale(0.6) contrast(1.1) brightness(0.85); }
+    .map-box { margin-top: 30px; height: 280px; border-radius: 24px; overflow: hidden; border: 1px solid var(--border); }
+    .map-box iframe { width: 100%; height: 100%; border: 0; filter: grayscale(0.7) contrast(1.05) brightness(0.9); }
 
     /* ─── CTA ─── */
+    #cta { border-top: 1px solid var(--border); }
     .cta { text-align: center; }
-    .cta-sign { display: inline-block; width: min(420px, 90%); border-radius: 24px; margin-bottom: 30px; box-shadow: 0 0 60px rgba(164,99,255,0.35); }
-    .cta-title { font-size: clamp(2rem, 5vw, 3.6rem); margin-bottom: 16px; }
-    .cta-body { color: var(--muted); max-width: 620px; margin: 0 auto 32px; line-height: 1.75; }
-    .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .cta-sign { display: inline-block; width: min(400px, 88%); border-radius: 24px; margin-bottom: 36px; box-shadow: 0 0 60px rgba(164,99,255,0.3); }
+    .cta-title { font-size: clamp(2rem, 5vw, 3.4rem); margin-bottom: 16px; }
+    .cta-body { color: var(--muted); max-width: 56ch; margin: 0 auto 32px; line-height: 1.75; font-size: 1.06rem; }
+    .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
     /* ─── CART DRAWER ─── */
     .scrim { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 400; opacity: 0; visibility: hidden; transition: 0.25s; }
     .scrim.open { opacity: 1; visibility: visible; }
     .drawer {
       position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100%); z-index: 401;
-      background: #160d0f; border-left: 3px solid var(--ink); box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+      background: var(--surface); border-left: 1px solid var(--border); box-shadow: -20px 0 60px rgba(0,0,0,0.5);
       display: flex; flex-direction: column; transform: translateX(100%); visibility: hidden; transition: transform 0.3s ease, visibility 0.3s;
     }
     .drawer.open { transform: none; visibility: visible; }
     body.locked { overflow: hidden; }
-    .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 20px 22px; border-bottom: 1px solid var(--border); }
-    .drawer-head h3 { font-size: 1.3rem; }
-    .x { background: none; border: none; color: var(--text); font-size: 1.6rem; cursor: pointer; line-height: 1; padding: 4px 8px; }
-    .drawer-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 10px 22px; }
-    .line { display: flex; gap: 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); }
-    .line-name { flex: 1; font-size: 0.92rem; line-height: 1.4; }
-    .line-name small { display: block; color: var(--muted); margin-top: 2px; }
-    .qty { display: flex; align-items: center; border: 2px solid var(--border); border-radius: 999px; }
-    .qty button { background: none; border: none; color: var(--text); width: 30px; height: 30px; cursor: pointer; font-size: 1rem; }
-    .qty span { min-width: 22px; text-align: center; font-size: 0.9rem; }
-    .drawer-foot { padding: 20px 22px; border-top: 1px solid var(--border); }
-    .drawer-total { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 6px; }
-    .drawer-foot p { color: var(--muted); font-size: 0.8rem; margin-bottom: 14px; line-height: 1.5; }
+    .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--border); }
+    .x { background: none; border: 1px solid var(--border2); border-radius: 50%; color: var(--text); width: 44px; height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .drawer-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 6px 24px; }
+    .line { display: flex; gap: 12px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .line-name { flex: 1; font-size: 0.96rem; line-height: 1.4; }
+    .line-name small { display: block; color: var(--muted); margin-top: 2px; font-size: 0.86rem; }
+    .qty { display: flex; align-items: center; border: 1px solid var(--border2); border-radius: 999px; }
+    .qty button { background: none; border: none; color: var(--text); width: 36px; height: 36px; cursor: pointer; font-size: 1.05rem; }
+    .qty span { min-width: 22px; text-align: center; font-size: 0.95rem; }
+    .drawer-foot { padding: 20px 24px; border-top: 1px solid var(--border); }
+    .drawer-total { display: flex; justify-content: space-between; font-weight: 500; font-size: 1.08rem; margin-bottom: 6px; }
+    .drawer-foot p { color: var(--muted); font-size: 0.88rem; margin-bottom: 16px; line-height: 1.5; }
     .drawer-foot .btn { width: 100%; }
 
     /* ─── FOOTER ─── */
-    footer { background: rgba(8,4,5,0.95); border-top: 4px solid var(--ink); padding: 34px 40px; }
-    .footer-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; }
-    .footer-brand { display: flex; align-items: center; gap: 10px; }
-    .footer-brand img { width: 40px; }
-    .footer-links { display: flex; gap: 22px; flex-wrap: wrap; }
-    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; }
-    .footer-links a:hover { color: var(--yellow); }
-    .footer-copy { color: var(--dim); font-size: 0.75rem; line-height: 1.6; }
-    .footer-legal { max-width: 1400px; margin: 22px auto 0; padding-top: 18px; border-top: 1px solid var(--border);
+    footer { border-top: 1px solid var(--border); padding: 40px 40px 36px; }
+    .footer-inner { max-width: 1320px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+    .footer-brand { display: flex; align-items: center; gap: 12px; font-family: var(--serif); font-size: 1.15rem; }
+    .footer-brand img { width: 36px; }
+    .footer-links { display: flex; gap: 26px; flex-wrap: wrap; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.94rem; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { color: var(--dim); font-size: 0.84rem; line-height: 1.6; }
+    .footer-legal { max-width: 1320px; margin: 26px auto 0; padding-top: 22px; border-top: 1px solid var(--border);
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
-    .footer-legal .legal-links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
-    .footer-legal .legal-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; }
-    .footer-legal .legal-links a:hover { color: var(--yellow); text-decoration: underline; }
+    .footer-legal .legal-links { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+    .footer-legal .legal-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
+    .footer-legal .legal-links a:hover { color: var(--text); text-decoration: underline; }
     /* FDA-style nicotine warning: bold black on white with a border */
     .nicotine-warning { background: #fff; color: #000; border: 2px solid #000; padding: 8px 14px;
       font-family: Arial, Helvetica, sans-serif; font-weight: 700; font-size: 0.85rem; line-height: 1.35; }
-    .co-legal { margin-top: 12px; font-size: 0.78rem; color: var(--muted); text-align: center; line-height: 1.5; }
+    .co-legal { margin-top: 14px; font-size: 0.86rem; color: var(--muted); text-align: center; line-height: 1.5; }
 
     /* ─── MOBILE ─── */
     @media (max-width: 960px) {
       nav, nav.scrolled { padding: 10px 16px; }
       .nav-links { display: none; }
-      nav.menu-open { background: rgba(14,8,9,0.98); }
+      nav.menu-open { background: var(--bg); border-bottom-color: var(--border); }
       nav.menu-open .nav-links {
         display: flex; flex-direction: column; gap: 0;
         position: absolute; top: 100%; left: 0; right: 0;
-        background: rgba(14,8,9,0.98); border-bottom: 3px solid var(--ink); box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+        background: var(--bg); border-bottom: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.5);
       }
-      nav.menu-open .nav-links a { display: block; padding: 16px 20px; font-size: 1rem; color: var(--text); border-top: 1px solid var(--border); }
+      nav.menu-open .nav-links a { display: block; padding: 16px 20px; font-family: var(--serif); font-size: 1.4rem; color: var(--text); border-top: 1px solid var(--border); }
       .nav-logo span { display: none; }
       .nav-right { gap: 8px; }
-      .menu-btn { display: inline-flex; min-width: 46px; font-size: 1.15rem; padding: 8px 12px; }
-      .cart-btn { padding: 10px 14px; }
-      .nav-call .call-text { display: none; }
+      .menu-btn { display: inline-flex; }
+      .cart-btn { padding: 10px 16px; }
       .input, .search { font-size: 16px; } /* under 16px makes iPhones zoom in on tap */
-      .panel { backdrop-filter: none; }
-      .qty button { width: 40px; height: 40px; font-size: 1.2rem; }
-      #hero { grid-template-columns: 1fr; min-height: 0; padding: 104px 16px 56px; text-align: center; }
+      .qty button { width: 44px; height: 44px; font-size: 1.2rem; }
+      #hero { grid-template-columns: 1fr; min-height: 0; padding: 108px 16px 64px; text-align: center; }
       .hero-art { display: none; }
-      .neon-sign { padding: 34px 20px 26px; border-radius: 50px 70px 60px 70px; }
-      .neon-sign .ns-mark { display: block; width: 64px; top: -26px; left: -8px; }
-      .status-pill { margin-bottom: 34px; }
+      .neon-sign { padding: 32px 22px 24px; border-radius: 28px; }
+      .neon-sign .ns-mark { display: block; }
       .hero-desc { margin-left: auto; margin-right: auto; }
       .hero-buttons { justify-content: center; }
-      .hero-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-      .stat { padding: 10px 6px; }
-      .stat b { font-size: 1.1rem; }
-      .stat span { font-size: 0.7rem; }
-      .wrap { padding: 70px 16px; }
-      .why-grid, .curb-grid, .hours-grid { grid-template-columns: 1fr; gap: 40px; }
-      .row2 { grid-template-columns: 1fr; }
-      .hours-list { padding: 6px 18px; }
+      .hero-buttons .btn { flex: 1 1 200px; }
+      .facts { justify-content: center; font-size: 0.86rem; }
+      .facts li { padding: 0 14px; }
+      .facts b { font-size: 1.35rem; }
+      .wrap { padding: 72px 16px; }
+      .shop-head, .why-grid, .curb-grid, .hours-grid { grid-template-columns: 1fr; gap: 40px; }
+      .shop-head { gap: 24px; margin-bottom: 30px; }
+      .row2 { grid-template-columns: 1fr; gap: 0; }
+      .hours-list { padding: 4px 20px; }
       .hours-row { gap: 8px; }
-      .hours-day { width: 104px; letter-spacing: 0.06em; }
+      .hours-day { width: 100px; }
       .hours-time { white-space: nowrap; }
-      .pill { padding: 3px 8px; letter-spacing: 0.08em; }
       .sub-chips { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-left: -16px; margin-right: -16px; padding: 0 16px 6px; }
       .sub-chips::-webkit-scrollbar { display: none; }
-      .depts { margin-left: -16px; margin-right: -16px; padding: 4px 16px 8px; scroll-padding: 0 16px; }
-      .dept { flex: 0 0 132px; }
-      .scroll-arrow { width: 40px; height: 40px; font-size: 1.3rem; }
-      .scroll-arrow.prev { left: -6px; }
-      .scroll-arrow.next { right: -6px; }
+      .depts { margin-left: -16px; margin-right: -16px; padding: 2px 16px; scroll-padding: 0 16px; }
+      .scroll-arrow { width: 40px; height: 40px; }
+      .scroll-arrow.prev { left: -4px; }
+      .scroll-arrow.next { right: -4px; }
       .chip { flex: 0 0 auto; white-space: nowrap; }
       .search { max-width: none; flex-basis: 100%; }
       .result-count { margin-left: 0; }
-      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .product-body { padding: 12px; }
-      .product-foot { flex-direction: column; align-items: stretch; }
-      .checkout, .rating-panel { padding: 26px 18px; }
-      footer { padding: 28px 16px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 12px; }
+      .product-img { border-radius: 16px; }
+      .product-body { padding: 12px 2px 0; }
+      .product-name { font-size: 0.94rem; }
+      .price { font-size: 1.2rem; }
+      .product-foot { flex-direction: column; align-items: stretch; gap: 8px; }
+      .checkout, .rating-panel { padding: 28px 20px; }
+      .rating-giant { font-size: 4.4rem; }
+      footer { padding: 32px 16px; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
-      .reveal { opacity: 1; transform: none; }
     }
   </style>
 </head>
 <body>
 
+<!-- Inline icons (Lucide-style line icons) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+</svg>
+
 <!-- Age Gate -->
 <div class="age-gate" id="ageGate" role="dialog" aria-modal="true" aria-labelledby="agTitle">
   <img class="ag-logo" src="assets/logo.png" alt="Candy Smoke Shop" />
-  <h2 class="ag-title neon" id="agTitle">Candy Land for Adults</h2>
+  <h2 class="ag-title" id="agTitle">Candy Land for adults</h2>
   <p class="ag-sub">You must be 21 or older to enter.<br/>This site sells tobacco, nicotine, and smoke shop products.</p>
   <div class="ag-btns">
-    <button class="btn btn-green" id="agYes">I'm 21+ — Let's Go</button>
-    <a class="btn btn-neon" href="https://google.com">Exit</a>
+    <button class="btn btn-green" id="agYes">I'm 21 or older</button>
+    <a class="btn btn-line" href="https://google.com">Exit</a>
   </div>
 </div>
 
@@ -551,18 +500,18 @@
 <nav id="mainNav">
   <a href="#hero" class="nav-logo" aria-label="Candy Smoke Shop home">
     <img src="assets/candy-mark.png" alt="" />
-    <span class="sticker"><span class="c-red">Candy</span> <span class="c-yellow">Smoke</span> <span class="c-green">Shop</span></span>
+    <span>Candy Smoke Shop</span>
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#shop">Shop</a></li>
-    <li><a href="#why">Why Us</a></li>
+    <li><a href="#why">Why us</a></li>
     <li><a href="#curbside">Curbside</a></li>
     <li><a href="#hours">Hours</a></li>
   </ul>
   <div class="nav-right">
-    <a href="tel:8163268122" class="btn btn-neon cart-btn nav-call" aria-label="Call the shop">📞<span class="call-text"> Call</span></a>
-    <button class="btn btn-yellow cart-btn" id="cartOpen" aria-label="Open cart">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
-    <button class="btn btn-neon cart-btn menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">☰</button>
+    <a href="tel:8163268122" class="btn btn-line icon-btn" aria-label="Call the shop"><svg class="i"><use href="#i-phone"/></svg></a>
+    <button class="btn btn-yellow cart-btn" id="cartOpen" aria-label="Open cart"><svg class="i"><use href="#i-bag"/></svg>Cart <span class="cart-count" id="cartCount">0</span></button>
+    <button class="btn btn-line icon-btn menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><svg class="i"><use href="#i-menu"/></svg></button>
   </div>
 </nav>
 
@@ -570,90 +519,86 @@
 <section id="hero">
   <canvas id="smoke" aria-hidden="true"></canvas>
   <div>
-    <a href="#hours" class="status-pill" id="openStatus"><span class="status-dot"></span><span>904 W 39th St · Kansas City</span></a>
-    <h1 class="neon-sign" aria-label="Candy Smoke Shop">
-      <img class="ns-mark" src="assets/candy-mark.png" alt="" />
-      <span class="ns-line1 neon" aria-hidden="true">CANDY SMOKE</span>
-      <span class="ns-line2 neon neon-orange flicker" aria-hidden="true">SHOP</span>
-      <span class="ns-vape" aria-hidden="true"><span></span><span></span><span></span></span>
-    </h1>
+    <a href="#hours" class="status-pill" id="openStatus"><span class="status-dot"></span><span>904 W 39th St, Kansas City</span></a>
+    <div>
+      <h1 class="neon-sign" aria-label="Candy Smoke Shop">
+        <img class="ns-mark" src="assets/candy-mark.png" alt="" />
+        <span class="ns-line1 neon" aria-hidden="true">CANDY SMOKE</span>
+        <span class="ns-line2 neon neon-orange flicker" aria-hidden="true">SHOP</span>
+        <span class="ns-vape" aria-hidden="true"><span></span><span></span><span></span></span>
+      </h1>
+    </div>
     <p class="hero-desc">
-      <strong>Kansas City's top shop on 39th Street.</strong> Glass, vapes, papers, hookah, concentrates, and way more. Shop our live in-store inventory online and we'll bring it out to your car.
+      <strong>Kansas City's top shop on 39th Street.</strong> Glass, vapes, papers, hookah, concentrates, and much more. Shop our live in-store inventory online, and we'll bring it out to your car.
     </p>
     <div class="hero-buttons">
-      <a href="#shop" class="btn btn-red">Shop Now</a>
-      <a href="#curbside" class="btn btn-neon">🚗 Curbside Pickup</a>
+      <a href="#shop" class="btn btn-red">Shop the shelf</a>
+      <a href="#curbside" class="btn btn-line">How curbside works</a>
     </div>
-    <div class="hero-stats">
-      <div class="stat"><b>4.9★</b><span>800+ reviews</span></div>
-      <div class="stat"><b id="statItems">2,500+</b><span>Items in stock</span></div>
-      <div class="stat"><b>7 days</b><span>Open all week</span></div>
-    </div>
+    <ul class="facts">
+      <li><b>4.9 <span class="star">★</span></b>800+ Google reviews</li>
+      <li><b id="statItems">2,500+</b>Items in stock</li>
+      <li><b>7 days</b>Open all week</li>
+    </ul>
   </div>
   <div class="hero-art" aria-hidden="true">
     <img class="hero-candy" src="assets/candy-big.png" alt="" />
   </div>
 </section>
 
-<!-- TICKER -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track" id="tickerTrack"></div>
-</div>
-
 <!-- SHOP -->
 <section id="shop">
   <div class="wrap">
-    <div class="shop-head reveal">
+    <div class="shop-head">
       <div>
-        <span class="kicker neon">In Stock Now</span>
-        <h2 class="big-title">Shop the <span class="accent">Shelf</span></h2>
+        <h2 class="title">Shop the shelf</h2>
         <div class="stripe"></div>
       </div>
       <p class="body-text">This is our real in-store inventory, updated live. Add items to your cart, place a curbside order, and pay at pickup. Bring a valid ID showing you're 21 or older. Don't see what you need? Ask, and we'll stock it for you.</p>
     </div>
     <div class="demo-note" id="demoNote">Preview mode: showing sample products until the Lightspeed connection is set up.</div>
     <div class="dept-scroll">
-      <button class="scroll-arrow prev" id="deptPrev" aria-label="Scroll departments left" hidden>‹</button>
+      <button class="scroll-arrow prev" id="deptPrev" aria-label="Scroll departments left" hidden><svg class="i"><use href="#i-left"/></svg></button>
       <div class="depts" id="depts" role="tablist" aria-label="Departments"></div>
-      <button class="scroll-arrow next" id="deptNext" aria-label="Scroll departments right" hidden>›</button>
+      <button class="scroll-arrow next" id="deptNext" aria-label="Scroll departments right" hidden><svg class="i"><use href="#i-right"/></svg></button>
     </div>
     <div class="shop-bar">
-      <input class="search" id="search" type="search" enterkeyhint="search" autocomplete="off" placeholder="Search all products, brands, flavors…" aria-label="Search products" />
+      <input class="search" id="search" type="search" enterkeyhint="search" autocomplete="off" placeholder="Search products, brands, flavors…" aria-label="Search products" />
       <select class="input sort" id="sort" aria-label="Sort products">
         <option value="featured">Sort: Featured</option>
-        <option value="price-asc">Price: Low to High</option>
-        <option value="price-desc">Price: High to Low</option>
+        <option value="price-asc">Price: Low to high</option>
+        <option value="price-desc">Price: High to low</option>
         <option value="name">Name: A–Z</option>
       </select>
       <span class="result-count" id="resultCount" aria-live="polite"></span>
     </div>
     <div class="chips sub-chips" id="chips"></div>
     <div class="product-grid" id="grid"><div class="shop-status">Loading the shelves…</div></div>
-    <div class="more-wrap"><button class="btn btn-neon" id="moreBtn" hidden>Show More</button></div>
+    <div class="more-wrap"><button class="btn btn-line" id="moreBtn" hidden>Show more</button></div>
   </div>
 </section>
 
 <!-- WHY -->
 <section id="why">
   <div class="wrap why-grid">
-    <div class="reveal">
-      <span class="kicker neon">Why Candy</span>
-      <h2 class="big-title">KC's Top <span class="accent">Shop</span></h2>
+    <div>
+      <h2 class="title">KC's top shop</h2>
       <div class="stripe"></div>
-      <div class="why-list">
-        <div class="why-item panel"><div class="why-num" style="background:var(--red)">1</div><div><div class="why-title">Unmatched Selection</div><p class="why-desc">One of the largest inventories on 39th Street. If we don't have it today, we'll get it in for you.</p></div></div>
-        <div class="why-item panel"><div class="why-num" style="background:var(--yellow)">2</div><div><div class="why-title">Staff That Knows Their Stuff</div><p class="why-desc">Max, Sam, and the crew are knowledgeable, chill, and invested in getting you exactly what you need.</p></div></div>
-        <div class="why-item panel"><div class="why-num" style="background:var(--green)">3</div><div><div class="why-title">Walk In Upset, Walk Out Happy</div><p class="why-desc">That's our promise, and 800+ five-star reviews say we keep it.</p></div></div>
-        <div class="why-item panel"><div class="why-num" style="background:var(--neon-purple)">4</div><div><div class="why-title">Right on 39th Street</div><p class="why-desc">904 W 39th St, right in the thick of it. Easy to get to, easy to park, and open 7 days a week.</p></div></div>
-      </div>
+      <ul class="why-list">
+        <li class="why-item"><span class="why-dot" style="background:var(--red)"></span><div><div class="why-title">Unmatched selection</div><p class="why-desc">One of the largest inventories on 39th Street. If we don't have it today, we'll get it in for you.</p></div></li>
+        <li class="why-item"><span class="why-dot" style="background:var(--yellow)"></span><div><div class="why-title">Staff that knows their stuff</div><p class="why-desc">Max, Sam, and the crew are knowledgeable, chill, and invested in getting you exactly what you need.</p></div></li>
+        <li class="why-item"><span class="why-dot" style="background:var(--green)"></span><div><div class="why-title">Walk in upset, walk out happy</div><p class="why-desc">That's our promise, and 800+ five-star reviews say we keep it.</p></div></li>
+        <li class="why-item"><span class="why-dot" style="background:var(--neon-purple)"></span><div><div class="why-title">Right on 39th Street</div><p class="why-desc">904 W 39th St, right in the thick of it. Easy to get to, easy to park, and open 7 days a week.</p></div></li>
+      </ul>
     </div>
-    <div class="rating-panel panel reveal">
-      <div class="rating-giant neon neon-orange">4.9★</div>
-      <div class="stars">★★★★★</div>
-      <div class="rating-count">Based on 800+ Google Reviews</div>
-      <div class="review"><p>This place is legit. Had everything I needed and super chill atmosphere. Highly recommend.</p><span>— Louis H., Google Review</span></div>
-      <div class="review"><p>One of the coolest and best places to get all and any smoking needs. Terpine spray, press bud wraps, anything for concentrates. These guys got you!</p><span>— Dylan P., Google Review</span></div>
-      <div class="review"><p>Nice, clean store with friendly staff. Product looks great too!</p><span>— Colin S., Google Review</span></div>
+    <div class="rating-panel panel">
+      <div class="rating-top">
+        <div class="rating-giant">4.9</div>
+        <div><div class="stars" aria-label="5 stars">★★★★★</div><div class="rating-count">From 800+ Google reviews</div></div>
+      </div>
+      <div class="review"><p>“This place is legit. Had everything I needed and super chill atmosphere. Highly recommend.”</p><span>Louis H., Google review</span></div>
+      <div class="review"><p>“One of the coolest and best places to get all and any smoking needs. Terpine spray, press bud wraps, anything for concentrates. These guys got you!”</p><span>Dylan P., Google review</span></div>
+      <div class="review"><p>“Nice, clean store with friendly staff. Product looks great too!”</p><span>Colin S., Google review</span></div>
     </div>
   </div>
 </section>
@@ -661,32 +606,31 @@
 <!-- CURBSIDE / CHECKOUT -->
 <section id="curbside">
   <div class="wrap curb-grid">
-    <div class="reveal">
-      <span class="kicker neon">Order Ahead</span>
-      <h2 class="big-title">Curbside <span class="accent">Pickup</span></h2>
+    <div>
+      <h2 class="title">Curbside pickup</h2>
       <div class="stripe"></div>
       <p class="body-text">Don't want to leave the car? Build your cart, tell us when you'll be here, and we'll run it out to your window.</p>
-      <div class="steps">
-        <div class="step"><div class="step-num">1</div><div><div class="step-title">Fill Your Cart</div><p class="step-desc">Pick from our live in-store inventory, or just tell us what you're looking for.</p></div></div>
-        <div class="step"><div class="step-num">2</div><div><div class="step-title">Place Your Order</div><p class="step-desc">It goes straight to our register, so it's pulled and ready when you arrive.</p></div></div>
-        <div class="step"><div class="step-num">3</div><div><div class="step-title">Pull Up Out Front</div><p class="step-desc">Park out front at 904 W 39th St, and we'll find you by your vehicle.</p></div></div>
-        <div class="step"><div class="step-num">4</div><div><div class="step-title">Show ID &amp; Pay</div><p class="step-desc">Pay with cash or card at your car. We check ID on every order (21+ only).</p></div></div>
-      </div>
+      <ol class="steps">
+        <li class="step"><span class="step-num">1</span><div><div class="step-title">Fill your cart</div><p class="step-desc">Pick from our live in-store inventory, or just tell us what you're looking for.</p></div></li>
+        <li class="step"><span class="step-num">2</span><div><div class="step-title">Place your order</div><p class="step-desc">It goes straight to our register, so it's pulled and ready when you arrive.</p></div></li>
+        <li class="step"><span class="step-num">3</span><div><div class="step-title">Pull up out front</div><p class="step-desc">Park out front at 904 W 39th St, and we'll find you by your vehicle.</p></div></li>
+        <li class="step"><span class="step-num">4</span><div><div class="step-title">Show ID and pay</div><p class="step-desc">Pay with cash or card at your car. We check ID on every order (21+ only).</p></div></li>
+      </ol>
     </div>
 
-    <div class="reveal">
+    <div>
       <div class="checkout panel">
         <div id="coForm">
-          <h3 class="co-title clean">Place Your <span class="accent">Order</span></h3>
-          <p class="co-sub">Questions? Call <a href="tel:8163268122"><b>(816) 326-8122</b></a>.</p>
+          <h3 class="title-sm">Place your order</h3>
+          <p class="co-sub">Questions? Call <a href="tel:8163268122">(816) 326-8122</a>.</p>
           <div class="co-summary" id="coSummary"></div>
           <form id="orderForm" novalidate>
             <div class="row2">
-              <div class="field"><label for="fName">Your Name</label><input class="input" id="fName" autocomplete="given-name" autocapitalize="words" placeholder="e.g. Jordan" required /></div>
-              <div class="field"><label for="fPhone">Phone / Text</label><input class="input" id="fPhone" type="tel" autocomplete="tel" placeholder="(816) 555-0100" required /></div>
+              <div class="field"><label for="fName">Your name</label><input class="input" id="fName" autocomplete="given-name" autocapitalize="words" placeholder="e.g. Jordan" required /></div>
+              <div class="field"><label for="fPhone">Phone or text</label><input class="input" id="fPhone" type="tel" autocomplete="tel" placeholder="(816) 555-0100" required /></div>
             </div>
             <div class="row2">
-              <div class="field"><label for="fVehicle">Your Vehicle</label><input class="input" id="fVehicle" autocapitalize="words" placeholder="e.g. Black Jeep" /></div>
+              <div class="field"><label for="fVehicle">Your vehicle</label><input class="input" id="fVehicle" autocapitalize="words" placeholder="e.g. Black Jeep" /></div>
               <div class="field"><label for="fEta">Arrival</label>
                 <select class="input" id="fEta" required>
                   <option value="">Select a window…</option>
@@ -697,18 +641,18 @@
                 </select>
               </div>
             </div>
-            <div class="field"><label for="fNotes">Anything Else?</label><textarea class="input" id="fNotes" placeholder="Special requests, or items you didn't see online…"></textarea></div>
+            <div class="field"><label for="fNotes">Anything else?</label><textarea class="input" id="fNotes" placeholder="Special requests, or items you didn't see online…"></textarea></div>
             <input class="hp" id="fWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <label class="age-check"><input type="checkbox" id="fAge" /><span><strong>I'm 21 or older</strong> and will show a valid government ID at pickup. Orders can't be released without a valid ID.</span></label>
             <div class="co-error" id="coError" role="alert"></div>
-            <button class="btn btn-red" id="coSubmit" type="submit">Place Curbside Order →</button>
+            <button class="btn btn-red" id="coSubmit" type="submit">Place curbside order</button>
             <p class="co-legal">By placing an order, you agree to our <a href="/terms">Terms of Use</a> and <a href="/privacy">Privacy Policy</a>.</p>
           </form>
         </div>
         <div class="confirm" id="coConfirm" aria-live="polite">
           <img src="assets/candy-mark.png" alt="" />
-          <h3 class="co-title neon">We're On It!</h3>
-          <p class="co-sub">Your order is in. Pull up out front at <b>904 W 39th St</b>, have your ID ready, and we'll bring it to your window.</p>
+          <h3 class="title-sm">Order placed</h3>
+          <p class="co-sub">Pull up out front at <b>904 W 39th St</b>, have your ID ready, and we'll bring it to your window.</p>
           <span class="ref" id="coRef"></span>
         </div>
       </div>
@@ -719,27 +663,25 @@
 <!-- HOURS & LOCATION -->
 <section id="hours">
   <div class="wrap hours-grid">
-    <div class="reveal">
-      <span class="kicker neon">Hours</span>
-      <h2 class="big-title">When We're <span class="accent">Open</span></h2>
+    <div>
+      <h2 class="title">When we're open</h2>
       <div class="stripe"></div>
       <div class="hours-list panel" id="hoursList"></div>
-      <div class="notes">
-        <div class="note"><i>◆</i><span><b>Open 7 days a week</b> — Monday through Saturday from 10 AM, Sunday from 11 AM.</span></div>
-        <div class="note"><i>◆</i><span><b>Open late Friday &amp; Saturday</b> until 11 PM.</span></div>
-        <div class="note"><i>◆</i><span><b>Special orders welcome</b> — we'll stock items on request. Just ask!</span></div>
-      </div>
+      <ul class="notes">
+        <li class="note"><b>Open 7 days a week.</b> Monday through Saturday from 10 AM, Sunday from 11 AM.</li>
+        <li class="note"><b>Open late Friday and Saturday</b> until 11 PM.</li>
+        <li class="note"><b>Special orders welcome.</b> We'll stock items on request. Just ask.</li>
+      </ul>
     </div>
-    <div class="reveal">
-      <span class="kicker neon">Find Us</span>
-      <h2 class="big-title">904 W <span class="accent">39th St</span></h2>
+    <div>
+      <h2 class="title">904 W 39th St</h2>
       <div class="stripe"></div>
-      <div class="loc">
-        <div class="loc-item"><div class="loc-icon">📍</div><div><div class="loc-label">Address</div><div class="loc-val">904 W 39th Street, Kansas City, MO 64111</div></div></div>
-        <div class="loc-item"><div class="loc-icon">📞</div><div><div class="loc-label">Phone</div><div class="loc-val"><a href="tel:8163268122">(816) 326-8122</a></div></div></div>
-        <div class="loc-item"><div class="loc-icon">📸</div><div><div class="loc-label">Instagram</div><div class="loc-val"><a href="https://instagram.com/candy.smokeshop" target="_blank" rel="noopener">@candy.smokeshop</a></div></div></div>
-        <div class="loc-item"><div class="loc-icon">🎵</div><div><div class="loc-label">TikTok</div><div class="loc-val"><a href="https://tiktok.com/@candy.se.shop" target="_blank" rel="noopener">@candy.se.shop</a></div></div></div>
-      </div>
+      <ul class="loc">
+        <li class="loc-item"><span class="loc-icon"><svg class="i"><use href="#i-pin"/></svg></span><div><div class="loc-label">Address</div><div class="loc-val">904 W 39th Street, Kansas City, MO 64111</div></div></li>
+        <li class="loc-item"><span class="loc-icon"><svg class="i"><use href="#i-phone"/></svg></span><div><div class="loc-label">Phone</div><div class="loc-val"><a href="tel:8163268122">(816) 326-8122</a></div></div></li>
+        <li class="loc-item"><span class="loc-icon"><svg class="i"><use href="#i-insta"/></svg></span><div><div class="loc-label">Instagram</div><div class="loc-val"><a href="https://instagram.com/candy.smokeshop" target="_blank" rel="noopener">@candy.smokeshop</a></div></div></li>
+        <li class="loc-item"><span class="loc-icon"><svg class="i"><use href="#i-music"/></svg></span><div><div class="loc-label">TikTok</div><div class="loc-val"><a href="https://tiktok.com/@candy.se.shop" target="_blank" rel="noopener">@candy.se.shop</a></div></div></li>
+      </ul>
       <div class="map-box">
         <iframe title="Map to Candy Smoke Shop"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d400!2d-94.597654!3d39.0573795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87c0efead391a819%3A0xe69b9a1fd6c25950!2sCandy%20Smoke%20Shop!5e0!3m2!1sen!2sus!4v1"
@@ -751,14 +693,14 @@
 
 <!-- CTA -->
 <section id="cta">
-  <div class="wrap cta reveal">
+  <div class="wrap cta">
     <img class="cta-sign" src="assets/logo-neon.png" alt="Candy Smoke Shop neon sign" loading="lazy" />
-    <h2 class="cta-title neon">Your Candy Land Awaits</h2>
+    <h2 class="cta-title neon">Your Candy Land awaits</h2>
     <p class="cta-body">Stop by 904 W 39th Street in the heart of Kansas City. Whatever you need, we've got it. And if we don't, we'll get it for you.</p>
     <div class="cta-buttons">
-      <a href="tel:8163268122" class="btn btn-yellow">📞 (816) 326-8122</a>
-      <a href="#shop" class="btn btn-red">Shop Online</a>
-      <a href="https://www.google.com/maps?q=Candy+Smoke+Shop+904+W+39th+St+Kansas+City" target="_blank" rel="noopener" class="btn btn-neon">Get Directions</a>
+      <a href="tel:8163268122" class="btn btn-yellow"><svg class="i"><use href="#i-phone"/></svg>(816) 326-8122</a>
+      <a href="#shop" class="btn btn-red">Shop online</a>
+      <a href="https://www.google.com/maps?q=Candy+Smoke+Shop+904+W+39th+St+Kansas+City" target="_blank" rel="noopener" class="btn btn-line">Get directions</a>
     </div>
   </div>
 </section>
@@ -766,14 +708,14 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-brand"><img src="assets/candy-mark.png" alt="" /><span class="sticker"><span class="c-red">Candy</span> <span class="c-yellow">Smoke</span> <span class="c-green">Shop</span></span></div>
+    <div class="footer-brand"><img src="assets/candy-mark.png" alt="" />Candy Smoke Shop</div>
     <div class="footer-links">
       <a href="#shop">Shop</a>
       <a href="#curbside">Curbside</a>
       <a href="#hours">Hours</a>
       <a href="https://instagram.com/candy.smokeshop" target="_blank" rel="noopener">Instagram</a>
     </div>
-    <div class="footer-copy">© 2026 Candy Smoke Shop · 904 W 39th St · Kansas City, MO<br/>21+ only. Valid ID required for all purchases.</div>
+    <div class="footer-copy">© 2026 Candy Smoke Shop, 904 W 39th St, Kansas City, MO<br/>21+ only. Valid ID required for all purchases.</div>
   </div>
   <div class="footer-legal">
     <p class="nicotine-warning">WARNING: This product contains nicotine. Nicotine is an addictive chemical.</p>
@@ -789,18 +731,18 @@
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" aria-label="Cart" aria-hidden="true">
   <div class="drawer-head">
-    <h3 class="co-title clean">Your <span class="accent">Cart</span></h3>
-    <button class="x" id="cartClose" aria-label="Close cart">×</button>
+    <h3 class="title-sm">Your cart</h3>
+    <button class="x" id="cartClose" aria-label="Close cart"><svg class="i"><use href="#i-x"/></svg></button>
   </div>
   <div class="drawer-body" id="cartLines"></div>
   <div class="drawer-foot">
     <div class="drawer-total"><span>Subtotal</span><span id="cartTotal">$0.00</span></div>
     <p>Sales tax is added at pickup. Pay with cash or card at your car.</p>
-    <button class="btn btn-red" id="toCheckout">Checkout — Curbside Pickup</button>
+    <button class="btn btn-red" id="toCheckout">Check out for curbside pickup</button>
   </div>
 </aside>
 
-<script src="assets/app.js?v=2026-10-24d"></script>
+<script src="assets/app.js?v=2026-10-27a"></script>
 <script src="assets/smoke.js?v=2026-10-24b" defer></script>
 </body>
 </html>

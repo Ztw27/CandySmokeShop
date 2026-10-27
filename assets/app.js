@@ -17,7 +17,7 @@
   const nav = $('mainNav');
   addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), { passive: true });
   const menuBtn = $('menuBtn');
-  const openMenu = open => { nav.classList.toggle('menu-open', open); menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.textContent = open ? '×' : '☰'; };
+  const openMenu = open => { nav.classList.toggle('menu-open', open); menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.innerHTML = `<svg class="i"><use href="#i-${open ? 'x' : 'menu'}"/></svg>`; };
   menuBtn.addEventListener('click', () => openMenu(!nav.classList.contains('menu-open')));
   $('navLinks').addEventListener('click', e => { if (e.target.closest('a')) openMenu(false); });
   if ('IntersectionObserver' in window) {
@@ -28,10 +28,6 @@
   } else {
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('show'));
   }
-
-  // ─── Ticker ───
-  const tick = ['Glass Pipes', 'Vapes', 'Papers & Wraps', 'Hookahs', 'Concentrates', 'Kratom', '904 W 39th St KC', '4.9★ Rated', 'Curbside Pickup', 'Special Orders'];
-  $('tickerTrack').innerHTML = [...tick, ...tick].map(t => `<span class="ticker-item">${t} ✦</span>`).join('');
 
   // ─── Hours ───
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -100,13 +96,12 @@
 
   function renderDepts() {
     const counts = countBy(products, 'dept');
-    const tiles = [{ id: 'all', name: 'Everything', icon: '🍬', count: products.length },
+    const tiles = [{ id: 'all', name: 'Everything', count: products.length },
       ...departments.map(d => ({ ...d, count: counts.get(d.id) || 0 }))];
     $('depts').innerHTML = tiles.map(d => `
       <button class="dept${d.id === dept ? ' active' : ''}" role="tab" aria-selected="${d.id === dept}" data-dept="${esc(d.id)}">
-        <span class="dept-icon" aria-hidden="true">${d.icon}</span>
         <span class="dept-name">${esc(d.name)}</span>
-        <span class="dept-count">${d.count.toLocaleString()} items</span>
+        <span class="dept-count">${d.count.toLocaleString()}</span>
       </button>`).join('');
     updateDeptArrows();
   }
@@ -172,12 +167,12 @@
           <div class="product-name">${esc(p.name)}</div>
           <div class="product-foot">
             <span class="price">${money(p.price)}</span>
-            <button class="btn btn-green add-btn" data-add="${esc(p.id)}">Add</button>
+            <button class="btn add-btn" data-add="${esc(p.id)}">Add</button>
           </div>
         </div>
       </article>`).join('');
     more.hidden = list.length <= shown;
-    more.textContent = `Show More (${(list.length - shown).toLocaleString()} left)`;
+    more.textContent = `Show more (${(list.length - shown).toLocaleString()} left)`;
   }
 
   function render() { renderDepts(); renderChips(); renderGrid(); }
@@ -206,8 +201,8 @@
     const b = e.target.closest('[data-add]');
     if (!b) return;
     addToCart(b.dataset.add);
-    b.textContent = 'Added ✓';
-    setTimeout(() => { b.textContent = 'Add'; }, 1000);
+    b.textContent = 'Added ✓'; b.classList.add('added');
+    setTimeout(() => { b.textContent = 'Add'; b.classList.remove('added'); }, 1000);
   });
 
   // ─── Cart ───
@@ -239,7 +234,7 @@
     $('coSummary').innerHTML = lines.length
       ? lines.map(({ p, qty }) => `<div class="row"><span>${qty} × ${esc(p.name)}</span><span>${money(qty * p.price)}</span></div>`).join('') +
         `<div class="row total"><span>Subtotal (plus tax; pay at pickup)</span><span>${money(total)}</span></div>`
-      : `<div class="empty">Your cart is empty — <a href="#shop">browse the shop</a>, or just tell us what you need below.</div>`;
+      : `<div class="empty">Your cart is empty. <a href="#shop">Browse the shop</a>, or tell us what you need below.</div>`;
   }
 
   $('cartLines').addEventListener('click', e => {
@@ -299,7 +294,7 @@
       $('coRef').textContent = `Order ${data.ref}${data.demo ? ' (preview, not sent to the store)' : ''} · ETA ${f.eta}`;
     } catch (ex) {
       err.textContent = ex.message + ' You can also call (816) 326-8122.';
-      btn.disabled = false; btn.textContent = 'Place Curbside Order →';
+      btn.disabled = false; btn.textContent = 'Place curbside order';
     }
   });
 

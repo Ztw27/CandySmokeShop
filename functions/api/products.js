@@ -3,10 +3,10 @@ import { getCatalog, isConnected } from '../_lib/lightspeed.js';
 import { demoCatalog } from '../_lib/demo.js';
 import { DEPARTMENTS, classify } from '../_lib/departments.js';
 
-export async function onRequestGet({ env }) {
+export async function onRequestGet({ env, waitUntil }) {
   const demo = !(await isConnected(env));
   try {
-    const raw = demo ? demoCatalog : await getCatalog(env);
+    const raw = demo ? demoCatalog : await getCatalog(env, { waitUntil });
     const products = raw.map(p => ({ ...p, ...classify(p.category) }));
     return json({ demo, departments: DEPARTMENTS, products }, demo ? {} : { 'Cache-Control': 'public, max-age=60' });
   } catch (err) {
