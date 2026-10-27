@@ -60,6 +60,7 @@
 
   // ─── Catalog ───
   const PAGE = 24;
+  const BEST = 40; // the top sellers by recent sales get a "Best seller" badge
   let products = [];
   let byId = new Map();
   let departments = [];
@@ -84,6 +85,12 @@
       for (const p of products) p.haystack = `${p.name} ${p.sku} ${p.sub} ${deptNames.get(p.dept) || ''}`.toLowerCase();
       departments = (data.departments || []).filter(d => products.some(p => p.dept === d.id));
       $('demoNote').classList.toggle('show', !!data.demo);
+      if (data.ranked) {
+        // Departments arrive ordered by what sells; the hero's quick picks follow suit.
+        $('sort').options[0].text = 'Sort: Best sellers';
+        $('quick').innerHTML = '<span class="quick-label">Popular:</span>' + departments.filter(d => d.id !== 'more').slice(0, 4)
+          .map(d => `<button class="chip" data-dept="${esc(d.id)}">${esc(d.name)}</button>`).join('');
+      }
       if (products.length >= 100) {
         const n = `${(Math.floor(products.length / 100) * 100).toLocaleString()}+`;
         $('statItems').textContent = n;
@@ -144,7 +151,7 @@
       words.every(w => p.haystack.includes(w)));
     const byName = (a, b) => a.name.localeCompare(b.name);
     const sorters = {
-      featured: (a, b) => (!!b.image - !!a.image) || byName(a, b),
+      featured: (a, b) => ((a.rank || 1e9) - (b.rank || 1e9)) || (!!b.image - !!a.image) || byName(a, b),
       'price-asc': (a, b) => a.price - b.price || byName(a, b),
       'price-desc': (a, b) => b.price - a.price || byName(a, b),
       name: byName,
@@ -172,7 +179,7 @@
       <article class="product">
         <div class="product-img">
           ${p.image ? `<img src="${esc(p.image)}" alt="" loading="lazy" decoding="async" />` : `<img class="ph" src="assets/candy-mark.png" alt="" loading="lazy" />`}
-          ${p.lowStock ? '<span class="low">Last one!</span>' : ''}
+          ${p.rank <= BEST || p.lowStock ? `<div class="badges">${p.rank <= BEST ? '<span class="badge badge-hot">Best seller</span>' : ''}${p.lowStock ? '<span class="badge badge-low">Last one!</span>' : ''}</div>` : ''}
         </div>
         <div class="product-body">
           <span class="product-cat">${esc(p.sub)}</span>

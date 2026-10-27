@@ -18,6 +18,9 @@ const CATALOG_KEY = 'ls:catalog';
 const CATALOG_TTL = 180; // seconds before a cached catalog is refreshed in the background
 const CATALOG_KEEP = 7 * 24 * 3600; // a stale copy is still served while the refresh runs
 const REFRESH_LOCK_KEY = 'ls:catalog:refreshing';
+const SALES_KEY = 'ls:sales';
+const SALES_DAYS = 45; // window of completed sales used to rank best sellers
+const SALES_MAX_AGE = 20 * 3600 * 1000; // re-rank roughly once a day
 
 export function hasClient(env) {
   return Boolean(env.LS_CLIENT_ID && env.LS_CLIENT_SECRET && env.LS_KV);
@@ -201,6 +204,39 @@ async function refreshInBackground(env) {
   await env.LS_KV.put(REFRESH_LOCK_KEY, '1', { expirationTtl: 60 });
   try { await refreshCatalog(env); } catch (err) { console.error(err); }
   finally { await env.LS_KV.delete(REFRESH_LOCK_KEY); }
+}
+
+// Units sold per item over the last SALES_DAYS of completed, non-voided sales.
+// The website uses it to put what customers actually buy first.
+export async function getSalesRanking(env) {
+  return env.LS_KV.get(SALES_KEY, 'json');
+}
+
+// Runs from the cron trigger (worker.js), where a long, rate-limited read is fine.
+export async function refreshSalesRanking(env, { force = false } = {}) {
+  const current = await getSalesRanking(env);
+  if (!force && current && Date.now() - current.at < SALES_MAX_AGE) return current;
+  const since = new Date(Date.now() - SALES_DAYS * 864e5).toISOString();
+  const rel = encodeURIComponent(JSON.stringify(['SaleLines']));
+  const units = {};
+  let sales = 0;
+  let page = await accountApi(env, `/Sale.json?completed=true&voided=false&completeTime=${encodeURIComponent('>,' + since)}&limit=100&load_relations=${rel}`);
+  for (let i = 0; i < 400; i++) {
+    for (const sale of many(page.Sale)) {
+      sales++;
+      for (const line of many(sale.SaleLines && sale.SaleLines.SaleLine)) {
+        const qty = Number(line.unitQuantity) || 0;
+        if (line.itemID && line.itemID !== '0' && qty > 0) units[line.itemID] = (units[line.itemID] || 0) + qty;
+      }
+    }
+    const next = page['@attributes'] && page['@attributes'].next;
+    if (!next) break;
+    await new Promise(r => setTimeout(r, 1000)); // stay under the API's one-request-per-second drip rate
+    page = await api(env, next);
+  }
+  const ranking = { at: Date.now(), days: SALES_DAYS, sales, units };
+  await env.LS_KV.put(SALES_KEY, JSON.stringify(ranking));
+  return ranking;
 }
 
 // Creates an open (not completed) sale for the website order. Staff find it in Lightspeed,

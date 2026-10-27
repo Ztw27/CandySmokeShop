@@ -5,6 +5,7 @@ import * as orders from './functions/api/orders.js';
 import * as connect from './functions/api/lightspeed/connect.js';
 import * as callback from './functions/api/lightspeed/callback.js';
 import * as status from './functions/api/lightspeed/status.js';
+import { isConnected, refreshSalesRanking } from './functions/_lib/lightspeed.js';
 
 const routes = {
   '/api/products': products,
@@ -25,5 +26,12 @@ export default {
     if (!handler) return new Response('Method not allowed', { status: 405 });
 
     return handler({ request, env, waitUntil: p => ctx.waitUntil(p) });
+  },
+
+  // Cron (wrangler.jsonc): re-rank best sellers from recent sales about once a day.
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil((async () => {
+      if (await isConnected(env)) await refreshSalesRanking(env);
+    })().catch(err => console.error('sales ranking failed', err)));
   },
 };

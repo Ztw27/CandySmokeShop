@@ -193,8 +193,11 @@
     .ns-vape span:nth-child(1) { width: 12px; }
     .ns-vape span:nth-child(2) { width: 30%; }
     .ns-vape span:nth-child(3) { flex: 1; }
+    .hero-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-bottom: 36px; }
+    .directions { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 0.92rem; text-decoration: none; }
+    .directions:hover { color: var(--text); }
     .status-pill {
-      display: inline-flex; align-items: center; gap: 10px; margin-bottom: 36px;
+      display: inline-flex; align-items: center; gap: 10px;
       padding: 8px 16px; border-radius: 999px; font-size: 0.92rem; color: var(--muted);
       background: rgba(18,13,20,0.6); border: 1px solid var(--border); text-decoration: none;
     }
@@ -305,8 +308,10 @@
       object-fit: contain; mix-blend-mode: multiply; transition: transform 0.4s ease;
     }
     .product-img .ph { position: static; width: 40%; height: auto; opacity: 0.4; filter: grayscale(0.4); }
-    .low { position: absolute; top: 12px; left: 12px; z-index: 1; background: var(--red); color: #fff;
-      font-size: 0.74rem; font-weight: 500; padding: 4px 10px; border-radius: 999px; }
+    .badges { position: absolute; top: 12px; left: 12px; right: 12px; z-index: 1; display: flex; flex-wrap: wrap; gap: 6px; }
+    .badge { font-size: 0.74rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
+    .badge-hot { background: var(--yellow); color: var(--ink); }
+    .badge-low { background: var(--red); color: #fff; }
     .product-body { padding: 16px 4px 0; display: flex; flex-direction: column; gap: 4px; flex: 1; }
     .product-cat { font-size: 0.82rem; color: #c7a8ff; }
     .product-name { font-size: 1.02rem; font-weight: 500; line-height: 1.4; flex: 1; overflow-wrap: anywhere; }
@@ -499,6 +504,7 @@
       .neon-sign .ns-mark { display: block; }
       .hero-lede, .hero-desc { margin-left: auto; margin-right: auto; }
       .hero-lede { margin-top: 32px; }
+      .hero-top { justify-content: center; }
       .hero-search { margin-left: auto; margin-right: auto; }
       .hero-search input { font-size: 16px; }
       .hero-search .btn { padding: 10px 18px; }
@@ -591,8 +597,8 @@
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#shop">Shop</a></li>
-    <li><a href="#why">Why us</a></li>
     <li><a href="#curbside">Curbside</a></li>
+    <li><a href="#why">Why us</a></li>
     <li><a href="#hours">Hours</a></li>
   </ul>
   <div class="nav-right">
@@ -607,7 +613,10 @@
 <section id="hero">
   <canvas id="smoke" aria-hidden="true"></canvas>
   <div>
-    <a href="#hours" class="status-pill" id="openStatus"><span class="status-dot"></span><span>904 W 39th St, Kansas City</span></a>
+    <div class="hero-top">
+      <a href="#hours" class="status-pill" id="openStatus"><span class="status-dot"></span><span>904 W 39th St, Kansas City</span></a>
+      <a class="directions" href="https://www.google.com/maps?q=Candy+Smoke+Shop+904+W+39th+St+Kansas+City" target="_blank" rel="noopener"><svg class="i"><use href="#i-pin"/></svg>Directions</a>
+    </div>
     <div>
       <h1 class="neon-sign" aria-label="Candy Smoke Shop">
         <img class="ns-mark" src="assets/candy-mark.png" alt="" />
@@ -616,7 +625,7 @@
         <span class="ns-vape" aria-hidden="true"><span></span><span></span><span></span></span>
       </h1>
     </div>
-    <p class="hero-lede">Kansas City's top-rated smoke shop.</p>
+    <p class="hero-lede">Kansas City's top&#8209;rated smoke shop.</p>
     <p class="hero-desc">Glass, vapes, papers, and hookah, live from our shelves on 39th Street. Order ahead, and we'll bring it out to your car.</p>
     <form class="hero-search" id="heroSearch" role="search">
       <svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
@@ -673,31 +682,6 @@
   </div>
 </section>
 
-<!-- WHY -->
-<section id="why">
-  <div class="wrap why-grid">
-    <div>
-      <h2 class="title">Why KC shops Candy</h2>
-      <div class="stripe"></div>
-      <ul class="why-list">
-        <li class="why-item"><span class="why-dot" style="background:var(--red)"></span><div><div class="why-title">A shelf that goes deep</div><p class="why-desc">One of the largest inventories on 39th Street. If we don't carry it, we'll order it in.</p></div></li>
-        <li class="why-item"><span class="why-dot" style="background:var(--yellow)"></span><div><div class="why-title">Staff that knows their stuff</div><p class="why-desc">Max, Sam, and the crew know the gear, keep it chill, and make sure you leave with the right thing.</p></div></li>
-        <li class="why-item"><span class="why-dot" style="background:var(--green)"></span><div><div class="why-title">Walk in upset, walk out happy</div><p class="why-desc">That's our promise, and a 4.9-star average across 800+ reviews says we keep it.</p></div></li>
-        <li class="why-item"><span class="why-dot" style="background:var(--neon-purple)"></span><div><div class="why-title">Right on 39th Street</div><p class="why-desc">In the thick of it at 904 W 39th St. Easy to find, easy to park, and open 7 days a week.</p></div></li>
-      </ul>
-    </div>
-    <div class="rating-panel panel">
-      <div class="rating-top">
-        <div class="rating-giant">4.9</div>
-        <div><div class="stars" aria-label="5 stars">★★★★★</div><div class="rating-count">From 800+ Google reviews</div></div>
-      </div>
-      <div class="review"><p>“This place is legit. Had everything I needed and super chill atmosphere. Highly recommend.”</p><span>Louis H., Google review</span></div>
-      <div class="review"><p>“One of the coolest and best places to get all and any smoking needs. Terpine spray, press bud wraps, anything for concentrates. These guys got you!”</p><span>Dylan P., Google review</span></div>
-      <div class="review"><p>“Nice, clean store with friendly staff. Product looks great too!”</p><span>Colin S., Google review</span></div>
-    </div>
-  </div>
-</section>
-
 <!-- CURBSIDE -->
 <section id="curbside">
   <div class="wrap">
@@ -717,6 +701,31 @@
     <div class="curb-cta">
       <button class="btn btn-red" id="startOrder">Start your order</button>
       <a href="tel:8163268122" class="btn btn-line"><svg class="i"><use href="#i-phone"/></svg>Special request? Call (816) 326-8122</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="wrap why-grid">
+    <div>
+      <h2 class="title">Why Candy Smoke Shop</h2>
+      <div class="stripe"></div>
+      <ul class="why-list">
+        <li class="why-item"><span class="why-dot" style="background:var(--red)"></span><div><div class="why-title">A shelf that goes deep</div><p class="why-desc">One of the largest inventories on 39th Street. If we don't carry it, we'll order it in.</p></div></li>
+        <li class="why-item"><span class="why-dot" style="background:var(--yellow)"></span><div><div class="why-title">Staff that knows their stuff</div><p class="why-desc">Max, Sam, and the crew know the gear, keep it chill, and make sure you leave with the right thing.</p></div></li>
+        <li class="why-item"><span class="why-dot" style="background:var(--green)"></span><div><div class="why-title">Walk in upset, walk out happy</div><p class="why-desc">That's our promise, and a 4.9-star average across 800+ reviews says we keep it.</p></div></li>
+        <li class="why-item"><span class="why-dot" style="background:var(--neon-purple)"></span><div><div class="why-title">Right on 39th Street</div><p class="why-desc">In the thick of it at 904 W 39th St. Easy to find, easy to park, and open 7 days a week.</p></div></li>
+      </ul>
+    </div>
+    <div class="rating-panel panel">
+      <div class="rating-top">
+        <div class="rating-giant">4.9</div>
+        <div><div class="stars" aria-label="5 stars">★★★★★</div><div class="rating-count">From 800+ Google reviews</div></div>
+      </div>
+      <div class="review"><p>“This place is legit. Had everything I needed and super chill atmosphere. Highly recommend.”</p><span>Louis H., Google review</span></div>
+      <div class="review"><p>“One of the coolest and best places to get all and any smoking needs. Terpine spray, press bud wraps, anything for concentrates. These guys got you!”</p><span>Dylan P., Google review</span></div>
+      <div class="review"><p>“Nice, clean store with friendly staff. Product looks great too!”</p><span>Colin S., Google review</span></div>
     </div>
   </div>
 </section>
@@ -775,6 +784,7 @@
     <div class="footer-links">
       <a href="#shop">Shop</a>
       <a href="#curbside">Curbside</a>
+      <a href="#why">Why us</a>
       <a href="#hours">Hours</a>
       <a href="https://instagram.com/candy.smokeshop" target="_blank" rel="noopener">Instagram</a>
     </div>
@@ -843,7 +853,7 @@
 <div class="toast" id="toast" role="status" aria-live="polite"><p id="toastText"></p><button class="btn btn-yellow" id="toastView">View cart</button></div>
 <button class="cart-bar" id="cartBar" hidden><span id="cbCount">0 items</span><span>View cart · <b id="cbTotal">$0.00</b></span></button>
 
-<script src="assets/app.js?v=2026-10-27b"></script>
+<script src="assets/app.js?v=2026-10-27c"></script>
 <script src="assets/smoke.js?v=2026-10-24b" defer></script>
 </body>
 </html>

@@ -19,5 +19,7 @@
   },
   // Keep the variables set in the dashboard (LS_SHOP_ID etc.) on each deploy.
   "keep_vars": true,
+  // Checks every 15 minutes; the best-seller ranking itself only re-reads sales about once a day.
+  "triggers": { "crons": ["*/15 * * * *"] },
   "observability": { "enabled": true }
 }
