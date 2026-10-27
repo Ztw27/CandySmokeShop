@@ -8,7 +8,7 @@ export async function onRequestGet({ env, waitUntil }) {
   try {
     const [raw, ranking] = demo ? [demoCatalog, null] : await Promise.all([getCatalog(env, { waitUntil }), getSalesRanking(env)]);
     const products = raw.map(p => ({ ...p, ...classify(p.category) }));
-    const departments = ranking ? rankBySales(products, ranking.units) : DEPARTMENTS;
+    const departments = ranking ? rankBySales(products, ranking.units) : rankByStock(products);
     return json({ demo, ranked: !!ranking, departments, products }, demo ? {} : { 'Cache-Control': 'public, max-age=60' });
   } catch (err) {
     console.error(err);
@@ -23,6 +23,13 @@ function rankBySales(products, units) {
   const sold = {};
   for (const p of products) sold[p.dept] = (sold[p.dept] || 0) + (units[p.id] || 0);
   return [...DEPARTMENTS].sort((a, b) => (a.id === 'more') - (b.id === 'more') || (sold[b.id] || 0) - (sold[a.id] || 0));
+}
+
+// Until sales data is available, deeper departments (more items in stock) come first.
+function rankByStock(products) {
+  const count = {};
+  for (const p of products) count[p.dept] = (count[p.dept] || 0) + 1;
+  return [...DEPARTMENTS].sort((a, b) => (a.id === 'more') - (b.id === 'more') || (count[b.id] || 0) - (count[a.id] || 0));
 }
 
 function json(body, headers = {}, status = 200) {

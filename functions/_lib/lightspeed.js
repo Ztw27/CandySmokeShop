@@ -21,6 +21,7 @@ const REFRESH_LOCK_KEY = 'ls:catalog:refreshing';
 const SALES_KEY = 'ls:sales';
 const SALES_DAYS = 45; // window of completed sales used to rank best sellers
 const SALES_MAX_AGE = 20 * 3600 * 1000; // re-rank roughly once a day
+const SALES_PAUSE_KEY = 'ls:sales:paused'; // set after a failure so the cron doesn't retry every 15 minutes
 
 export function hasClient(env) {
   return Boolean(env.LS_CLIENT_ID && env.LS_CLIENT_SECRET && env.LS_KV);
@@ -216,6 +217,17 @@ export async function getSalesRanking(env) {
 export async function refreshSalesRanking(env, { force = false } = {}) {
   const current = await getSalesRanking(env);
   if (!force && current && Date.now() - current.at < SALES_MAX_AGE) return current;
+  if (!force && await env.LS_KV.get(SALES_PAUSE_KEY)) return current;
+  try {
+    return await readSales(env);
+  } catch (err) {
+    // Usually a 403: the connected Lightspeed employee isn't allowed to view sales history.
+    await env.LS_KV.put(SALES_PAUSE_KEY, err.message.slice(0, 500), { expirationTtl: 6 * 3600 });
+    throw err;
+  }
+}
+
+async function readSales(env) {
   const since = new Date(Date.now() - SALES_DAYS * 864e5).toISOString();
   const rel = encodeURIComponent(JSON.stringify(['SaleLines']));
   const units = {};

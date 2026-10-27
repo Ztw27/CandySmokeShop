@@ -85,9 +85,9 @@
       for (const p of products) p.haystack = `${p.name} ${p.sku} ${p.sub} ${deptNames.get(p.dept) || ''}`.toLowerCase();
       departments = (data.departments || []).filter(d => products.some(p => p.dept === d.id));
       $('demoNote').classList.toggle('show', !!data.demo);
-      if (data.ranked) {
-        // Departments arrive ordered by what sells; the hero's quick picks follow suit.
-        $('sort').options[0].text = 'Sort: Best sellers';
+      if (data.ranked) $('sort').options[0].text = 'Sort: Best sellers';
+      if (!data.demo) {
+        // Departments arrive ordered by demand (sales, or stock depth until sales are readable); the hero's quick picks follow.
         $('quick').innerHTML = '<span class="quick-label">Popular:</span>' + departments.filter(d => d.id !== 'more').slice(0, 4)
           .map(d => `<button class="chip" data-dept="${esc(d.id)}">${esc(d.name)}</button>`).join('');
       }
