@@ -6,6 +6,29 @@
   <title>Candy Smoke Shop — 904 W 39th St, Kansas City</title>
   <meta name="description" content="Candy Smoke Shop — glass, vapes, papers, hookah, and more at 904 W 39th St, Kansas City. Order online for curbside pickup." />
   <meta name="theme-color" content="#120d14" />
+  <meta name="color-scheme" content="dark" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Candy Smoke Shop, Kansas City" />
+  <meta property="og:description" content="2,700+ items in stock at 904 W 39th St. Order online for curbside pickup." />
+  <meta property="og:image" content="https://candysmokeshop.wadep1998.workers.dev/assets/logo-neon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "Candy Smoke Shop",
+    "image": "https://candysmokeshop.wadep1998.workers.dev/assets/logo.png",
+    "telephone": "+1-816-326-8122",
+    "address": { "@type": "PostalAddress", "streetAddress": "904 W 39th St", "addressLocality": "Kansas City", "addressRegion": "MO", "postalCode": "64111", "addressCountry": "US" },
+    "geo": { "@type": "GeoCoordinates", "latitude": 39.0573795, "longitude": -94.597654 },
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"], "opens": "10:00", "closes": "22:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday", "Saturday"], "opens": "10:00", "closes": "23:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "11:00", "closes": "21:00" }
+    ],
+    "sameAs": ["https://instagram.com/candy.smokeshop", "https://tiktok.com/@candy.se.shop"]
+  }
+  </script>
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -83,8 +106,9 @@
       font-family: var(--sans); font-weight: 500; font-size: 0.98rem; letter-spacing: 0.01em;
       padding: 14px 28px; min-height: 48px; border-radius: 999px; cursor: pointer;
       text-decoration: none; border: 1px solid transparent;
-      transition: background-color 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s;
+      transition: background-color 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s, transform 0.12s;
     }
+    .btn:active { transform: scale(0.97); }
     .btn-red { background: var(--red); color: #fff; }
     .btn-yellow { background: var(--yellow); color: var(--ink); }
     .btn-green { background: var(--green); color: #fff; }
@@ -178,7 +202,19 @@
     .status-pill.closed .status-dot { background: var(--red); box-shadow: 0 0 0 4px rgba(245,16,28,0.18); }
     .hero-desc { margin-top: 36px; font-size: 1.12rem; line-height: 1.75; color: var(--muted); max-width: 52ch; }
     .hero-desc strong { color: var(--text); font-weight: 500; }
-    .hero-buttons { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+    /* Search is the main job for a 2,700-item shop, so it leads the hero */
+    .hero-search {
+      display: flex; align-items: center; gap: 8px; margin-top: 30px; max-width: 540px;
+      padding: 6px 6px 6px 20px; border-radius: 999px;
+      background: rgba(18,13,20,0.72); border: 1px solid var(--border2); transition: border-color 0.2s;
+    }
+    .hero-search:focus-within { border-color: var(--neon-purple); }
+    .hero-search .i { color: var(--dim); }
+    .hero-search input { flex: 1; min-width: 0; background: none; border: 0; outline: none; color: var(--text); font: inherit; font-size: 1.04rem; padding: 10px 4px; }
+    .hero-search input::placeholder { color: var(--dim); }
+    .hero-search .btn { padding: 10px 24px; min-height: 46px; }
+    .quick { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; }
+    .quick-label { color: var(--dim); font-size: 0.92rem; margin-right: 4px; }
     .facts { display: flex; flex-wrap: wrap; list-style: none; margin-top: 40px; color: var(--muted); font-size: 0.95rem; }
     .facts li { padding: 0 22px; border-left: 1px solid var(--border2); line-height: 1.3; }
     .facts li:first-child { padding-left: 0; border-left: 0; }
@@ -200,8 +236,8 @@
     #shop { border-top: 1px solid var(--border); }
 
     /* ─── SHOP ─── */
-    .shop-head { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 40px; margin-bottom: 40px; }
-    .shop-head .stripe { margin-bottom: 0; }
+    .shop-head, .sec-head { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 40px; margin-bottom: 40px; }
+    .shop-head .stripe, .sec-head .stripe { margin-bottom: 0; }
     .dept-scroll { position: relative; margin-bottom: 22px; }
     .depts { display: flex; gap: 10px; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x proximity; scrollbar-width: none; padding: 2px 0; }
     .depts::-webkit-scrollbar { display: none; }
@@ -277,6 +313,11 @@
     .add-btn { padding: 8px 20px; min-height: 40px; font-size: 0.92rem; background: transparent; color: var(--text); border-color: var(--border2); }
     .add-btn.added { background: var(--green); border-color: var(--green); color: #fff; }
     .shop-status { text-align: center; padding: 48px 20px; color: var(--muted); grid-column: 1 / -1; }
+    .shop-status .btn { margin-top: 16px; }
+    /* Placeholder cards while the live inventory loads */
+    .skel .product-img { background: var(--surface2); animation: pulse 1.4s ease-in-out infinite; }
+    .skel-line { height: 12px; border-radius: 6px; background: var(--surface2); margin-top: 10px; animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse { 50% { opacity: 0.5; } }
     .more-wrap { text-align: center; margin-top: 44px; }
 
     /* ─── WHY ─── */
@@ -298,14 +339,13 @@
     .review span { display: block; margin-top: 10px; font-size: 0.86rem; color: var(--dim); }
 
     /* ─── CURBSIDE / CHECKOUT ─── */
-    .curb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
-    .steps { list-style: none; margin-top: 34px; }
-    .step { display: flex; gap: 22px; align-items: flex-start; padding: 20px 0; border-top: 1px solid var(--border); }
-    .step-num { font-family: var(--serif); font-size: 1.9rem; line-height: 1; color: #c7a8ff; width: 28px; flex-shrink: 0; }
-    .step-title { font-size: 1.08rem; font-weight: 500; margin-bottom: 3px; }
+    .steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0 28px; }
+    .step { display: flex; flex-direction: column; gap: 14px; padding-top: 24px; border-top: 1px solid var(--border2); }
+    .step-num { font-family: var(--serif); font-size: 2.2rem; line-height: 1; color: #c7a8ff; }
+    .step-title { font-size: 1.08rem; font-weight: 500; margin-bottom: 4px; }
     .step-desc { color: var(--muted); line-height: 1.6; }
-    .checkout { padding: 38px 34px; scroll-margin-top: 90px; }
-    .co-sub { color: var(--muted); line-height: 1.6; margin: 6px 0 22px; }
+    .curb-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 44px; }
+    .co-sub { color: var(--muted); line-height: 1.6; margin: 0 0 18px; }
     .co-sub a { color: var(--text); }
     .co-summary { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 14px 18px; margin-bottom: 24px; font-size: 0.95rem; }
     .co-summary .row { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; color: var(--muted); }
@@ -329,10 +369,11 @@
     .age-check strong { color: var(--text); font-weight: 500; }
     .hp { position: absolute; left: -9999px; }
     .co-error { color: #ff8a8f; font-size: 0.94rem; margin-bottom: 12px; min-height: 1em; }
-    .checkout .btn { width: 100%; }
+    #coView .btn { width: 100%; }
     .confirm { display: none; text-align: center; padding: 20px 6px; }
     .confirm.show { display: block; }
     .confirm img { width: 96px; margin: 0 auto 18px; }
+    .confirm .btn { margin-top: 24px; }
     .confirm .ref { display: inline-block; margin-top: 16px; padding: 8px 18px; border-radius: 999px; border: 1px solid var(--border2); font-weight: 500; }
 
     /* ─── HOURS ─── */
@@ -378,7 +419,9 @@
     }
     .drawer.open { transform: none; visibility: visible; }
     body.locked { overflow: hidden; }
-    .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--border); }
+    .drawer-head { display: flex; align-items: center; gap: 12px; padding: 18px 24px; border-bottom: 1px solid var(--border); }
+    .drawer-head .title-sm { flex: 1; outline: none; }
+    .x[hidden] { display: none; }
     .x { background: none; border: 1px solid var(--border2); border-radius: 50%; color: var(--text); width: 44px; height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .drawer-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 6px 24px; }
     .line { display: flex; gap: 12px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); }
@@ -391,6 +434,26 @@
     .drawer-total { display: flex; justify-content: space-between; font-weight: 500; font-size: 1.08rem; margin-bottom: 6px; }
     .drawer-foot p { color: var(--muted); font-size: 0.88rem; margin-bottom: 16px; line-height: 1.5; }
     .drawer-foot .btn { width: 100%; }
+    #coView { padding: 22px 24px 28px; }
+    .cart-empty { text-align: center; padding: 48px 4px; color: var(--muted); }
+    .cart-empty .btn { margin: 18px 0 22px; }
+    .cart-empty small { display: block; font-size: 0.9rem; line-height: 1.5; }
+    .cart-empty a { color: var(--text); }
+
+    /* Added-to-cart toast (desktop) and sticky cart bar (phones) */
+    .toast {
+      position: fixed; right: 24px; bottom: 24px; z-index: 300; max-width: 400px;
+      display: flex; align-items: center; gap: 14px; padding: 12px 12px 12px 18px;
+      background: var(--surface2); border: 1px solid var(--border2); border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      opacity: 0; visibility: hidden; transform: translateY(16px); transition: opacity 0.25s, transform 0.25s, visibility 0.25s;
+    }
+    .toast.show { opacity: 1; visibility: visible; transform: none; }
+    .toast p { flex: 1; font-size: 0.94rem; line-height: 1.4; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .toast .btn { padding: 8px 16px; min-height: 40px; font-size: 0.9rem; white-space: nowrap; }
+    .cart-bar { display: none; }
+    .bump { animation: bump 0.35s ease; }
+    @keyframes bump { 50% { transform: scale(1.08); } }
 
     /* ─── FOOTER ─── */
     footer { border-top: 1px solid var(--border); padding: 40px 40px 36px; }
@@ -433,14 +496,28 @@
       .neon-sign { padding: 32px 22px 24px; border-radius: 28px; }
       .neon-sign .ns-mark { display: block; }
       .hero-desc { margin-left: auto; margin-right: auto; }
-      .hero-buttons { justify-content: center; }
-      .hero-buttons .btn { flex: 1 1 200px; }
+      .hero-search { margin-left: auto; margin-right: auto; }
+      .hero-search input { font-size: 16px; }
+      .hero-search .btn { padding: 10px 18px; }
+      .quick { justify-content: center; }
       .facts { justify-content: center; font-size: 0.86rem; }
       .facts li { padding: 0 14px; }
       .facts b { font-size: 1.35rem; }
       .wrap { padding: 72px 16px; }
-      .shop-head, .why-grid, .curb-grid, .hours-grid { grid-template-columns: 1fr; gap: 40px; }
-      .shop-head { gap: 24px; margin-bottom: 30px; }
+      .shop-head, .sec-head, .why-grid, .hours-grid { grid-template-columns: 1fr; gap: 40px; }
+      .shop-head, .sec-head { gap: 24px; margin-bottom: 30px; }
+      .steps { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
+      .curb-cta .btn { flex: 1 1 220px; }
+      .toast { display: none; }
+      .cart-bar {
+        position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 300;
+        display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        min-height: 56px; padding: 0 24px; border: 0; border-radius: 999px; cursor: pointer;
+        background: var(--yellow); color: var(--ink); font: 500 1rem var(--sans);
+        box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+      }
+      .cart-bar[hidden] { display: none; }
+      body.has-bar { padding-bottom: 84px; }
       .row2 { grid-template-columns: 1fr; gap: 0; }
       .hours-list { padding: 4px 20px; }
       .hours-row { gap: 8px; }
@@ -461,9 +538,14 @@
       .product-name { font-size: 0.94rem; }
       .price { font-size: 1.2rem; }
       .product-foot { flex-direction: column; align-items: stretch; gap: 8px; }
-      .checkout, .rating-panel { padding: 28px 20px; }
+      .rating-panel { padding: 28px 20px; }
       .rating-giant { font-size: 4.4rem; }
       footer { padding: 32px 16px; }
+    }
+    @media (max-width: 560px) {
+      .steps { grid-template-columns: 1fr; }
+      .step { flex-direction: row; gap: 18px; padding-top: 20px; }
+      .step-num { width: 30px; flex-shrink: 0; font-size: 1.9rem; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -482,6 +564,7 @@
   <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
   <symbol id="i-insta" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
   <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
 </svg>
 
@@ -496,6 +579,7 @@
   </div>
 </div>
 
+<div id="page">
 <!-- NAV -->
 <nav id="mainNav">
   <a href="#hero" class="nav-logo" aria-label="Candy Smoke Shop home">
@@ -515,6 +599,7 @@
   </div>
 </nav>
 
+<main>
 <!-- HERO -->
 <section id="hero">
   <canvas id="smoke" aria-hidden="true"></canvas>
@@ -529,11 +614,19 @@
       </h1>
     </div>
     <p class="hero-desc">
-      <strong>Kansas City's top shop on 39th Street.</strong> Glass, vapes, papers, hookah, concentrates, and much more. Shop our live in-store inventory online, and we'll bring it out to your car.
+      <strong>Kansas City's top-rated smoke shop.</strong> Glass, vapes, papers, hookah, and more, straight from our live in-store inventory. Order ahead, and we'll bring it out to your car.
     </p>
-    <div class="hero-buttons">
-      <a href="#shop" class="btn btn-red">Shop the shelf</a>
-      <a href="#curbside" class="btn btn-line">How curbside works</a>
+    <form class="hero-search" id="heroSearch" role="search">
+      <svg class="i" aria-hidden="true"><use href="#i-search"/></svg>
+      <input type="search" id="heroQ" enterkeyhint="search" autocomplete="off" placeholder="Search 2,700+ items in stock" aria-label="Search products" />
+      <button class="btn btn-red" type="submit">Search</button>
+    </form>
+    <div class="quick" id="quick">
+      <span class="quick-label">Popular:</span>
+      <button class="chip" data-dept="vapes">Vapes</button>
+      <button class="chip" data-dept="glass">Glass &amp; Pipes</button>
+      <button class="chip" data-dept="papers">Papers &amp; Wraps</button>
+      <button class="chip" data-dept="hookah">Hookah</button>
     </div>
     <ul class="facts">
       <li><b>4.9 <span class="star">★</span></b>800+ Google reviews</li>
@@ -559,7 +652,7 @@
     <div class="demo-note" id="demoNote">Preview mode: showing sample products until the Lightspeed connection is set up.</div>
     <div class="dept-scroll">
       <button class="scroll-arrow prev" id="deptPrev" aria-label="Scroll departments left" hidden><svg class="i"><use href="#i-left"/></svg></button>
-      <div class="depts" id="depts" role="tablist" aria-label="Departments"></div>
+      <div class="depts" id="depts" role="group" aria-label="Departments"></div>
       <button class="scroll-arrow next" id="deptNext" aria-label="Scroll departments right" hidden><svg class="i"><use href="#i-right"/></svg></button>
     </div>
     <div class="shop-bar">
@@ -573,7 +666,7 @@
       <span class="result-count" id="resultCount" aria-live="polite"></span>
     </div>
     <div class="chips sub-chips" id="chips"></div>
-    <div class="product-grid" id="grid"><div class="shop-status">Loading the shelves…</div></div>
+    <div class="product-grid" id="grid" aria-busy="true"></div>
     <div class="more-wrap"><button class="btn btn-line" id="moreBtn" hidden>Show more</button></div>
   </div>
 </section>
@@ -603,59 +696,25 @@
   </div>
 </section>
 
-<!-- CURBSIDE / CHECKOUT -->
+<!-- CURBSIDE -->
 <section id="curbside">
-  <div class="wrap curb-grid">
-    <div>
-      <h2 class="title">Curbside pickup</h2>
-      <div class="stripe"></div>
-      <p class="body-text">Don't want to leave the car? Build your cart, tell us when you'll be here, and we'll run it out to your window.</p>
-      <ol class="steps">
-        <li class="step"><span class="step-num">1</span><div><div class="step-title">Fill your cart</div><p class="step-desc">Pick from our live in-store inventory, or just tell us what you're looking for.</p></div></li>
-        <li class="step"><span class="step-num">2</span><div><div class="step-title">Place your order</div><p class="step-desc">It goes straight to our register, so it's pulled and ready when you arrive.</p></div></li>
-        <li class="step"><span class="step-num">3</span><div><div class="step-title">Pull up out front</div><p class="step-desc">Park out front at 904 W 39th St, and we'll find you by your vehicle.</p></div></li>
-        <li class="step"><span class="step-num">4</span><div><div class="step-title">Show ID and pay</div><p class="step-desc">Pay with cash or card at your car. We check ID on every order (21+ only).</p></div></li>
-      </ol>
-    </div>
-
-    <div>
-      <div class="checkout panel">
-        <div id="coForm">
-          <h3 class="title-sm">Place your order</h3>
-          <p class="co-sub">Questions? Call <a href="tel:8163268122">(816) 326-8122</a>.</p>
-          <div class="co-summary" id="coSummary"></div>
-          <form id="orderForm" novalidate>
-            <div class="row2">
-              <div class="field"><label for="fName">Your name</label><input class="input" id="fName" autocomplete="given-name" autocapitalize="words" placeholder="e.g. Jordan" required /></div>
-              <div class="field"><label for="fPhone">Phone or text</label><input class="input" id="fPhone" type="tel" autocomplete="tel" placeholder="(816) 555-0100" required /></div>
-            </div>
-            <div class="row2">
-              <div class="field"><label for="fVehicle">Your vehicle</label><input class="input" id="fVehicle" autocapitalize="words" placeholder="e.g. Black Jeep" /></div>
-              <div class="field"><label for="fEta">Arrival</label>
-                <select class="input" id="fEta" required>
-                  <option value="">Select a window…</option>
-                  <option>15–30 minutes</option>
-                  <option>30–60 minutes</option>
-                  <option>1–2 hours</option>
-                  <option>Later today</option>
-                </select>
-              </div>
-            </div>
-            <div class="field"><label for="fNotes">Anything else?</label><textarea class="input" id="fNotes" placeholder="Special requests, or items you didn't see online…"></textarea></div>
-            <input class="hp" id="fWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <label class="age-check"><input type="checkbox" id="fAge" /><span><strong>I'm 21 or older</strong> and will show a valid government ID at pickup. Orders can't be released without a valid ID.</span></label>
-            <div class="co-error" id="coError" role="alert"></div>
-            <button class="btn btn-red" id="coSubmit" type="submit">Place curbside order</button>
-            <p class="co-legal">By placing an order, you agree to our <a href="/terms">Terms of Use</a> and <a href="/privacy">Privacy Policy</a>.</p>
-          </form>
-        </div>
-        <div class="confirm" id="coConfirm" aria-live="polite">
-          <img src="assets/candy-mark.png" alt="" />
-          <h3 class="title-sm">Order placed</h3>
-          <p class="co-sub">Pull up out front at <b>904 W 39th St</b>, have your ID ready, and we'll bring it to your window.</p>
-          <span class="ref" id="coRef"></span>
-        </div>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2 class="title">Curbside pickup</h2>
+        <div class="stripe"></div>
       </div>
+      <p class="body-text">Don't want to leave the car? Build your cart, tell us when you'll be here, and we'll run it out to your window. Nothing is charged online.</p>
+    </div>
+    <ol class="steps">
+      <li class="step"><span class="step-num">1</span><div><div class="step-title">Fill your cart</div><p class="step-desc">Pick from our live in-store inventory.</p></div></li>
+      <li class="step"><span class="step-num">2</span><div><div class="step-title">Place your order</div><p class="step-desc">It goes straight to our register, so it's pulled and ready when you arrive.</p></div></li>
+      <li class="step"><span class="step-num">3</span><div><div class="step-title">Pull up out front</div><p class="step-desc">Park at 904 W 39th St, and we'll find you by your vehicle.</p></div></li>
+      <li class="step"><span class="step-num">4</span><div><div class="step-title">Show ID and pay</div><p class="step-desc">Pay with cash or card at your car. We check ID on every order (21+ only).</p></div></li>
+    </ol>
+    <div class="curb-cta">
+      <button class="btn btn-red" id="startOrder">Start your order</button>
+      <a href="tel:8163268122" class="btn btn-line"><svg class="i"><use href="#i-phone"/></svg>Special request? Call (816) 326-8122</a>
     </div>
   </div>
 </section>
@@ -705,6 +764,8 @@
   </div>
 </section>
 
+</main>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
@@ -727,22 +788,60 @@
   </div>
 </footer>
 
-<!-- CART DRAWER -->
+</div>
+
+<!-- CART DRAWER: the cart, then curbside details, in one place -->
 <div class="scrim" id="scrim"></div>
-<aside class="drawer" id="drawer" aria-label="Cart" aria-hidden="true">
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-hidden="true">
   <div class="drawer-head">
-    <h3 class="title-sm">Your cart</h3>
+    <button class="x" id="coBack" aria-label="Back to cart" hidden><svg class="i"><use href="#i-left"/></svg></button>
+    <h3 class="title-sm" id="drawerTitle" tabindex="-1">Your cart</h3>
     <button class="x" id="cartClose" aria-label="Close cart"><svg class="i"><use href="#i-x"/></svg></button>
   </div>
   <div class="drawer-body" id="cartLines"></div>
-  <div class="drawer-foot">
+  <div class="drawer-foot" id="cartFoot">
     <div class="drawer-total"><span>Subtotal</span><span id="cartTotal">$0.00</span></div>
     <p>Sales tax is added at pickup. Pay with cash or card at your car.</p>
-    <button class="btn btn-red" id="toCheckout">Check out for curbside pickup</button>
+    <button class="btn btn-red" id="toCheckout">Continue to curbside details</button>
+  </div>
+  <div class="drawer-body" id="coView" hidden>
+    <div id="coForm">
+      <div class="co-summary" id="coSummary"></div>
+      <form id="orderForm" novalidate>
+        <div class="field"><label for="fName">Your name</label><input class="input" id="fName" autocomplete="given-name" autocapitalize="words" placeholder="e.g. Jordan" required /></div>
+        <div class="field"><label for="fPhone">Phone or text</label><input class="input" id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(816) 555-0100" required /></div>
+        <div class="field"><label for="fVehicle">Your vehicle</label><input class="input" id="fVehicle" autocapitalize="words" placeholder="e.g. Black Jeep" /></div>
+        <div class="field"><label for="fEta">Arrival</label>
+          <select class="input" id="fEta" required>
+            <option value="">Select a window…</option>
+            <option>15–30 minutes</option>
+            <option>30–60 minutes</option>
+            <option>1–2 hours</option>
+            <option>Later today</option>
+          </select>
+        </div>
+        <div class="field"><label for="fNotes">Notes (optional)</label><textarea class="input" id="fNotes" placeholder="Anything we should know?"></textarea></div>
+        <input class="hp" id="fWebsite" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <label class="age-check"><input type="checkbox" id="fAge" /><span><strong>I'm 21 or older</strong> and will show a valid government ID at pickup. Orders can't be released without a valid ID.</span></label>
+        <div class="co-error" id="coError" role="alert"></div>
+        <button class="btn btn-red" id="coSubmit" type="submit">Place curbside order</button>
+        <p class="co-legal">Nothing is charged online. By placing an order, you agree to our <a href="/terms">Terms of Use</a> and <a href="/privacy">Privacy Policy</a>.</p>
+      </form>
+    </div>
+    <div class="confirm" id="coConfirm" aria-live="polite">
+      <img src="assets/candy-mark.png" alt="" />
+      <h3 class="title-sm">Order placed</h3>
+      <p class="co-sub">Pull up out front at <b>904 W 39th St</b>, have your ID ready, and we'll bring it to your window. Questions? Call <a href="tel:8163268122">(816) 326-8122</a>.</p>
+      <span class="ref" id="coRef"></span>
+      <button class="btn btn-line" id="coDone">Done</button>
+    </div>
   </div>
 </aside>
 
-<script src="assets/app.js?v=2026-10-27a"></script>
+<div class="toast" id="toast" role="status" aria-live="polite"><p id="toastText"></p><button class="btn btn-yellow" id="toastView">View cart</button></div>
+<button class="cart-bar" id="cartBar" hidden><span id="cbCount">0 items</span><span>View cart · <b id="cbTotal">$0.00</b></span></button>
+
+<script src="assets/app.js?v=2026-10-27b"></script>
 <script src="assets/smoke.js?v=2026-10-24b" defer></script>
 </body>
 </html>
