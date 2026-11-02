@@ -137,10 +137,11 @@ function imageUrl(item) {
   return `${img.baseImageURL}w_500,c_limit/${img.publicID}.jpg`;
 }
 
-function defaultPrice(item) {
+// The website sells at the item's Online price level; items without one fall back to Default.
+function onlinePrice(item) {
   const prices = many(item.Prices && item.Prices.ItemPrice);
-  const p = prices.find(x => x.useType === 'Default') || prices[0];
-  return p ? Number(p.amount) : 0;
+  const amount = type => Number((prices.find(x => x.useType === type) || {}).amount) || 0;
+  return amount('Online') || amount('Default') || Number((prices[0] || {}).amount) || 0;
 }
 
 async function fetchCatalog(env) {
@@ -163,7 +164,7 @@ async function fetchCatalog(env) {
         name: it.description,
         sku: it.customSku || it.systemSku || '',
         category,
-        price: defaultPrice(it),
+        price: onlinePrice(it),
         image: imageUrl(it),
         stock: shop ? Number(shop.qoh) : 0,
       };
@@ -273,7 +274,8 @@ export async function createPickupSale(env, { lines, customer, ref }) {
       completed: false,
       referenceNumber: `${ref} ${customer.name} ${digits}`.slice(0, 64),
       referenceNumberSource: 'Website curbside',
-      SaleLines: { SaleLine: lines.map(l => ({ itemID: l.id, unitQuantity: l.qty })) },
+      // unitPrice keeps the open sale at the online price the customer saw, not the register's default.
+      SaleLines: { SaleLine: lines.map(l => ({ itemID: l.id, unitQuantity: l.qty, unitPrice: byId.get(l.id).price })) },
     }),
   });
 
