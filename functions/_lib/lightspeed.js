@@ -167,10 +167,19 @@ function onlinePrice(item) {
   return amount('Online') || amount('Default') || Number((prices[0] || {}).amount) || 0;
 }
 
-async function fetchCatalog(env) {
-  const rel = encodeURIComponent(JSON.stringify(['ItemShops', 'Category', 'Images']));
-  const items = await listAll(env, `/Item.json?archived=false&limit=100&load_relations=${rel}`, 'Item');
+const ITEM_RELATIONS = encodeURIComponent(JSON.stringify(['ItemShops', 'Category', 'Images']));
 
+async function fetchCatalog(env) {
+  return toProducts(env, await listAll(env, `/Item.json?archived=false&limit=100&load_relations=${ITEM_RELATIONS}`, 'Item'));
+}
+
+// Live stock and price for just the items in a cart (one request, instead of re-reading the catalog).
+async function fetchItems(env, ids) {
+  const list = encodeURIComponent(`IN,[${ids.map(Number).filter(Boolean).join(',')}]`);
+  return toProducts(env, await listAll(env, `/Item.json?archived=false&itemID=${list}&limit=100&load_relations=${ITEM_RELATIONS}`, 'Item'));
+}
+
+function toProducts(env, items) {
   const hidden = csvSet(env.SHOP_HIDDEN_CATEGORIES);
   const minStock = Number(env.SHOP_MIN_STOCK || 1);
   const ecomOnly = env.SHOP_ECOM_ONLY === 'true';
@@ -281,8 +290,11 @@ export async function createPickupSale(env, { lines, customer, ref }) {
   if (!env.LS_SHOP_ID || !env.LS_REGISTER_ID || !env.LS_EMPLOYEE_ID) {
     throw new Error('LS_SHOP_ID, LS_REGISTER_ID and LS_EMPLOYEE_ID must be set before orders can be placed.');
   }
-  const catalog = await getCatalog(env, { fresh: true });
-  const byId = new Map(catalog.map(p => [p.id, p]));
+  const live = await fetchItems(env, lines.map(l => l.id)).catch(err => {
+    console.error('cart lookup failed, re-reading the catalog', err);
+    return getCatalog(env, { fresh: true });
+  });
+  const byId = new Map(live.map(p => [p.id, p]));
   for (const line of lines) {
     if (!byId.has(line.id)) throw new UserError('An item in your cart just sold out. Please refresh and try again.');
   }

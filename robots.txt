@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://candysmokeshop.wadep1998.workers.dev/sitemap.xml
