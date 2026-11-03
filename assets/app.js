@@ -216,6 +216,13 @@
     t = setTimeout(() => { query = e.target.value.trim(); shown = PAGE; if (products.length) renderGrid(); }, 150);
   });
   $('moreBtn').addEventListener('click', () => { shown += PAGE; renderGrid(); });
+  // If a cut-out photo can't be made, show the plain photo (multiply still blends its white away).
+  $('grid').addEventListener('error', e => {
+    const img = e.target;
+    if (img.tagName === 'IMG' && img.src.includes('/e_background_removal/')) {
+      img.src = img.src.replace('/e_background_removal/', '/').replace(/\.png$/, '.jpg');
+    }
+  }, true);
   $('grid').addEventListener('click', e => {
     if (e.target.closest('[data-all]')) { dept = 'all'; sub = 'all'; shown = PAGE; render(); return; }
     const b = e.target.closest('[data-add]');

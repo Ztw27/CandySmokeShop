@@ -5,7 +5,7 @@ import * as orders from './functions/api/orders.js';
 import * as connect from './functions/api/lightspeed/connect.js';
 import * as callback from './functions/api/lightspeed/callback.js';
 import * as status from './functions/api/lightspeed/status.js';
-import { isConnected, refreshSalesRanking } from './functions/_lib/lightspeed.js';
+import { isConnected, refreshSalesRanking, warmCutouts } from './functions/_lib/lightspeed.js';
 
 const routes = {
   '/api/products': products,
@@ -28,10 +28,11 @@ export default {
     return handler({ request, env, waitUntil: p => ctx.waitUntil(p) });
   },
 
-  // Cron (wrangler.jsonc): re-rank best sellers from recent sales about once a day.
+  // Cron (wrangler.jsonc): re-rank best sellers from recent sales about once a day,
+  // and pre-make the next batch of cut-out product photos.
   async scheduled(event, env, ctx) {
-    ctx.waitUntil((async () => {
-      if (await isConnected(env)) await refreshSalesRanking(env);
-    })().catch(err => console.error('sales ranking failed', err)));
+    if (!(await isConnected(env))) return;
+    ctx.waitUntil(refreshSalesRanking(env).catch(err => console.error('sales ranking failed', err)));
+    ctx.waitUntil(warmCutouts(env).catch(err => console.error('cut-out warm-up failed', err)));
   },
 };

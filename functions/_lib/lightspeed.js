@@ -131,10 +131,33 @@ function csvSet(value) {
   return new Set((value || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean));
 }
 
+// Lightspeed hosts item photos on Cloudinary, which can cut the product out of its background.
+// f_auto serves a transparent WebP/AVIF; the page falls back to the plain photo if the cut-out fails.
+const CUTOUT = 'e_background_removal/c_limit,w_500/f_auto,q_auto/';
+
 function imageUrl(item) {
   const img = many(item.Images && item.Images.Image)[0];
   if (!img || !img.baseImageURL || !img.publicID) return null;
-  return `${img.baseImageURL}w_500,c_limit/${img.publicID}.jpg`;
+  return `${img.baseImageURL}${CUTOUT}${img.publicID}.png`;
+}
+
+// The first request for each cut-out takes a few seconds while Cloudinary makes it, so the cron
+// requests a batch ahead of visitors. Cut-outs already made are remembered in KV.
+const CUTOUTS_KEY = 'ls:cutouts';
+
+export async function warmCutouts(env, batch = 60) {
+  const cached = await env.LS_KV.get(CATALOG_KEY, 'json');
+  if (!cached) return 0;
+  const done = new Set(await env.LS_KV.get(CUTOUTS_KEY, 'json') || []);
+  const todo = cached.products.map(p => p.image).filter(u => u && !done.has(u)).slice(0, batch);
+  for (let i = 0; i < todo.length; i += 4) {
+    await Promise.all(todo.slice(i, i + 4).map(async url => {
+      const res = await fetch(url, { headers: { Accept: 'image/avif,image/webp,*/*' } }).catch(() => null);
+      if (res && res.ok) { await res.arrayBuffer(); done.add(url); }
+    }));
+  }
+  await env.LS_KV.put(CUTOUTS_KEY, JSON.stringify([...done]));
+  return todo.length;
 }
 
 // The website sells at the item's Online price level; items without one fall back to Default.
