@@ -225,6 +225,14 @@
     .facts li:first-child { padding-left: 0; border-left: 0; }
     .facts b { display: block; font-family: var(--serif); font-weight: 600; font-size: 1.8rem; color: var(--text); margin-bottom: 4px; }
     .facts .star { color: var(--yellow); font-size: 1.2rem; }
+    /* The whole week at a glance; today's hours light up */
+    .week { display: inline-flex; flex-wrap: wrap; margin-top: 26px; padding: 10px 6px; border: 1px solid var(--border); border-radius: 14px;
+      background: rgba(18,13,20,0.6); color: var(--muted); font-size: 0.9rem; text-decoration: none; transition: border-color 0.2s; }
+    .week:hover { border-color: var(--border2); }
+    .week span { padding: 2px 16px; border-left: 1px solid var(--border2); white-space: nowrap; }
+    .week span:first-child { border-left: 0; }
+    .week b { font-weight: 600; color: var(--text); margin-right: 8px; }
+    .week .today, .week .today b { color: var(--yellow); }
     /* Candy mark inside a neon ring */
     .hero-art { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 1; width: min(460px, 100%); justify-self: center; }
     .hero-art::before {
@@ -512,6 +520,11 @@
       .facts { justify-content: center; font-size: 0.86rem; }
       .facts li { padding: 0 14px; }
       .facts b { font-size: 1.35rem; }
+      .facts li:nth-child(3) { display: none; } /* the hours strip below already says it */
+      .week { display: grid; grid-template-columns: repeat(3, auto); justify-content: center; font-size: 0.84rem; padding: 10px 4px; }
+      .week span { display: flex; flex-direction: column; gap: 2px; padding: 2px 14px; }
+      .week b { margin: 0; }
+      @media (max-width: 400px) { .week { font-size: 0.76rem; padding: 10px 0; } .week span { padding: 2px 8px; } }
       .wrap { padding: 72px 16px; }
       .shop-head, .sec-head, .why-grid, .hours-grid { grid-template-columns: 1fr; gap: 40px; }
       .shop-head, .sec-head { gap: 24px; margin-bottom: 30px; }
@@ -642,8 +655,13 @@
     <ul class="facts">
       <li><b>5.0 <span class="star">★</span></b>800+ Google reviews</li>
       <li><b id="statItems">2,500+</b>Items in stock</li>
-      <li><b>11 PM</b>Open late Fri &amp; Sat</li>
+      <li><b>7 days</b>Open every day</li>
     </ul>
+    <a href="#hours" class="week" id="heroWeek" aria-label="Store hours">
+      <span data-days="1,2,3,4"><b>Mon–Thu</b>10 AM – 10 PM</span>
+      <span data-days="5,6"><b>Fri–Sat</b>10 AM – 11 PM</span>
+      <span data-days="0"><b>Sun</b>11 AM – 9 PM</span>
+    </a>
   </div>
   <div class="hero-art" aria-hidden="true">
     <img class="hero-candy" src="assets/candy-big.png" alt="" />
@@ -853,7 +871,7 @@
 <div class="toast" id="toast" role="status" aria-live="polite"><p id="toastText"></p><button class="btn btn-yellow" id="toastView">View cart</button></div>
 <button class="cart-bar" id="cartBar" hidden><span id="cbCount">0 items</span><span>View cart · <b id="cbTotal">$0.00</b></span></button>
 
-<script src="assets/app.js?v=2026-11-03b"></script>
+<script src="assets/app.js?v=2026-11-03c"></script>
 <script src="assets/smoke.js?v=2026-10-24b" defer></script>
 </body>
 </html>

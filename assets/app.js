@@ -52,6 +52,8 @@
     const [, openT, closeT] = hoursFor(days[now.getDay()]);
     const nowMins = now.getHours() * 60 + now.getMinutes();
     const open = nowMins >= mins(openT) && nowMins < mins(closeT);
+    document.querySelectorAll('#heroWeek [data-days]').forEach(s =>
+      s.classList.toggle('today', s.dataset.days.split(',').includes(String(now.getDay()))));
     pill.classList.toggle('open', open);
     pill.classList.toggle('closed', !open);
     if (open) {
